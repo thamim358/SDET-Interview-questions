@@ -18,7 +18,6 @@
   <p align="center">
     <img src="https://img.shields.io/badge/questions-380%2B-teal?style=flat-square" alt="Questions">
     <img src="https://img.shields.io/badge/topics-11-blue?style=flat-square" alt="Topics">
-    <img src="https://img.shields.io/badge/license-MIT-green?style=flat-square" alt="License">
     <img src="https://img.shields.io/badge/priority-P1--P3-amber?style=flat-square" alt="Priority Levels">
   </p>
 
@@ -207,13 +206,6 @@ Contributions are what make the open-source community such an amazing place to l
 
 ---
 
-## 🛡️ License
-
-Distributed under the **MIT License**. See [LICENSE](LICENSE) for more information.
-
-> ⚠️ A `LICENSE` file is not included by default. If you fork this project, consider adding one before publishing.
-
----
 
 ## 📬 Contact & Support
 
