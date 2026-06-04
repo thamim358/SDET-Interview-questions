@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DevOps Interview Mastery — SDET Study Kit</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/nebula.css">
+<style>
+  .cover-page::before {
+    background:
+      radial-gradient(circle at 30% 50%, rgba(251, 191, 36, 0.06) 0%, transparent 50%),
+      radial-gradient(circle at 70% 50%, rgba(248, 113, 113, 0.05) 0%, transparent 50%);
+  }
+  .cover-title { background: var(--gradient-warm); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .cover-divider { background: var(--gradient-warm); }
+  .cover-meta-item .number { background: var(--gradient-warm); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .section-divider h2 { background: var(--gradient-warm); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .q-number { background: var(--gradient-warm); }
+  .q-section-title { color: var(--accent-amber); }
+  .q-section-title::before { background: var(--accent-amber); }
+</style></head>
+<body>
+
+<div class="cover-page">
+  <div class="cover-badge">SDET Master Study Kit</div>
+  <h1 class="cover-title">DevOps Interview Mastery</h1>
+  <div class="cover-divider"></div>
+  <p class="cover-subtitle">Git • CI/CD • Jenkins • Docker • Kubernetes — 22 Questions from Basic to Expert</p>
+  <div class="cover-meta">
+    <div class="cover-meta-item"><span class="number">10</span><span class="label">P1 — Must Know</span></div>
+    <div class="cover-meta-item"><span class="number">8</span><span class="label">P2 — Commonly Asked</span></div>
+    <div class="cover-meta-item"><span class="number">4</span><span class="label">P3 — Valuable</span></div>
+  </div>
+  <p class="cover-description" style="margin-top:30px;max-width:600px;color:var(--text-secondary);position:relative;z-index:1;line-height:1.8">
+    Based on 2024-2026 interview trends. Covers: Git workflows, CI/CD pipeline design, Docker image optimization,
+    Kubernetes architecture, Jenkins declarative pipelines, GitHub Actions, and deployment strategies.
+  </p>
+</div>
+
+<div class="section-divider"><h2>P1 — Frequently Asked Questions</h2><p>Must-know DevOps concepts for SDET interviews — these appear in every technical round.</p></div>
+<div class="container">
+
+<div class="question-card">
+  <div class="q-header"><span class="q-number">1</span><div><span class="q-text">Explain Git workflow strategies — GitFlow, GitHub Flow, and Trunk-Based Development.</span><span class="q-badge badge-intermediate">Intermediate</span><span class="priority-p1">P1</span></div></div>
+  <div class="q-section"><div class="q-section-title">Basic Answer</div><p><strong>GitFlow</strong>: Main/develop/feature/hotfix/release branches. Complex but organized for versioned releases (enterprise). <strong>GitHub Flow</strong>: Feature branches → main. Simplest, best for continuous deployment (SaaS). <strong>Trunk-Based Development</strong>: Short-lived feature branches or direct commits to main with feature flags. Fastest, best for CI/CD with small teams. For SDET teams, GitHub Flow is most common. Branch strategy should match deployment frequency — the more frequent the deploys, the simpler the strategy.</p></div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-number">2</span><div><span class="q-text">What is the difference between <code>git merge</code> and <code>git rebase</code>? When would you use each?</span><span class="q-badge badge-intermediate">Intermediate</span><span class="priority-p1">P1</span></div></div>
+  <div class="q-section"><div class="q-section-title">Basic Answer</div><p><code>git merge</code> creates a merge commit preserving full branch history. <code>git rebase</code> rewrites history by replaying commits on top of another branch — creating a linear history. Use merge for public/shared branches (preserves history). Use rebase for local/private branches before pushing (cleaner history). <strong>Golden rule</strong>: never rebase shared branches. Rebase conflicts are resolved per-commit, not per-merge. In test automation: rebase your feature branch before creating a PR to keep history clean.</p></div>
+  <div class="q-section"><div class="q-section-title red">Follow-Up Questions</div><div class="follow-ups"><span class="follow-up-item">How do you resolve conflicts during a rebase?</span><span class="follow-up-item">What is <code>git merge --squash</code> and when would you use it?</span></div></div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-number">3</span><div><span class="q-text">What is CI vs CD vs Continuous Deployment? How does each apply to test automation?</span><span class="q-badge badge-intermediate">Intermediate</span><span class="priority-p1">P1</span></div></div>
+  <div class="q-section"><div class="q-section-title">Basic Answer</div><p><strong>CI</strong>: Automatically build and test every commit. For SDET: runs unit tests, lint, type-check on every PR. <strong>CD (Delivery)</strong>: CI + automatically deploy to staging, manual approval for production. SDET: E2E tests run on staging deploy. <strong>CD (Deployment)</strong>: Fully automated deployment to production. SDET: canary analysis, synthetic monitoring. Most enterprises use CI + Delivery. SaaS companies use Continuous Deployment. Key SDET concern: tests must be fast enough (or parallel enough) to not block the CI pipeline.</p></div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-number">4</span><div><span class="q-text">Design a CI/CD pipeline for a Playwright framework with build, test, package, and deploy stages.</span><span class="q-badge badge-advanced">Advanced</span><span class="priority-p1">P1</span></div></div>
+  <div class="q-section"><div class="q-section-title">Basic Answer</div><p>Stages: (1) <strong>Checkout</strong> — clone repo. (2) <strong>Install</strong> — <code>npm ci</code> with caching (node_modules + Playwright browsers). (3) <strong>Lint</strong> — ESLint, Prettier, TypeScript compile check. (4) <strong>Build</strong> — compile TypeScript. (5) <strong>Test</strong> — <code>npx playwright test --shard=X/4</code> across 4 parallel jobs. (6) <strong>Report</strong> — publish HTML report as artifact. (7) <strong>Package</strong> — <code>docker build -t tests</code>. (8) <strong>Deploy</strong> — push Docker image to registry. Use matrix builds for cross-browser testing. Implement retry on failure (max 2). Cache: node_modules, Playwright browsers, .next build output.</p></div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-number">5</span><div><span class="q-text">How do you write a Jenkins Declarative Pipeline? Include checkout, build, test, archive, and notification.</span><span class="q-badge badge-advanced">Advanced</span><span class="priority-p1">P1</span></div></div>
+  <div class="q-section"><div class="q-section-title">Basic Answer</div><div class="code-block">
+pipeline {
+  agent { docker { image 'mcr.microsoft.com/playwright:v1.40.0-focal' } }
+  environment { CI = 'true' }
+  stages {
+    stage('Checkout') { steps { checkout scm } }
+    stage('Install') { steps { sh 'npm ci' } }
+    stage('Test') {
+      parallel {
+        stage('Shard 1') { steps { sh 'npx playwright test --shard=1/4' } }
+        stage('Shard 2') { steps { sh 'npx playwright test --shard=2/4' } }
+        stage('Shard 3') { steps { sh 'npx playwright test --shard=3/4' } }
+        stage('Shard 4') { steps { sh 'npx playwright test --shard=4/4' } }
+      }
+    }
+    stage('Report') { steps { publishHTML([reportDir: 'playwright-report', reportName: 'Report']) } }
+  }
+  post {
+    failure { slackSend(color: 'danger', message: "Tests failed: ${env.BUILD_URL}") }
+    success { slackSend(color: 'good', message: "Tests passed: ${env.BUILD_URL}") }
+  }
+}
+</div></div>
+  <div class="q-section"><div class="q-section-title green">Detailed Answer</div><p><strong>Declarative vs Scripted</strong>: Declarative enforces a rigid structure but is easier to maintain and read. Scripted offers maximum Groovy flexibility but is harder to debug. For SDET pipelines, Declarative is preferred for readability. <strong>Key features</strong>: <code>post</code> blocks for cleanup regardless of outcome, <code>parallel</code> for test sharding, <code>docker</code> agent for consistent environments. <strong>Best practices</strong>: use <code>when</code> conditions for branch-specific stages, <code>input</code> for manual approval gates, <code>tools</code> for Node.js version management.</p></div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-number">6</span><div><span class="q-text">How do you Dockerize a Playwright test framework? Write a multi-stage Dockerfile.</span><span class="q-badge badge-advanced">Advanced</span><span class="priority-p1">P1</span></div></div>
+  <div class="q-section"><div class="q-section-title">Basic Answer</div><div class="code-block">
+<span class="comment"># Stage 1: Install dependencies</span>
+<span class="keyword">FROM</span> mcr.microsoft.com/playwright:v1.40.0-focal AS deps
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci
+
+<span class="comment"># Stage 2: Run tests</span>
+<span class="keyword">FROM</span> deps AS runner
+COPY . .
+RUN npx playwright test
+</div></div>
+  <div class="q-section"><div class="q-section-title green">Detailed Answer</div><p><strong>Multi-stage build benefits</strong>: smaller final image (only runtime deps), faster rebuilds (layer caching), security (no build tools in final image). <strong>Best practices</strong>: (1) Use <code>.dockerignore</code> to exclude node_modules, test reports, git history. (2) Use specific image tags (not <code>:latest</code>) for reproducibility. (3) Separate <code>npm ci</code> from <code>COPY .</code> to cache deps. (4) Set <code>CI=true</code> environment variable. (5) For CI/CD, mount volumes for reports: <code>docker run -v $(pwd)/report:/app/playwright-report tests</code>.</p></div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-number">7</span><div><span class="q-text">How does Docker differ from a virtual machine? Explain Docker architecture.</span><span class="q-badge badge-intermediate">Intermediate</span><span class="priority-p1">P1</span></div></div>
+  <div class="q-section"><div class="q-section-title">Basic Answer</div><p>Docker containers share the host OS kernel — they're processes with isolated filesystems (cgroups + namespaces). VMs include a full guest OS with hypervisor overhead. Docker architecture: <strong>Client</strong> (CLI/API) → <strong>Docker Daemon</strong> (builds/runs containers) → <strong>Registry</strong> (stores images) → <strong>Containers</strong> (isolated processes). Images are layered (union filesystem) — each RUN/COPY creates a layer. Layers are cached for faster builds. For Playwright: using Docker ensures identical browser environments across developer machines and CI.</p></div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-number">8</span><div><span class="q-text">What is Kubernetes? Explain the architecture — control plane, worker nodes, pods, deployments, services.</span><span class="q-badge badge-advanced">Advanced</span><span class="priority-p1">P1</span></div></div>
+  <div class="q-section"><div class="q-section-title">Basic Answer</div><p><strong>Control Plane</strong>: API Server (all communication), Scheduler (assigns work), Controller Manager (maintains state), etcd (key-value store for cluster state). <strong>Worker Nodes</strong>: Kubelet (node agent), Kube Proxy (networking), Container Runtime (Docker/containerd). <strong>Pod</strong>: smallest deployable unit (one or more containers, shared network). <strong>Deployment</strong>: manages ReplicaSets for rolling updates and rollbacks. <strong>Service</strong>: stable network endpoint for pods (ClusterIP, NodePort, LoadBalancer). For test automation: use K8s Jobs for batch test runs, Deployments for long-running services (test dashboards, mock servers).</p></div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-number">9</span><div><span class="q-text">How do you run Playwright tests in Kubernetes? Design a K8s test execution grid.</span><span class="q-badge badge-expert">Expert</span><span class="priority-p1">P1</span></div></div>
+  <div class="q-section"><div class="q-section-title">Basic Answer</div><p>Create Docker image with Playwright + tests. Use Kubernetes Job for execution. ConfigMap for env vars. Secrets for credentials. HPA for auto-scaling based on queue depth. Example: K8s Job with parallelism: <code>spec.parallelism: 10</code> splits tests across pods using <code>--shard</code>. PersistentVolume for report storage. Ingress for web-based report access. Helm chart for reproducible deployment. <strong>Key considerations</strong>: resource limits per pod (CPU/memory), node affinity for specific browsers, pod anti-affinity to avoid running multiple test pods on the same node (for resource contention).</p></div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-number">10</span><div><span class="q-text">How do you handle flaky tests in CI/CD? Implement retry strategies with backoff.</span><span class="q-badge badge-advanced">Advanced</span><span class="priority-p1">P1</span></div></div>
+  <div class="q-section"><div class="q-section-title">Basic Answer</div><p>Multiple levels: (1) <strong>Test-level</strong>: Playwright retries (retries: 2 in config). (2) <strong>Operation-level</strong>: <code>expect.toPass()</code> for flaky assertions. (3) <strong>Pipeline-level</strong>: re-run failed tests on a separate agent. (4) <strong>Auto-quarantine</strong>: if test fails >3 times in a row, auto-quarantine and alert. Backoff: first retry immediately, second after 5s, third after 30s (exponential + jitter). Track flakiness metrics per test (passes on retry / total executions). Establish a flakiness budget (e.g., <5%). Automatically quarantine tests exceeding the budget and notify team.</p></div>
+</div>
+
+</div>
+
+<div class="section-divider"><h2>P2 — Commonly Asked Questions</h2></div>
+<div class="container">
+
+<div class="question-card"><div class="q-header"><span class="q-number">11</span><div><span class="q-text">Explain git stash, git cherry-pick, git revert, and git reset with use cases.</span><span class="q-badge badge-intermediate">Intermediate</span><span class="priority-p2">P2</span></div></div><div class="q-section"><div class="q-section-title">Basic Answer</div><p><strong>git stash</strong>: temporarily save uncommitted changes (apply later). Use when you need to switch branches quickly. <strong>git cherry-pick</strong>: apply specific commit(s) from another branch. Useful for backporting hotfixes. <strong>git revert</strong>: create a new commit that undoes a previous commit — safe for shared branches. <strong>git reset</strong>: move branch pointer backwards — modifies history (<code>--soft</code>: keep changes staged, <code>--mixed</code>: keep changes unstaged, <code>--hard</code>: discard changes). Use revert for public history, reset for local/private history only.</p></div></div>
+
+<div class="question-card"><div class="q-header"><span class="q-number">12</span><div><span class="q-text">What are Kubernetes Services, Deployments, ReplicaSets, and Ingress? How do they relate?</span><span class="q-badge badge-advanced">Advanced</span><span class="priority-p2">P2</span></div></div><div class="q-section"><div class="q-section-title">Basic Answer</div><p><strong>Deployment</strong> manages ReplicaSets with desired pod count. <strong>ReplicaSet</strong> ensures n pod replicas running. <strong>Service</strong> provides stable networking to pods (ClusterIP internal, NodePort external, LoadBalancer for cloud). <strong>Ingress</strong> routes external HTTP/HTTPS to Services with host/path rules. Flow: Ingress → Service → Pod (managed by Deployment/ReplicaSet). For test automation: Deployments for test dashboard, Services for internal test tooling, Ingress for external report access.</p></div></div>
+
+<div class="question-card"><div class="q-header"><span class="q-number">13</span><div><span class="q-text">How do you set up GitHub Actions or GitLab CI for Playwright test execution with sharding?</span><span class="q-badge badge-intermediate">Intermediate</span><span class="priority-p2">P2</span></div></div><div class="q-section"><div class="q-section-title">Basic Answer</div><p>GitHub Actions: use <code>matrix</code> strategy: <code>matrix: { shard: [1/4, 2/4, 3/4, 4/4] }</code>. Use <code>actions/cache</code> for Playwright browsers. Upload reports as artifacts. GitLab CI: use <code>parallel:matrix</code> for sharding. Use the official Playwright Docker image. Best practice: run unit tests first (fast feedback), then Playwright (parallel). Cache Playwright browsers between runs to save ~15s per job. Store failed test traces as artifacts for debugging.</p></div></div>
+
+<div class="question-card"><div class="q-header"><span class="q-number">14</span><div><span class="q-text">What is Docker Compose? How do you use it for local test environment orchestration?</span><span class="q-badge badge-intermediate">Intermediate</span><span class="priority-p2">P2</span></div></div><div class="q-section"><div class="q-section-title">Basic Answer</div><p>Docker Compose defines multi-container applications in a <code>docker-compose.yml</code> file. For test automation: define app + database + mock server + test runner as separate services. <code>depends_on</code> ensures service startup order. <code>healthcheck</code> ensures services are ready before tests run. Example: <code>docker-compose up -d --wait</code> starts the full stack, then run tests. Benefits: consistent local environment, fully isolated, easy cleanup (<code>docker-compose down -v</code>).</p></div></div>
+
+<div class="question-card"><div class="q-header"><span class="q-number">15</span><div><span class="q-text">What are blue-green and canary deployment strategies? How do you test them?</span><span class="q-badge badge-advanced">Advanced</span><span class="priority-p2">P2</span></div></div><div class="q-section"><div class="q-section-title">Basic Answer</div><p><strong>Blue-Green</strong>: two identical production environments. Switch traffic from Blue to Green. Instant rollback by switching back. <strong>Canary</strong>: gradually shift small % of traffic (e.g., 5%) to new version. Monitor metrics; if healthy, increase traffic. Testing: for blue-green, run smoke tests on green before switching traffic. For canary, validate that canary traffic produces correct results. Use traffic mirroring to test new version without impacting users. K8s: use Service Mesh (Istio) for fine-grained traffic splitting.</p></div></div>
+
+</div>
+
+<div class="section-divider"><h2>P3 — Valuable Context</h2></div>
+<div class="container">
+
+<div class="question-card"><div class="q-header"><span class="q-number">16</span><div><span class="q-text">What is GitOps? How does ArgoCD work with Kubernetes?</span><span class="q-badge badge-expert">Expert</span><span class="priority-p3">P3</span></div></div><div class="q-section"><div class="q-section-title">Basic Answer</div><p>GitOps uses Git as the single source of truth for declarative infrastructure. ArgoCD is a Kubernetes controller that continuously reconciles cluster state with Git repository state. Benefits: audit trail (every change is a commit), easy rollback (revert a Git commit), self-healing (auto-corrects drift). For SDET: GitOps ensures test infrastructure (test environments, mock servers, test dashboards) is version-controlled and auditable. Test config changes follow the same review process as application code.</p></div></div>
+
+<div class="question-card"><div class="q-header"><span class="q-number">17</span><div><span class="q-text">How do you implement canary deployments with traffic splitting for testing?</span><span class="q-badge badge-expert">Expert</span><span class="priority-p3">P3</span></div></div><div class="q-section"><div class="q-section-title">Basic Answer</div><p>Canary deploys route a small % of traffic (e.g., 5%) to new version while keeping old version running. K8s: use Service Mesh (Istio/Linkerd) for fine-grained traffic splitting. Alternately: two Deployments with different labels, Service routes based on weights. For SDET: run automated smoke tests against canary before increasing traffic. Monitor error rate, latency, business metrics. Auto-rollback if thresholds breached. Gradual increase: 5% → 25% → 50% → 100% with health checks at each stage. Tools: Flagger (automated canary for K8s), Argo Rollouts.</p></div></div>
+
+<div class="question-card"><div class="q-header"><span class="q-number">18</span><div><span class="q-text">What is Infrastructure as Code (IaC)? How does Terraform compare to CloudFormation?</span><span class="q-badge badge-advanced">Advanced</span><span class="priority-p3">P3</span></div></div><div class="q-section"><div class="q-section-title">Basic Answer</div><p>IaC manages infrastructure (servers, networks, databases) through machine-readable definition files, version-controlled in Git. <strong>Terraform</strong>: cloud-agnostic (AWS, Azure, GCP), declarative HCL language, state management, plan/apply workflow. <strong>CloudFormation</strong>: AWS-only, YAML/JSON, native integration. For SDET: use Terraform to provision test environments (EC2, RDS, EKS clusters) on demand. Destroy after test completion to save costs. Terraform modules standardize test infrastructure across teams.</p></div></div>
+
+</div>
+
+<div class="container">
+<div class="cheat-sheet">
+  <h3>📋 DevOps — One-Page Revision Cheat Sheet</h3>
+  <div class="cheat-grid">
+    <div class="cheat-item"><h4>Git Strategies</h4><p>GitFlow: versioned releases<br>GitHub Flow: feature → main<br>Trunk-Based: short-lived branches + feature flags</p></div>
+    <div class="cheat-item"><h4>Jenkins Pipeline</h4><p>Declarative (readable) vs Scripted (flexible)<br>Stages: Checkout → Install → Test → Report → Notify</p></div>
+    <div class="cheat-item"><h4>Docker Best Practices</h4><p>Multi-stage builds, .dockerignore, layer caching<br>Specific tags (not :latest), minimal base images</p></div>
+    <div class="cheat-item"><h4>K8s for Test</h4><p>Jobs (batch), CronJobs (scheduled), HPA (auto-scale)<br>ConfigMaps (config), Secrets (credentials)</p></div>
+    <div class="cheat-item"><h4>Flaky Test Strategy</h4><p>Playwright retries → Pipeline retries → Auto-quarantine<br>Track: passes on retry / total runs</p></div>
+    <div class="cheat-item"><h4>Deployment</h4><p>Blue-Green: instant rollback<br>Canary: gradual traffic shift<br>GitOps: Git as source of truth</p></div>
+  </div>
+</div>
+
+<div class="end-section">
+  <h2>🎯 Most Asked DevOps Topics</h2>
+  <p style="color:var(--text-secondary);line-height:2"><strong>1.</strong> Git branching & merge vs rebase — asked in every DevOps-related interview<br><strong>2.</strong> CI/CD pipeline design with quality gates<br><strong>3.</strong> Docker multi-stage builds for test frameworks<br><strong>4.</strong> Kubernetes architecture — pods, deployments, services<br><strong>5.</strong> Flaky test management in CI/CD<br><strong>6.</strong> Blue-Green vs Canary deployments</p>
+</div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>System Design for SDET — SDET Study Kit</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/nebula.css">
+<style>
+  .cover-page::before {
+    background:
+      radial-gradient(circle at 30% 50%, rgba(167, 139, 250, 0.06) 0%, transparent 50%),
+      radial-gradient(circle at 70% 50%, rgba(96, 165, 250, 0.05) 0%, transparent 50%);
+  }
+  .cover-title { background: var(--gradient-cool); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .cover-divider { background: var(--gradient-cool); }
+  .cover-meta-item .number { background: var(--gradient-cool); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .section-divider h2 { background: var(--gradient-cool); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .q-number { background: var(--gradient-cool); }
+  .q-section-title { color: var(--accent-violet); }
+  .q-section-title::before { background: var(--accent-violet); }
+</style></head>
+<body>
+
+<div class="cover-page">
+  <div class="cover-badge">SDET Master Study Kit</div>
+  <h1 class="cover-title">System Design for SDET</h1>
+  <div class="cover-divider"></div>
+  <p class="cover-subtitle">25 High-Value Questions for Senior SDET, Lead, and Test Architect Interviews</p>
+  <div class="cover-meta">
+    <div class="cover-meta-item"><span class="number">12</span><span class="label">P1 — Must Know</span></div>
+    <div class="cover-meta-item"><span class="number">8</span><span class="label">P2 — Commonly Asked</span></div>
+    <div class="cover-meta-item"><span class="number">5</span><span class="label">P3 — Valuable</span></div>
+  </div>
+  <p class="cover-description" style="margin-top:30px;max-width:600px;color:var(--text-secondary);position:relative;z-index:1;line-height:1.8">
+    Based on 2024-2026 FAANG and product company system design interviews for SDET roles.
+    Covers: framework architecture, distributed execution, test data, CI/CD, cloud infrastructure, and quality strategy.
+  </p>
+</div>
+
+<div class="section-divider"><h2>P1 — Frequently Asked System Design Questions</h2><p>Design problems that appear in senior SDET and Test Architect interviews at top tech companies.</p></div>
+<div class="container">
+
+<div class="question-card">
+  <div class="q-header"><span class="q-number">1</span><div><span class="q-text">Design a scalable Playwright automation framework from scratch for a microservices-based e-commerce application.</span><span class="q-badge badge-expert">Expert</span><span class="priority-p1">P1</span></div></div>
+  <div class="q-section"><div class="q-section-title">Basic Answer</div><p>Design considerations: Folder structure separating page objects, components, API services, utilities, fixtures, and test specs. Playwright fixtures for dependency injection. Multi-environment typed configs. Authentication via storageState. Component library for shared UI elements. Service objects for API interactions. Data factories for test data. Parallel execution via workers. CI/CD with sharding and retry strategies. <strong>Architecture layers</strong>: Tests → Fixtures (DI) → Page Objects/Components + API Services → Playwright Engine → Browser Contexts → CI/CD pipeline.</p></div>
+  <div class="diagram-box">
+    <span style="color:#58a6ff;">Tests</span> → <span style="color:#bc8cff;">Fixtures</span> (inject pages, API, data, config)<br>
+    &nbsp;↓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↓<br>
+    <span style="color:#3fb950;">Page Objects</span> &nbsp;&nbsp; <span style="color:#d29922;">API Services</span><br>
+    &nbsp;↓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↓<br>
+    <span style="color:#58a6ff;">Component Objs</span> &nbsp; <span style="color:#bc8cff;">API Client</span><br>
+    &nbsp;↓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↓<br>
+    <span style="color:#8b949e;">Playwright (Browser Contexts)</span><br>
+    &nbsp;↓<br>
+    <span style="color:#666;">CI/CD: GitHub Actions → Docker → Sharding → Retries</span>
+  </div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-number">2</span><div><span class="q-text">Design a test execution platform that runs 10,000+ tests daily across multiple browsers on Kubernetes.</span><span class="q-badge badge-expert">Expert</span><span class="priority-p1">P1</span></div></div>
+  <div class="q-section"><div class="q-section-title">Basic Answer</div><p>Key components: (1) <strong>Test scheduler</strong> — distributes tests across worker pods. (2) <strong>Worker pool</strong> — K8s pods running Playwright in Docker. (3) <strong>Queue system</strong> — manages test jobs with priorities (RabbitMQ/Redis). (4) <strong>Result aggregator</strong> — collects & stores results centrally. (5) <strong>Retry manager</strong> — handles flaky retries with exponential backoff. (6) <strong>Dashboard</strong> — real-time visibility (Grafana). Architecture: K8s with HPA scaling based on queue depth. Tests sharded using --shard parameter. Each pod runs isolated browser contexts. Results stream to Elasticsearch. Target: 10,000 tests / (100 workers × 5 contexts) = ~20 min execution.</p></div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-number">3</span><div><span class="q-text">Design a CI/CD pipeline with quality gates that balances deployment velocity with safety.</span><span class="q-badge badge-advanced">Advanced</span><span class="priority-p1">P1</span></div></div>
+  <div class="q-section"><div class="q-section-title">Basic Answer</div><p>Pipeline stages: (1) <strong>Commit stage</strong> — lint, type-check, unit tests (<5 min). Gate: must pass. (2) <strong>Integration stage</strong> — API tests, contract tests, integration tests (<15 min). Gate: must pass. (3) <strong>E2E stage</strong> — Playwright tests on critical paths, sharded (<20 min). Gate: must pass. (4) <strong>Staging deploy</strong> — deploy to staging. (5) <strong>Regression stage</strong> — full regression suite, async (<60 min). Gate: report but non-blocking. (6) <strong>Prod deploy</strong> — blue-green with canary analysis. <strong>Quality gates</strong>: no P1/P2 bugs, flakiness <5%, API test coverage >80%, performance no regression. Shift-left: run fast tests early for rapid feedback.</p></div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-number">4</span><div><span class="q-text">Design a test data management strategy for 500+ parallel tests requiring complete data isolation.</span><span class="q-badge badge-advanced">Advanced</span><span class="priority-p1">P1</span></div></div>
+  <div class="q-section"><div class="q-section-title">Basic Answer</div><p>Strategy layers: (1) <strong>Unique data generation</strong> — each test generates data with UUIDs/timestamps. (2) <strong>DB transactions</strong> — wrap tests in transactions that roll back (fastest, but doesn't catch all state issues). (3) <strong>API-based setup</strong> — create data via APIs in fixtures (most realistic). (4) <strong>Docker databases</strong> — each K8s pod gets a dedicated test DB container. (5) <strong>Seeding</strong> — baseline data per test suite, test-specific data per test. Cleanup via TRUNCATE or transaction rollback. For 500 parallel tests: use connection pools (HikariCP) and avoid shared mutable state. <strong>PII compliance</strong>: mask/anonymize production data in test environments.</p></div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-number">5</span><div><span class="q-text">Design a distributed cross-browser and cross-device test execution grid.</span><span class="q-badge badge-expert">Expert</span><span class="priority-p1">P1</span></div></div>
+  <div class="q-section"><div class="q-section-title">Basic Answer</div><p>Architecture: (1) <strong>Router/API Gateway</strong> — routes test requests to available nodes. (2) <strong>Node Manager</strong> — manages Docker-based worker nodes with pre-warmed browser contexts. (3) <strong>Browser Pool</strong> — Chromium, Firefox, WebKit contexts at various viewports, ready for instant test start. (4) <strong>Device Profiles</strong> — mobile viewports, touch emulation, geolocation. (5) <strong>Results Collector</strong> — central aggregation. Use Docker Swarm or K8s. Scale horizontally based on queue depth. For cloud: integrate with BrowserStack API as overflow. Implement sticky sessions for trace continuity.</p></div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-number">6</span><div><span class="q-text">Design a multi-tenant automation framework supporting multiple products and environments.</span><span class="q-badge badge-expert">Expert</span><span class="priority-p1">P1</span></div></div>
+  <div class="q-section"><div class="q-section-title">Basic Answer</div><p>Core design: (1) <strong>Config hierarchy</strong> — default → environment → product → test overrides. (2) <strong>Product abstraction</strong> — shared base with product-specific page objects/fixtures. (3) <strong>Environment management</strong> — typed config per environment (dev/staging/prod). (4) <strong>Feature flags</strong> — toggle product-specific features. (5) <strong>Reporting</strong> — separate dashboards per product. (6) <strong>Test categorization</strong> — tags for product, environment, priority. Use TypeScript generics for type-safe product configs. Shared utilities in core package, product-specific code in consumer packages. <strong>Key principle</strong>: the core framework should never change for product-specific tests.</p></div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-number">7</span><div><span class="q-text">Design a cloud-native QA platform using Docker and Kubernetes for automated test execution.</span><span class="q-badge badge-expert">Expert</span><span class="priority-p1">P1</span></div></div>
+  <div class="q-section"><div class="q-section-title">Basic Answer</div><p>Components: (1) <strong>Docker images</strong> — Playwright test suite packaged as Docker image (multi-stage). (2) <strong>K8s Jobs/CronJobs</strong> — for test execution batches. (3) <strong>ConfigMaps/Secrets</strong> — env configs and credentials. (4) <strong>PVC</strong> — test reports and artifacts storage. (5) <strong>Ingress/Service</strong> — reporting dashboard. (6) <strong>HPA</strong> — auto-scale based on queue size. Flow: CI builds Docker image → pushes to registry → K8s Job created → Pods run tests in parallel → results stored → notification sent. Use Helm charts for reproducible deployments.</p></div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-number">8</span><div><span class="q-text">Design a reporting and analytics platform for automation results across multiple teams.</span><span class="q-badge badge-advanced">Advanced</span><span class="priority-p1">P1</span></div></div>
+  <div class="q-section"><div class="q-section-title">Basic Answer</div><p>Key features: (1) <strong>Result ingestion</strong> — real-time streaming from CI/CD. (2) <strong>Storage</strong> — time-series DB for trends (InfluxDB), relational DB for metadata (Postgres). (3) <strong>Dashboards</strong> — pass/fail rates, flakiness trends, execution times, coverage metrics. (4) <strong>Analytics</strong> — flaky test detection (passes on retry >2 times = flaky), regression alerts, performance regression. (5) <strong>Team views</strong> — per-team dashboards with week-over-week comparison. Use Elasticsearch for search, Grafana for dashboards, custom API for team views. Alert on: >5% failure rate increase, >20% execution time regression.</p></div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-number">9</span><div><span class="q-text">Design a visual testing platform with baseline comparison and diff management.</span><span class="q-badge badge-advanced">Advanced</span><span class="priority-p1">P1</span></div></div>
+  <div class="q-section"><div class="q-section-title">Basic Answer</div><p>Components: (1) <strong>Baseline storage</strong> — S3/GCS for screenshots, versioned per app version. (2) <strong>Comparison engine</strong> — pixel diff with configurable threshold (Smart: ignore anti-aliasing). (3) <strong>Diff management</strong> — review UI for approving/rejecting diffs, with before/after/side-by-side view. (4) <strong>CI integration</strong> — fail on diff, allow manual approval via API. (5) <strong>Automation</strong> — Playwright's toHaveScreenshot for capture. Strategy: capture at multiple viewports, disable animations, use consistent test data. Approve diffs once, store baseline per browser+viewport+component combo.</p></div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-number">10</span><div><span class="q-text">Design a self-healing automation framework that handles flaky tests and dynamic locators.</span><span class="q-badge badge-expert">Expert</span><span class="priority-p1">P1</span></div></div>
+  <div class="q-section"><div class="q-section-title">Basic Answer</div><p>Self-healing strategies: (1) <strong>Locator hierarchy</strong> — getByRole → getByTestId → getByText → locator(fallback). (2) <strong>Attribute fallback</strong> — if primary fails, try secondary attributes (title, aria-label, class). (3) <strong>ML-based heuristics</strong> — train on successful locators to predict alternatives. (4) <strong>Auto-quarantine</strong> — if test fails >2 times consecutively, auto-quarantine and alert. (5) <strong>Historical analysis</strong> — track locator stability, suggest replacements for frequently failing locators. Implementation: wrapper around Playwright locator that catches TimeoutError and tries alternatives before failing.</p></div>
+</div>
+
+</div>
+
+<div class="section-divider"><h2>P2 — Commonly Asked Questions</h2></div>
+<div class="container">
+
+<div class="question-card"><div class="q-header"><span class="q-number">11</span><div><span class="q-text">Design an observability and monitoring strategy for test execution in production.</span><span class="q-badge badge-advanced">Advanced</span><span class="priority-p2">P2</span></div></div><div class="q-section"><div class="q-section-title">Basic Answer</div><p>Three pillars: (1) <strong>Logging</strong> — structured JSON logs per test step, stored in Elasticsearch. (2) <strong>Metrics</strong> — execution time, pass/fail rates, flakiness index (passes on retry / total runs), test coverage %. (3) <strong>Tracing</strong> — distributed tracing across API calls with Playwright Trace Viewer. Production monitoring: synthetic monitoring running health check scripts every 5 minutes from multiple cloud regions. Alert on: >2% failure rate increase, >10s p95 response time, critical user journey failures. Use OpenTelemetry for cross-service tracing.</p></div></div>
+
+<div class="question-card"><div class="q-header"><span class="q-number">12</span><div><span class="q-text">Design a contract testing strategy for microservices using Pact.</span><span class="q-badge badge-expert">Expert</span><span class="priority-p2">P2</span></div></div><div class="q-section"><div class="q-section-title">Basic Answer</div><p>Consumer-Driven Contracts: Provider publishes contract, consumer verifies against it. Pact workflow: Provider tests generate contracts (can I deploy?) → uploaded to Pact Broker → Consumer tests verify against contracts (can I deploy?). Integration: Playwright API tests use generated contracts to validate responses. CI: verify contracts in pipeline before deployment — if contract breaks, the breaking change can't be deployed. Benefits: catch breaking API changes early, reduce integration testing effort, enable parallel development. SDET role: maintain contract test suite, manage Pact Broker.</p></div></div>
+
+<div class="question-card"><div class="q-header"><span class="q-number">13</span><div><span class="q-text">Design a synthetic monitoring platform using Playwright for production health checks.</span><span class="q-badge badge-advanced">Advanced</span><span class="priority-p2">P2</span></div></div><div class="q-section"><div class="q-section-title">Basic Answer</div><p>Architecture: (1) <strong>Scheduler</strong> — runs health checks every 5 minutes (K8s CronJob). (2) <strong>Playwright scripts</strong> — critical user journeys: login, search, add to cart, checkout. (3) <strong>Multi-region</strong> — run from 3+ geographic locations (us-east, eu-west, ap-southeast). (4) <strong>Alerting</strong> — PagerDuty/Slack on failure with trace attachment. (5) <strong>Dashboard</strong> — uptime %, response time trends (p50/p95/p99), error breakdown by region. Store results in time-series DB. Compare performance against baseline and week-over-week trends.</p></div></div>
+
+<div class="question-card"><div class="q-header"><span class="q-number">14</span><div><span class="q-text">Design a mobile device farm for Android and iOS automation (real devices + cloud).</span><span class="q-badge badge-advanced">Advanced</span><span class="priority-p2">P2</span></div></div><div class="q-section"><div class="q-section-title">Basic Answer</div><p>Farm architecture: (1) <strong>Device pool</strong> — real devices for critical paths, emulators/simulators for parallel execution. (2) <strong>Connection manager</strong> — ADB for Android, WebDriverAgent for iOS. (3) <strong>Session allocation</strong> — queue-based, one session per device. (4) <strong>Device provisioning</strong> — automated OS update, app install, reset between tests. (5) <strong>Cloud integration</strong> — BrowserStack/Sauce Labs as overflow. Key metrics: device utilization %, session wait time, test execution time. Containerize Appium servers per device using Docker.</p></div></div>
+
+<div class="question-card"><div class="q-header"><span class="q-number">15</span><div><span class="q-text">Design a test strategy for event-driven architectures (Kafka, SQS, event streams).</span><span class="q-badge badge-expert">Expert</span><span class="priority-p2">P2</span></div></div><div class="q-section"><div class="q-section-title">Basic Answer</div><p>Testing layers: (1) <strong>Producer validation</strong> — verify messages published with correct schema (Avro/Protobuf) and content. (2) <strong>Consumer validation</strong> — verify messages consumed and processed correctly. (3) <strong>Schema compatibility</strong> — backward/forward compatibility tests for schema registry. (4) <strong>Ordering</strong> — test message ordering within partitions. (5) <strong>Error handling</strong> — poison pill messages, retry logic, dead letter queue. (6) <strong>Performance</strong> — throughput under load, latency percentiles. Use testcontainers for local Kafka/SQS emulation in CI. Assert on event counts and content.</p></div></div>
+
+</div>
+
+<div class="section-divider"><h2>P3 — Valuable Context</h2></div>
+<div class="container">
+
+<div class="question-card"><div class="q-header"><span class="q-number">16</span><div><span class="q-text">Design a chaos engineering testing strategy for a distributed microservices system.</span><span class="q-badge badge-expert">Expert</span><span class="priority-p3">P3</span></div></div><div class="q-section"><div class="q-section-title">Basic Answer</div><p>Chaos testing validates system resilience. Experiments: (1) <strong>Service failures</strong> — kill random service instances (via K8s). (2) <strong>Network latency</strong> — inject 500ms-2s delay on inter-service calls. (3) <strong>Resource exhaustion</strong> — limit CPU/memory/disk on pods. (4) <strong>Database failures</strong> — simulate DB connection drops, slow queries. (5) <strong>Region failures</strong> — simulate an entire AWS availability zone outage. Tools: Chaos Mesh (K8s), Litmus, Gremlin. Run experiments in staging first, then in production with limited blast radius. Key metric: MTTR (mean time to recover).</p></div></div>
+
+<div class="question-card"><div class="q-header"><span class="q-number">17</span><div><span class="q-text">How would you design a performance testing strategy for a high-traffic API gateway?</span><span class="q-badge badge-expert">Expert</span><span class="priority-p3">P3</span></div></div><div class="q-section"><div class="q-section-title">Basic Answer</div><p>Approach: (1) <strong>Define SLOs</strong> — latency p95 < 200ms, throughput > 1000 req/s, error rate < 0.1%. (2) <strong>Load profiles</strong> — ramp-up test (find breaking point), spike test (sudden load increase), soak test (sustained load for 4h). (3) <strong>Tools</strong> — k6 for load generation, Playwright for synthetic UI checks under load. (4) <strong>Metrics</strong> — response time distribution, CPU/memory per pod, connection pool utilization, DB query performance. (5) <strong>CI integration</strong> — run performance tests nightly, compare against baseline. Alert on >5% regression.</p></div></div>
+
+</div>
+
+<div class="container">
+<div class="cheat-sheet">
+  <h3>📋 System Design — One-Page Revision Cheat Sheet</h3>
+  <div class="cheat-grid">
+    <div class="cheat-item"><h4>Framework Architecture</h4><p>Tests → Fixtures (DI) → Page Objs + API Services → Playwright Engine → Browser Contexts</p></div>
+    <div class="cheat-item"><h4>CI/CD Pipeline</h4><p>Commit (lint/unit) → Integration (API/contract) → E2E (Playwright) → Staging → Regression → Prod (blue-green)</p></div>
+    <div class="cheat-item"><h4>Test Data</h4><p>Unique per test (UUID) + DB transactions + API setup + Docker DBs per worker</p></div>
+    <div class="cheat-item"><h4>Distributed Execution</h4><p>K8s Jobs + HPA + Sharding + Docker + Result Aggregator + Dashboard</p></div>
+    <div class="cheat-item"><h4>Self-Healing</h4><p>Locator hierarchy + Attribute fallback + Auto-quarantine + Historical analysis</p></div>
+    <div class="cheat-item"><h4>Observability</h4><p>Structured logs + Metrics (pass/fail, flakiness) + Traces + Synthetic monitoring</p></div>
+  </div>
+</div>
+
+<div class="end-section">
+  <h2>🎯 Most Asked System Design Topics</h2>
+  <p style="color:var(--text-secondary);line-height:2"><strong>1.</strong> Playwright Framework Architecture — asked in every senior SDET interview<br><strong>2.</strong> CI/CD Pipeline with Quality Gates — tests architectural thinking<br><strong>3.</strong> Test Data Management at Scale — critical for enterprise SDET roles<br><strong>4.</strong> Distributed Test Execution on K8s — cloud-native architecture<br><strong>5.</strong> Self-Healing Framework Design — demonstrates innovation mindset<br><strong>6.</strong> Contract Testing Strategy — microservices testing expertise</p>
+</div>
+</div>
+
+</body>
+</html>

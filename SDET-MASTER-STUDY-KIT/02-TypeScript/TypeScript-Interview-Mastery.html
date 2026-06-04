@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TypeScript Interview Mastery — SDET Study Kit</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/nebula.css">
+<style>
+  /* TypeScript-specific overrides */
+  .cover-page::before {
+    background:
+      radial-gradient(circle at 30% 50%, rgba(96, 165, 250, 0.06) 0%, transparent 50%),
+      radial-gradient(circle at 70% 50%, rgba(167, 139, 250, 0.05) 0%, transparent 50%);
+  }
+  .cover-title { background: var(--gradient-cool); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .cover-divider { background: var(--gradient-cool); }
+  .cover-meta-item .number { background: var(--gradient-cool); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .section-divider h2 { background: var(--gradient-cool); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .q-number { background: var(--gradient-cool); }
+  .q-section-title.basic::before { background: var(--gradient-cool); }
+</style>
+</head>
+<body>
+
+<div class="cover-page">
+  <div class="cover-badge">SDET Master Study Kit</div>
+  <h1 class="cover-title">TypeScript Interview Mastery</h1>
+  <div class="cover-divider"></div>
+  <p class="cover-subtitle">37 High-Value Questions for Senior SDET &amp; Playwright Engineer Interviews</p>
+  <div class="cover-meta">
+    <div class="cover-meta-item"><span class="number">10</span><span class="label">P1 — Must Know</span></div>
+    <div class="cover-meta-item"><span class="number">17</span><span class="label">P2 — Commonly Asked</span></div>
+    <div class="cover-meta-item"><span class="number">10</span><span class="label">P3 — Valuable Context</span></div>
+  </div>
+  <p class="cover-description" style="margin-top: 30px; max-width: 600px; color: var(--text-secondary); position: relative; z-index: 1;">
+    Covers interfaces vs types, generics, utility types, type guards, mapped types, conditional types,
+    and Playwright-specific TypeScript patterns. Essential for framework design roles.
+  </p>
+</div>
+
+<div class="container">
+  <h2 style="font-size: 24px; margin-bottom: 24px; color: var(--accent-green);">Table of Contents</h2>
+  <p style="color: var(--text-secondary);">This guide covers TypeScript concepts from fundamentals to advanced types, with a focus on patterns used in Playwright automation frameworks.</p>
+</div>
+
+<!-- P1 Section -->
+<div class="section-divider"><h2>P1 — Frequently Asked Questions</h2><p>Must-know for TypeScript-focused SDET interviews.</p></div>
+<div class="container">
+
+<div class="question-card">
+  <div class="q-header"><span class="q-number">1</span><div><span class="q-text">What are the advantages of TypeScript over JavaScript for large-scale test automation projects?</span><span class="q-badge badge-intermediate">Intermediate</span><span class="priority-p1">P1</span></div></div>
+  <div class="q-section"><div class="q-section-title">Basic Answer</div><p>TypeScript provides static typing, catching errors at compile time rather than runtime. This is critical for large test suites where refactoring without type safety risks silent failures. Benefits include better IDE support (autocompletion, refactoring), self-documenting code through type definitions, reduced runtime errors from type mismatches, and easier onboarding for new team members. For Playwright specifically, TypeScript enables type-safe locators, page objects, and API response validation.</p></div>
+  <div class="q-section"><div class="q-section-title orange">Real Interview Answer</div><p>"TypeScript catches category-level bugs during compilation that would otherwise cause test failures at runtime. For example, if an API response shape changes, TypeScript surfaces the issue immediately across all tests using that response type. Combined with Playwright's type-safe locators, this drastically reduces flaky tests caused by type mismatches."</p></div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-number">2</span><div><span class="q-text">Explain the difference between <code>interface</code> and <code>type</code> alias. When would you use each?</span><span class="q-badge badge-advanced">Advanced</span><span class="priority-p1">P1</span></div></div>
+  <div class="q-section"><div class="q-section-title">Basic Answer</div><p>Both define object shapes, but key differences exist. <code>interface</code> supports declaration merging (reopening to add properties) and extends more naturally with <code>extends</code>. <code>type</code> aliases can represent unions, intersections, primitives, and tuples — they are more flexible for composite types. Use <code>interface</code> for public API contracts and object shapes that might be extended. Use <code>type</code> for unions, intersections, complex types, or when you need computed properties.</p></div>
+  <div class="q-section"><div class="q-section-title green">Detailed Answer</div><div class="code-block">
+<span class="comment">// Interface — extensible, declaration merging</span>
+<span class="keyword">interface</span> User { id: number; name: string; }
+<span class="keyword">interface</span> User { email: string; } <span class="comment">// Merged — User now has id, name, email</span>
+
+<span class="keyword">interface</span> AdminUser <span class="keyword">extends</span> User { role: <span class="string">'admin'</span>; }
+
+<span class="comment">// Type — flexible, can use unions/intersections</span>
+<span class="keyword">type</span> Status = <span class="string">'active'</span> | <span class="string">'inactive'</span> | <span class="string">'pending'</span>;
+<span class="keyword">type</span> ApiResponse&lt;T&gt; = { data: T; error: <span class="keyword">null</span> } | { data: <span class="keyword">null</span>; error: string };
+<span class="keyword">type</span> StringOrNumber = string | number;
+<span class="keyword">type</span> UserWithRole = User & { role: string }; <span class="comment">// Intersection</span>
+      </div></div>
+  <div class="q-section"><div class="q-section-title orange">Real Interview Answer</div><p>"In my Playwright framework, I use interfaces for page object contracts — each page interface defines what methods the page exposes. I use types for API response shapes, discriminated unions for test outcomes, and template literal types for dynamic locator patterns. The rule of thumb: <code>interface</code> for objects that other code depends on, <code>type</code> for everything else."</p></div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-number">3</span><div><span class="q-text">What are generics? Implement a generic API response wrapper type.</span><span class="q-badge badge-advanced">Advanced</span><span class="priority-p1">P1</span></div></div>
+  <div class="q-section"><div class="q-section-title">Basic Answer</div><p>Generics allow creating reusable components that work with multiple types while preserving type information. They are parameterized types defined with angle brackets <code>&lt;T&gt;</code>. A generic API response wrapper ensures type safety across all API calls in a test framework.</p></div>
+  <div class="q-section"><div class="q-section-title green">Detailed Answer</div><div class="code-block">
+<span class="keyword">interface</span> ApiResponse&lt;T&gt; {
+  status: number;
+  message: string;
+  data: T;
+  timestamp: string;
+}
+
+<span class="keyword">interface</span> PaginatedResponse&lt;T&gt; <span class="keyword">extends</span> ApiResponse&lt;T[]&gt; {
+  pagination: { page: number; totalPages: number; totalItems: number; };
+}
+
+<span class="comment">// Usage in test framework</span>
+<span class="keyword">interface</span> User { id: number; name: string; email: string; }
+
+<span class="keyword">async function</span> getUser&lt;T&gt;(id: number): <span class="keyword">Promise</span>&lt;ApiResponse&lt;T&gt;&gt; {
+  <span class="keyword">const</span> response = <span class="keyword">await</span> request.get(<span class="string">`/api/users/<span class="keyword">${</span>id<span class="keyword">}</span>`</span>);
+  <span class="keyword">return</span> response.json();
+}
+
+<span class="comment">// Type-safe — TypeScript knows user.data has id, name, email</span>
+<span class="keyword">const</span> user = <span class="keyword">await</span> getUser&lt;User&gt;(<span class="number">1</span>);
+expect(user.data.name).toBe(<span class="string">'Alice'</span>);
+      </div></div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-number">4</span><div><span class="q-text">What are union types and intersection types? Give real-world examples from test automation.</span><span class="q-badge badge-intermediate">Intermediate</span><span class="priority-p1">P1</span></div></div>
+  <div class="q-section"><div class="q-section-title">Basic Answer</div><p>Union types (<code>A | B</code>) allow a value to be one of several types. Intersection types (<code>A & B</code>) combine multiple types into one. In test automation, unions model different API response states (success/failure), and intersections combine test configuration with environment variables.</p></div>
+  <div class="code-block">
+<span class="keyword">type</span> TestResult = { passed: true; duration: number } | { passed: false; error: string };
+<span class="keyword">type</span> Config = BrowserConfig & EnvironmentConfig & AuthConfig;
+<span class="keyword">type</span> LocatorStrategy = <span class="string">'role'</span> | <span class="string">'testid'</span> | <span class="string">'text'</span> | <span class="string">'css'</span> | <span class="string">'xpath'</span>;
+      </div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-number">5</span><div><span class="q-text">How does type narrowing work? Explain <code>typeof</code>, <code>instanceof</code>, <code>in</code>, and discriminated unions.</span><span class="q-badge badge-advanced">Advanced</span><span class="priority-p1">P1</span></div></div>
+  <div class="q-section"><div class="q-section-title">Basic Answer</div><p>Type narrowing is TypeScript's process of refining a broader type to a more specific type within a code block. <code>typeof x === 'string'</code> narrows to string, <code>instanceof Error</code> narrows to Error class, <code>'property' in obj</code> checks for property existence. Discriminated unions use a literal property (the discriminant) to narrow — most powerful pattern for API response handling.</p></div>
+  <div class="code-block">
+<span class="keyword">type</span> ApiState&lt;T&gt; =
+  | { status: <span class="string">'loading'</span> }
+  | { status: <span class="string">'success'</span>; data: T }
+  | { status: <span class="string">'error'</span>; error: string };
+
+<span class="keyword">function</span> handleState&lt;T&gt;(state: ApiState&lt;T&gt;) {
+  <span class="keyword">if</span> (state.status === <span class="string">'loading'</span>) <span class="keyword">return</span> <span class="string">'Loading...'</span>;   <span class="comment">// Narrowed: { status: 'loading' }</span>
+  <span class="keyword">if</span> (state.status === <span class="string">'success'</span>) <span class="keyword">return</span> state.data;      <span class="comment">// Narrowed: { status: 'success'; data: T }</span>
+  <span class="keyword">return</span> state.error;  <span class="comment">// Narrowed: { status: 'error'; error: string }</span>
+}
+      </div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-number">6</span><div><span class="q-text">What are utility types? Explain <code>Partial&lt;T&gt;</code>, <code>Required&lt;T&gt;</code>, <code>Pick&lt;T&gt;</code>, <code>Omit&lt;T&gt;</code>, <code>Record&lt;K,T&gt;</code>, and <code>Readonly&lt;T&gt;</code>.</span><span class="q-badge badge-intermediate">Intermediate</span><span class="priority-p1">P1</span></div></div>
+  <div class="q-section"><div class="q-section-title">Basic Answer</div><p>Utility types are built-in generic transformations. <code>Partial&lt;T&gt;</code> makes all properties optional — useful for test data overrides. <code>Required&lt;T&gt;</code> makes all required. <code>Pick&lt;T, K&gt;</code> selects specific keys. <code>Omit&lt;T, K&gt;</code> removes specific keys. <code>Record&lt;K,T&gt;</code> creates an object type with keys K and values T. <code>Readonly&lt;T&gt;</code> makes properties immutable.</p></div>
+  <div class="code-block">
+<span class="keyword">interface</span> User { id: number; name: string; email: string; role: string; }
+
+<span class="keyword">type</span> PartialUser = <span class="keyword">Partial</span>&lt;User&gt;;         <span class="comment">// All optional — for test data overrides</span>
+<span class="keyword">type</span> UserPreview = <span class="keyword">Pick</span>&lt;User, <span class="string">'id'</span> | <span class="string">'name'</span>&gt;; <span class="comment">// Just id and name</span>
+<span class="keyword">type</span> UserWithoutRole = <span class="keyword">Omit</span>&lt;User, <span class="string">'role'</span>&gt;;   <span class="comment">// All except role</span>
+<span class="keyword">type</span> UserMap = <span class="keyword">Record</span>&lt;number, User&gt;;        <span class="comment">// { [key: number]: User }</span>
+      </div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-number">7</span><div><span class="q-text">What is the difference between <code>any</code> and <code>unknown</code>? When would you use each?</span><span class="q-badge badge-intermediate">Intermediate</span><span class="priority-p1">P1</span></div></div>
+  <div class="q-section"><div class="q-section-title">Basic Answer</div><p><code>any</code> disables all type checking — you can access any property, call it as a function, or assign it to any type. <code>unknown</code> is the type-safe counterpart — you must narrow it before use (via <code>typeof</code>, type guards, or assertions). Never use <code>any</code> in production code. Use <code>unknown</code> for external data (API responses, user input) where the shape isn't guaranteed.</p></div>
+  <div class="callout callout-warning"><strong>⚠️ Interview Trap</strong> Saying "I use <code>any</code> occasionally to save time" is a red flag. Always prefer <code>unknown</code> and narrow it. If you use <code>any</code>, justify it explicitly (e.g., "in a migration" or "for a third-party library with incomplete types").</div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-number">8</span><div><span class="q-text">What are mapped types? Create a custom mapped type.</span><span class="q-badge badge-expert">Expert</span><span class="priority-p1">P1</span></div></div>
+  <div class="q-section"><div class="q-section-title">Basic Answer</div><p>Mapped types iterate over property keys of a type to create new types. Syntax: <code>{ [P in K]: T }</code>. The built-in <code>Partial</code>, <code>Readonly</code>, <code>Pick</code>, and <code>Record</code> are all mapped types. Custom mapped types can transform property modifiers or values.</p></div>
+  <div class="code-block">
+<span class="keyword">type</span> Nullable&lt;T&gt; = { [K <span class="keyword">in</span> keyof T]: T[K] | <span class="keyword">null</span> };
+<span class="keyword">type</span> Stringify&lt;T&gt; = { [K <span class="keyword">in</span> keyof T]: string };
+
+<span class="keyword">type</span> DeepReadonly&lt;T&gt; = {
+  <span class="keyword">readonly</span> [K <span class="keyword">in</span> keyof T]: T[K] <span class="keyword">extends</span> object ? DeepReadonly&lt;T[K]&gt; : T[K];
+};
+      </div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-number">9</span><div><span class="q-text">What are conditional types? Explain with the <code>infer</code> keyword.</span><span class="q-badge badge-expert">Expert</span><span class="priority-p1">P1</span></div></div>
+  <div class="q-section"><div class="q-section-title">Basic Answer</div><p>Conditional types select types based on a condition: <code>T extends U ? X : Y</code>. The <code>infer</code> keyword declares a type variable within a conditional type's extends clause, allowing you to extract and use types from within other types. <code>ReturnType&lt;T&gt;</code> and <code>Parameters&lt;T&gt;</code> use <code>infer</code> internally.</p></div>
+  <div class="code-block">
+<span class="keyword">type</span> IsString&lt;T&gt; = T <span class="keyword">extends</span> string ? <span class="string">'yes'</span> : <span class="string">'no'</span>;
+
+<span class="comment">// Extract Promise value type</span>
+<span class="keyword">type</span> Unwrap&lt;T&gt; = T <span class="keyword">extends</span> <span class="keyword">Promise</span>&lt;infer U&gt; ? U : T;
+<span class="keyword">type</span> Val = Unwrap&lt;<span class="keyword">Promise</span>&lt;number&gt;&gt;; <span class="comment">// number</span>
+
+<span class="comment">// Extract function return type</span>
+<span class="keyword">type</span> MyReturnType&lt;T&gt; = T <span class="keyword">extends</span> (...args: <span class="keyword">any</span>[]) <span class="keyword">=></span> infer R ? R : <span class="keyword">never</span>;
+      </div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-number">10</span><div><span class="q-text">How do you type API responses in Playwright? Design a generic API response type.</span><span class="q-badge badge-advanced">Advanced</span><span class="priority-p1">P1</span></div></div>
+  <div class="q-section"><div class="q-section-title">Basic Answer</div><p>Playwright's <code>APIResponse</code> provides generic methods. Create a typed wrapper that parses and validates the response shape at compile time. Use discriminated unions for success/error states and utility types for pagination.</p></div>
+  <div class="code-block">
+<span class="keyword">interface</span> ApiClient {
+  get&lt;T&gt;(url: string): <span class="keyword">Promise</span>&lt;{ data: T; status: number }&gt;;
+  post&lt;T, B&gt;(url: string, body: B): <span class="keyword">Promise</span>&lt;{ data: T; status: number }&gt;;
+}
+
+<span class="keyword">class</span> PlaywrightApiClient <span class="keyword">implements</span> ApiClient {
+  <span class="keyword">constructor</span>(<span class="keyword">private</span> request: <span class="keyword">typeof</span> request) {}
+
+  <span class="keyword">async</span> get&lt;T&gt;(url: string) {
+    <span class="keyword">const</span> response = <span class="keyword">await</span> <span class="keyword">this</span>.request.get(url);
+    <span class="keyword">const</span> data: T = <span class="keyword">await</span> response.json();
+    <span class="keyword">return</span> { data, status: response.status() };
+  }
+}
+      </div>
+</div>
+
+</div>
+
+<!-- P2 Section -->
+<div class="section-divider"><h2>P2 — Commonly Asked Questions</h2><p>Beginner to intermediate questions frequently appearing in technical screens.</p></div>
+<div class="container">
+
+<!-- Q11 -- NEW BEGINNER -->
+<div class="question-card">
+  <div class="q-header"><span class="q-number">11</span><div><span class="q-text">What are the basic types in TypeScript? How do you annotate variables and function parameters?</span><span class="q-badge badge-beginner">Beginner</span><span class="priority-p2">P2</span></div></div>
+  <div class="q-section"><div class="q-section-title">Basic Answer</div><p>Basic types include <code>string</code>, <code>number</code>, <code>boolean</code>, <code>null</code>, <code>undefined</code>, <code>void</code>, and <code>any</code>. Annotate variables with <code>let name: string = 'Alice'</code> and parameters with <code>function greet(name: string): string { ... }</code>. TypeScript can also infer types, making annotations optional in many cases. For Playwright tests, annotating function parameters ensures type-safe page object methods.</p></div>
+  <div class="q-section"><div class="q-section-title orange">Real Interview Answer</div><p>"Basic type annotations catch bugs early. For example, if a function expects <code>string</code> but gets <code>number</code>, TypeScript flags it at compile time before the test even runs. In Playwright page objects, I annotate all method parameters and return types — this makes the framework self-documenting and prevents runtime type errors."</p></div>
+</div>
+
+<!-- Q12 -- NEW BEGINNER -->
+<div class="question-card">
+  <div class="q-header"><span class="q-number">12</span><div><span class="q-text">How does type inference work? When do you need explicit type annotations vs letting TS infer?</span><span class="q-badge badge-beginner">Beginner</span><span class="priority-p2">P2</span></div></div>
+  <div class="q-section"><div class="q-section-title">Basic Answer</div><p>TypeScript infers types from values. <code>let count = 5</code> infers <code>number</code>. Inference works well for simple variable initialization. Use explicit annotations when: (1) a function returns multiple possible types, (2) defining complex object shapes (interfaces), (3) function parameters and return types for public APIs, (4) when inference would be too wide (e.g., <code>let data = {}</code> infers as <code>{}</code> not a specific shape). In Playwright, inference works for simple locator assignments, but explicit types are better for fixture definitions and page objects.</p></div>
+  <div class="code-block">
+<span class="comment">// TypeScript infers: string</span>
+<span class="keyword">let</span> name = <span class="string">'Alice'</span>;
+
+<span class="comment">// Explicit annotation needed for complex types</span>
+<span class="keyword">interface</span> User { id: number; name: string; }
+<span class="keyword">const</span> getUser = <span class="keyword">async</span> (): <span class="keyword">Promise</span>&lt;User&gt; => { ... };
+
+<span class="comment">// Number is too broad — use literal type</span>
+<span class="keyword">let</span> port: <span class="number">3000</span> | <span class="number">3001</span> | <span class="number">3002</span> = <span class="number">3000</span>;
+    </div>
+</div>
+
+<!-- Q13 -- NEW BEGINNER -->
+<div class="question-card">
+  <div class="q-header"><span class="q-number">13</span><div><span class="q-text">What are arrays and tuples in TypeScript? How do they differ?</span><span class="q-badge badge-beginner">Beginner</span><span class="priority-p2">P2</span></div></div>
+  <div class="q-section"><div class="q-section-title">Basic Answer</div><p>Arrays have variable length and uniform element types: <code>string[]</code> or <code>Array&lt;number&gt;</code>. Tuples have fixed length and known element types at each position: <code>[string, number]</code>. Tuples enforce both position and type — <code>[3, 'hello']</code> would error if the type is <code>[string, number]</code>. In test automation, tuples are useful for parameterized test cases where each parameter has a different type.</p></div>
+  <div class="code-block">
+<span class="keyword">type</span> TestCase = [input: string, expectedStatus: number, expectedMessage: string];
+
+<span class="keyword">const</span> cases: TestCase[] = [
+  [<span class="string">'valid@email.com'</span>, <span class="number">200</span>, <span class="string">'Success'</span>],
+  [<span class="string">''</span>, <span class="number">400</span>, <span class="string">'Email required'</span>],
+];
+    </div>
+</div>
+
+<!-- Q14 -- NEW BEGINNER -->
+<div class="question-card">
+  <div class="q-header"><span class="q-number">14</span><div><span class="q-text">What are optional properties and optional parameters? How do you define them?</span><span class="q-badge badge-beginner">Beginner</span><span class="priority-p2">P2</span></div></div>
+  <div class="q-section"><div class="q-section-title">Basic Answer</div><p>Optional properties use <code>?</code> after the property name: <code>interface User { name: string; email?: string; }</code>. Optional function parameters follow the same pattern: <code>function createUser(name: string, age?: number)</code>. Optional parameters must come after required parameters. In test automation, optional properties are useful for API response types where certain fields may or may not be present.</p></div>
+</div>
+
+<!-- Q15 -- NEW BEGINNER -->
+<div class="question-card">
+  <div class="q-header"><span class="q-number">15</span><div><span class="q-text">What are <code>readonly</code> properties? When would you use them in test configuration?</span><span class="q-badge badge-beginner">Beginner</span><span class="priority-p2">P2</span></div></div>
+  <div class="q-section"><div class="q-section-title">Basic Answer</div><p><code>readonly</code> prevents property reassignment after initialization. It's not runtime enforcement — it's a compile-time check. In test automation, use <code>readonly</code> for configuration values, environment URLs, API endpoints, and constants that shouldn't be modified during test execution. Combined with <code>interface</code> and <code>as const</code>, it creates robust, immutable configuration objects.</p></div>
+  <div class="code-block">
+<span class="keyword">interface</span> TestConfig {
+  readonly baseUrl: string;
+  readonly timeout: number;
+  readonly browser: <span class="string">'chromium'</span> | <span class="string">'firefox'</span>;
+  testData?: Record&lt;string, unknown&gt;; <span class="comment">// Non-readonly — can be modified per test</span>
+}
+    </div>
+</div>
+
+<!-- Q16 -- NEW BEGINNER -->
+<div class="question-card">
+  <div class="q-header"><span class="q-number">16</span><div><span class="q-text">What is optional chaining (<code>?.</code>) and the non-null assertion operator (<code>!</code>)? When would you use each?</span><span class="q-badge badge-beginner">Beginner</span><span class="priority-p2">P2</span></div></div>
+  <div class="q-section"><div class="q-section-title">Basic Answer</div><p>Optional chaining (<code>user?.address?.city</code>) safely accesses nested properties — returns <code>undefined</code> if any intermediate property is <code>null</code> or <code>undefined</code>, instead of throwing. The non-null assertion (<code>element!</code>) tells TypeScript "this value is not null/undefined" — it's a compile-time only assertion with no runtime effect. Use optional chaining liberally for safe data access. Use non-null assertions sparingly — only when you've verified the value exists through other means (e.g., after an explicit check).</p></div>
+  <div class="code-block">
+<span class="comment">// Safe nested access</span>
+<span class="keyword">const</span> city = user?.address?.city; <span class="comment">// undefined instead of crash</span>
+
+<span class="comment">// Non-null assertion — use cautiously</span>
+<span class="keyword">const</span> element = <span class="keyword">await</span> page.$(<span class="string">'.submit-btn'</span>);
+<span class="keyword">await</span> element!.click(); <span class="comment">// Only safe if element is guaranteed to exist</span>
+    </div>
+</div>
+
+<!-- Q17 -- NEW BEGINNER -->
+<div class="question-card">
+  <div class="q-header"><span class="q-number">17</span><div><span class="q-text">How do <code>enum</code> work in TypeScript? Compare numeric enums, string enums, and const enums. Give a Playwright browser type example.</span><span class="q-badge badge-beginner">Beginner</span><span class="priority-p2">P2</span></div></div>
+  <div class="q-section"><div class="q-section-title">Basic Answer</div><p>Numeric enums auto-increment from 0: <code>enum Color { Red, Green, Blue }</code>. String enums have explicit values: <code>enum Browser { Chromium = 'chromium', Firefox = 'firefox', WebKit = 'webkit' }</code>. Const enums (<code>const enum</code>) are inlined at compile time with no runtime overhead — they disappear from the compiled JavaScript. String enums are preferred for API contracts and test data because they're more descriptive and have better runtime behavior.</p></div>
+  <div class="code-block">
+<span class="keyword">enum</span> BrowserType {
+  Chromium = <span class="string">'chromium'</span>,
+  Firefox = <span class="string">'firefox'</span>,
+  WebKit = <span class="string">'webkit'</span>
+}
+
+<span class="keyword">const</span> config = { browser: BrowserType.Chromium, headless: <span class="keyword">true</span> };
+<span class="comment">// config.browser is typed as BrowserType, not just string</span>
+    </div>
+</div>
+
+<div class="question-card"><div class="q-header"><span class="q-number">19</span><div><span class="q-text">What are literal types? Give a test automation example using string literal types.</span><span class="q-badge badge-intermediate">Intermediate</span><span class="priority-p2">P2</span></div></div><div class="q-section"><div class="q-section-title">Basic Answer</div><p>Literal types are types that represent specific values rather than general categories: <code>type Environment = 'dev' | 'staging' | 'prod'</code>. Combined with union types, they provide type-safe configuration. TypeScript narrows to literal types when using <code>as const</code>.</p></div>
+<div class="code-block">
+<span class="keyword">type</span> Browser = <span class="string">'chromium'</span> | <span class="string">'firefox'</span> | <span class="string">'webkit'</span>;
+<span class="keyword">type</span> LogLevel = <span class="string">'debug'</span> | <span class="string">'info'</span> | <span class="string">'warn'</span> | <span class="string">'error'</span>;
+
+<span class="keyword">const</span> config = { browser: <span class="string">'chromium'</span> <span class="keyword">as const</span>, headless: <span class="keyword">true</span> };
+</div></div>
+
+<div class="question-card"><div class="q-header"><span class="q-number">20</span><div><span class="q-text">What is <code>satisfies</code> operator and when would you use it?</span><span class="q-badge badge-advanced">Advanced</span><span class="priority-p2">P2</span></div></div><div class="q-section"><div class="q-section-title">Basic Answer</div><p><code>satisfies</code> (TS 4.9+) validates that a value matches a type WITHOUT widening the value's type. This preserves the literal type for inference while ensuring type safety. Useful for test configuration objects where you want both validation and narrow inference.</p></div>
+<div class="code-block">
+<span class="keyword">const</span> config = {
+  browser: <span class="string">'chromium'</span>,  <span class="comment">// TypeScript infers as string (wide)</span>
+  timeout: <span class="number">30000</span>
+} <span class="keyword">satisfies</span> Record&lt;string, unknown&gt;;
+
+<span class="comment">// Without satisfies, config.browser was 'string' — now stays literal</span>
+</div></div>
+
+<div class="question-card"><div class="q-header"><span class="q-number">21</span><div><span class="q-text">What are tuple types and variadic tuple types?</span><span class="q-badge badge-advanced">Advanced</span><span class="priority-p2">P2</span></div></div><div class="q-section"><div class="q-section-title">Basic Answer</div><p>Tuples are arrays with fixed length and known element types: <code>[string, number]</code>. Variadic tuple types (TS 4.0+) use spread with generics: <code>[...T, ...U]</code>. Useful for typed function parameters in Playwright test fixtures and generic utility functions.</p></div></div>
+
+<div class="question-card"><div class="q-header"><span class="q-number">22</span><div><span class="q-text">How do you create type-safe Page Objects in Playwright using TypeScript?</span><span class="q-badge badge-advanced">Advanced</span><span class="priority-p2">P2</span></div></div><div class="q-section"><div class="q-section-title">Basic Answer</div><p>Define interfaces for page contracts, implement classes with typed methods, and use generics for reusable component patterns. Leverage Playwright's built-in Locator type and custom return types for page methods.</p></div>
+<div class="code-block">
+<span class="keyword">interface</span> LoginPage {
+  readonly emailInput: Locator;
+  readonly passwordInput: Locator;
+  readonly submitButton: Locator;
+  login(email: string, password: string): <span class="keyword">Promise</span>&lt;DashboardPage&gt;;
+}
+
+<span class="keyword">class</span> PlaywrightLoginPage <span class="keyword">implements</span> LoginPage {
+  <span class="keyword">constructor</span>(<span class="keyword">private</span> page: Page) {}
+  readonly emailInput = <span class="keyword">this</span>.page.getByLabel(<span class="string">'Email'</span>);
+  readonly passwordInput = <span class="keyword">this</span>.page.getByLabel(<span class="string">'Password'</span>);
+  readonly submitButton = <span class="keyword">this</span>.page.getByRole(<span class="string">'button'</span>, { name: <span class="string">'Login'</span> });
+
+  <span class="keyword">async</span> login(email: string, password: string): <span class="keyword">Promise</span>&lt;DashboardPage&gt; {
+    <span class="keyword">await</span> <span class="keyword">this</span>.emailInput.fill(email);
+    <span class="keyword">await</span> <span class="keyword">this</span>.passwordInput.fill(password);
+    <span class="keyword">await</span> <span class="keyword">this</span>.submitButton.click();
+    <span class="keyword">return</span> <span class="keyword">new</span> DashboardPage(<span class="keyword">this</span>.page);
+  }
+}
+</div></div>
+
+<div class="question-card"><div class="q-header"><span class="q-number">23</span><div><span class="q-text">How does TypeScript handle async/await return types? What is the return type of an async function?</span><span class="q-badge badge-intermediate">Intermediate</span><span class="priority-p2">P2</span></div></div><div class="q-section"><div class="q-section-title">Basic Answer</div><p>An <code>async</code> function always returns a <code>Promise&lt;T&gt;</code> where T is the type of the resolved value. If you return <code>string</code> from an async function, the return type is <code>Promise&lt;string&gt;</code>. TypeScript infers this automatically but you should annotate it explicitly for public APIs.</p></div></div>
+
+<div class="question-card"><div class="q-header"><span class="q-number">24</span><div><span class="q-text">What is the <code>never</code> type and when does it occur?</span><span class="q-badge badge-advanced">Advanced</span><span class="priority-p2">P2</span></div></div><div class="q-section"><div class="q-section-title">Basic Answer</div><p><code>never</code> represents values that never occur. Functions that always throw or have infinite loops return <code>never</code>. It's also used in exhaustive type checking: if a switch statement covers all union members, the default case can assert the value is <code>never</code>. If a new union member is added but not handled, TypeScript flags it.</p></div></div>
+
+<div class="question-card"><div class="q-header"><span class="q-number">25</span><div><span class="q-text">What is <code>NonNullable&lt;T&gt;</code> and how does it prevent null reference errors?</span><span class="q-badge badge-intermediate">Intermediate</span><span class="priority-p2">P2</span></div></div><div class="q-section"><div class="q-section-title">Basic Answer</div><p><code>NonNullable&lt;T&gt;</code> removes <code>null</code> and <code>undefined</code> from T. <code>NonNullable&lt;string | null | undefined&gt;</code> becomes <code>string</code>. Use it to ensure optional values are present after runtime validation.</p></div></div>
+
+<div class="question-card"><div class="q-header"><span class="q-number">26</span><div><span class="q-text">How do decorators work in TypeScript? Give a Playwright-related use case.</span><span class="q-badge badge-expert">Expert</span><span class="priority-p2">P2</span></div></div><div class="q-section"><div class="q-section-title">Basic Answer</div><p>Decorators are functions that modify classes, methods, properties, or parameters. They use the <code>@expression</code> syntax and execute at design time. In Playwright, decorators can add logging, retry logic, or screenshot capture to page object methods declaratively.</p></div></div>
+
+<div class="question-card"><div class="q-header"><span class="q-number">27</span><div><span class="q-text">How do you create a type-safe configuration system for test environments?</span><span class="q-badge badge-advanced">Advanced</span><span class="priority-p2">P2</span></div></div><div class="q-section"><div class="q-section-title">Basic Answer</div><p>Use union types for environment names, intersection types for base+override configs, and utility types like <code>Partial</code> and <code>DeepPartial</code> for configuration merging. Use <code>as const</code> and <code>satisfies</code> for compile-time validation of configuration values.</p></div></div>
+
+</div>
+
+<!-- P3 Section -->
+<div class="section-divider"><h2>P3 — Valuable Context</h2><p>Less common but valuable for senior roles.</p></div>
+<div class="container">
+
+<div class="question-card"><div class="q-header"><span class="q-number">28</span><div><span class="q-text">What are indexed access types? How do they differ from <code>keyof</code>?</span><span class="q-badge badge-advanced">Advanced</span><span class="priority-p3">P3</span></div></div><div class="q-section"><div class="q-section-title">Basic Answer</div><p><code>keyof T</code> returns the union of all property keys of T. Indexed access <code>T[K]</code> returns the type of property at key K. Combined: <code>T[keyof T]</code> returns the union of all property value types.</p></div></div>
+
+<div class="question-card"><div class="q-header"><span class="q-number">29</span><div><span class="q-text">Explain <code>Parameters&lt;T&gt;</code> and <code>ReturnType&lt;T&gt;</code> utility types with examples.</span><span class="q-badge badge-advanced">Advanced</span><span class="priority-p3">P3</span></div></div><div class="q-section"><div class="q-section-title">Basic Answer</div><p><code>Parameters&lt;T&gt;</code> extracts function parameter types as a tuple. <code>ReturnType&lt;T&gt;</code> extracts the return type. Both use conditional types with <code>infer</code>. Useful for typing callback functions and wrapping third-party APIs.</p></div></div>
+
+<div class="question-card"><div class="q-header"><span class="q-number">30</span><div><span class="q-text">How does declaration merging work with interfaces?</span><span class="q-badge badge-advanced">Advanced</span><span class="priority-p3">P3</span></div></div><div class="q-section"><div class="q-section-title">Basic Answer</div><p>Interfaces with the same name in the same scope automatically merge their members. This is used for augmenting types from libraries (e.g., adding custom properties to Express Request). <code>type</code> aliases do not support declaration merging — they error on duplicate names.</p></div></div>
+
+<div class="question-card"><div class="q-header"><span class="q-number">31</span><div><span class="q-text">What is brand/nominal typing in TypeScript? How do you implement it?</span><span class="q-badge badge-expert">Expert</span><span class="priority-p3">P3</span></div></div><div class="q-section"><div class="q-section-title">Basic Answer</div><p>TypeScript uses structural typing (duck typing). Brand types add a phantom property to create nominal-like type safety: <code>type UserId = string & { readonly __brand: 'UserId' }</code>. This prevents mixing up IDs of different entities even though they're all strings.</p></div></div>
+
+<div class="question-card"><div class="q-header"><span class="q-number">32</span><div><span class="q-text">What are template literal types? Give a Playwright locator example.</span><span class="q-badge badge-advanced">Advanced</span><span class="priority-p3">P3</span></div></div><div class="q-section"><div class="q-section-title">Basic Answer</div><p>Template literal types create types by string manipulation: <code>type EventName = \`on\${Capitalize<string>}\`</code>. In Playwright, they can create type-safe dynamic locator patterns.</p></div>
+<div class="code-block">
+<span class="keyword">type</span> TestId&lt;T extends string&gt; = <span class="string">`data-testid="<span class="keyword">${</span>T<span class="keyword">}</span>"`</span>;
+<span class="keyword">type</span> UserTestId = TestId&lt;<span class="string">'user-name'</span> | <span class="string">'user-email'</span>&gt;;
+<span class="comment">// "data-testid=\"user-name\" | data-testid=\"user-email\""</span>
+</div></div>
+
+</div>
+
+<!-- Cheat Sheet -->
+<div class="container">
+<div class="cheat-sheet">
+  <h3>📋 TypeScript — One-Page Revision Cheat Sheet</h3>
+  <div class="cheat-grid">
+    <div class="cheat-item"><h4>Interface vs Type</h4><p>Interface: merging, extends, classes can implement<br>Type: unions, intersections, computed properties, more flexible</p></div>
+    <div class="cheat-item"><h4>Generics</h4><p><code>&lt;T extends Constraint&gt;</code><br>Used for: API responses, collections, type-safe utilities</p></div>
+    <div class="cheat-item"><h4>Utility Types</h4><p><code>Partial, Required, Pick, Omit, Record, Readonly, Exclude, Extract, NonNullable, ReturnType, Parameters</code></p></div>
+    <div class="cheat-item"><h4>Type Guards</h4><p><code>typeof, instanceof, in, discriminated unions, custom: x is Y</code></p></div>
+    <div class="cheat-item"><h4>Advanced</h4><p>Mapped types: <code>{ [K in keyof T]: T[K] }</code><br>Conditional: <code>T extends U ? X : Y</code><br>Infer: <code>extends ... infer R</code></p></div>
+    <div class="cheat-item"><h4>Playwright Patterns</h4><p>Generic API client, typed page objects, discriminated union test states, <code>satisfies</code> for configs</p></div>
+  </div>
+</div>
+
+<div class="end-section">
+  <h2>🎯 Most Frequently Asked</h2>
+  <p style="color: var(--text-secondary); line-height: 2;">
+    <strong>1.</strong> Interface vs Type — asked in every TypeScript interview<br>
+    <strong>2.</strong> Generics with API response typing — critical for Playwright framework design<br>
+    <strong>3.</strong> Utility types and mapped types — common in senior roles<br>
+    <strong>4.</strong> Discriminated unions and type narrowing — tests design thinking<br>
+    <strong>5.</strong> <code>any</code> vs <code>unknown</code> — gauges production code quality mindset
+  </p>
+</div>
+</div>
+
+</body>
+</html>
