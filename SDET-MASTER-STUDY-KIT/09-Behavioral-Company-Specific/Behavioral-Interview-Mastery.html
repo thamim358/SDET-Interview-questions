@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Behavioral Interview Mastery — SDET Study Kit</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/nebula.css">
+<style>
+  .cover-page::before {
+    background:
+      radial-gradient(circle at 30% 50%, rgba(251, 191, 36, 0.06) 0%, transparent 50%),
+      radial-gradient(circle at 70% 50%, rgba(248, 113, 113, 0.05) 0%, transparent 50%);
+  }
+  .cover-title { background: linear-gradient(135deg, #fbbf24 0%, #fb7185 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .cover-divider { background: linear-gradient(135deg, #fbbf24 0%, #fb7185 100%); }
+  .cover-meta-item .number { background: linear-gradient(135deg, #fbbf24 0%, #fb7185 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .section-divider h2 { background: linear-gradient(135deg, #fbbf24 0%, #fb7185 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .q-number { background: linear-gradient(135deg, #fbbf24 0%, #fb7185 100%); }
+  .q-section-title { color: var(--accent-amber); }
+  .q-section-title::before { background: var(--accent-amber); }
+</style>
+</head>
+<body>
+
+<div class="cover-page">
+  <div class="cover-badge">SDET Master Study Kit</div>
+  <h1 class="cover-title">Behavioral Interview Mastery</h1>
+  <div class="cover-divider"></div>
+  <p class="cover-subtitle">Company-Specific + Behavioral Questions — 20 High-Value Questions with STAR Answers & Stories</p>
+  <div class="cover-meta">
+    <div class="cover-meta-item"><span class="number">12</span><span class="label">P1 — Must Know</span></div>
+    <div class="cover-meta-item"><span class="number">5</span><span class="label">P2 — Commonly Asked</span></div>
+    <div class="cover-meta-item"><span class="number">3</span><span class="label">P3 — Valuable</span></div>
+  </div>
+  <p class="cover-description" style="margin-top:30px;max-width:600px;color:var(--text-secondary);position:relative;z-index:1;line-height:1.8">
+    Based on 2024-2026 FAANG and product company interview patterns. Every question includes STAR method answer,
+    sample response, and the interviewer's intent. Covers Amazon LPs, Google Googleyness, and general SDET scenarios.
+  </p>
+</div>
+
+<div class="section-divider"><h2>P1 — Frequently Asked Behavioral Questions</h2><p>These appear in nearly every SDET interview. Prepare STAR stories that are quantified and specific to test automation.</p></div>
+<div class="container">
+
+<div class="question-card">
+  <div class="q-header"><span class="q-number">1</span><div><span class="q-text">Tell me about yourself — structure your answer for a senior SDET role.</span><span class="q-badge badge-intermediate">Intermediate</span><span class="priority-p1">P1</span></div></div>
+  <div class="q-section"><div class="q-section-title">Basic Answer</div>      <p><strong>Structure:</strong> Past (background) → Present (current role & wins) → Future (why this role). Past: "I've spent 5+ years in test automation across e-commerce and FinTech." Present: "Currently leading Playwright framework design for a SaaS platform with 15k+ tests." Future: "Looking to bring my framework architecture experience to a larger scale." Keep it to 60-90 seconds. Focus on numbers — tests reduced from 4h to 30min, 95% flakiness reduction.</p></div>
+  <div class="q-section"><div class="q-section-title orange">Real Interview Answer</div>      <p>"I've been in test automation for 6 years, starting with Selenium/Java and moving to Playwright/TypeScript in the last 3 years. Currently I'm a Senior SDET at a FinTech startup where I built the whole automation framework from scratch — we run 15,000+ Playwright tests daily across 3 browsers with 99% reliability. This reduced our regression cycle from 2 days to 45 minutes. I'm looking for a chance to apply this at a larger scale and solve bigger infrastructure challenges."</p></div>
+  <div class="callout callout-tip"><strong>🎯 Interviewer's Intent</strong> They want to see if your background aligns with the role requirements. Structure it precisely — don't ramble. Quantify everything.</div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-number">2</span><div><span class="q-text">Describe a time you found a critical defect that saved the company from a production issue.</span><span class="q-badge badge-intermediate">Intermediate</span><span class="priority-p1">P1</span></div></div>
+  <div class="q-section"><div class="q-section-title">Basic Answer</div><p><strong>STAR Answer</strong>: <strong>S</strong> — E-commerce payment system being deployed. <strong>T</strong> — Regression took 6 hours, risking deployment delay. <strong>A</strong> — I created targeted API tests for the payment flow including edge cases for partial refunds over $1000. Found that these refunds failed silently. <strong>R</strong> — Bug was fixed before deployment, saving an estimated $50k/day in potential revenue loss. My targeted tests now run in CI and catch payment issues in under 5 minutes.</p></div>
+  <div class="q-section"><div class="q-section-title orange">Real Interview Answer</div>      <p>"During a payment system migration, I noticed the tests only covered happy paths. I spent a weekend writing 50 edge case tests for payments, focusing on partial refunds over $1000. The next Monday, my tests caught that refunds were silently failing — money left the customer's account but never reached the merchant. We fixed it before Wednesday's release. I learned that what you DON'T test is often more dangerous than what you DO."</p></div>
+  <div class="callout callout-warning"><strong>⚠️ Common Mistake</strong> Not quantifying the impact. Always include numbers — hours saved, money saved, % defect reduction. This is what separates senior answers from junior ones.</div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-number">3</span><div><span class="q-text">Describe a time your automation tests were flaky. How did you stabilize them?</span><span class="q-badge badge-intermediate">Intermediate</span><span class="priority-p1">P1</span></div></div>
+  <div class="q-section"><div class="q-section-title">Basic Answer</div><p><strong>STAR Answer</strong>: <strong>S</strong> — 30% of our 2000 Playwright tests were flaky. <strong>T</strong> — Team was losing trust in automation. <strong>A</strong> — I analyzed patterns: 60% were sync issues (replaced waitForTimeout with web-first assertions), 20% data conflicts (added data isolation), 20% environment issues (Docker resource limits). Implemented auto-quarantine for persistently flaky tests. <strong>R</strong> — Flakiness dropped to 3%. Team trust restored. Execution time reduced by 40% after removing unnecessary waits.</p></div>
+  <div class="q-section"><div class="q-section-title red">Follow-Up Questions</div><div class="follow-ups"><span class="follow-up-item">How did you convince the team to trust automation again?</span><span class="follow-up-item">What metrics did you track to measure flakiness improvement?</span></div></div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-number">4</span><div><span class="q-text">Describe a project where you designed and built an automation framework from scratch.</span><span class="q-badge badge-intermediate">Intermediate</span><span class="priority-p1">P1</span></div></div>
+  <div class="q-section"><div class="q-section-title">Basic Answer</div><p><strong>STAR Answer</strong>: <strong>S</strong> — New microservices product with zero test automation. <strong>T</strong> — Needed scalable framework in 4 weeks. <strong>A</strong> — Designed Playwright framework with page objects, API services, fixtures, CI/CD. TypeScript configs. storageState auth, parallel execution, Docker packaging. <strong>R</strong> — 500+ tests in first month. 95% coverage on critical paths. Cut regression from 2 days to 45 minutes. Framework adopted by 3 teams.</p></div>
+  <div class="q-section"><div class="q-section-title orange">Real Interview Answer</div><p>"When I joined, there was no test automation. The team was doing 2-day manual regression before each release. I proposed a Playwright-based framework with a 2-week proof of concept. After approval, I built the framework with page objects, API service layer, and fixture-based dependency injection. I set up CI/CD with GitHub Actions, parallel sharding, and Docker. Within 4 weeks we had 200 tests running. By month 2, we had 500 tests and regression dropped to 45 minutes. The key was designing the framework to be extensible from day one."</p></div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-number">5</span><div><span class="q-text">How would you test Amazon's shopping cart and checkout flow end to end?</span><span class="q-badge badge-advanced">Advanced</span><span class="priority-p1">P1</span></div></div>
+  <div class="q-section"><div class="q-section-title">Basic Answer</div><p>Test areas: (1) <strong>Add to cart</strong> — single item, multiple items, same item twice, from different pages. (2) <strong>Cart operations</strong> — update quantity, remove, save for later, add from saved items. (3) <strong>Cart persistence</strong> — across sessions, across devices (when logged in). (4) <strong>Checkout</strong> — guest vs logged-in, payment methods, coupons, gift cards. (5) <strong>Edge cases</strong> — out-of-stock during checkout, price changes, shipping validation. (6) <strong>Multi-tenant</strong> — different countries, currencies.</p></div>
+  <div class="q-section"><div class="q-section-title green">Detailed Answer</div><p><strong>Strategy by phase</strong>: Unit/integration tests for cart service logic. API tests for cart endpoints (add, update, delete, apply coupon). UI tests for critical user journeys (add to cart → checkout → payment confirmation). Contract tests for payment gateway integration. Performance tests for checkout under load (target: < 2s p95). Security tests for payment data handling (no CC in logs). <strong>Key test scenario</strong>: user adds item, closes browser, reopens — item should still be in cart (persistence). <strong>Edge case</strong>: item goes out of stock during checkout — should show appropriate error.</p></div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-number">6</span><div><span class="q-text">How would you test Google Search?</span><span class="q-badge badge-advanced">Advanced</span><span class="priority-p1">P1</span></div></div>
+  <div class="q-section"><div class="q-section-title">Basic Answer</div><p>Test categories: (1) <strong>Functional</strong> — basic search, autocomplete, suggestions, pagination, filters (images, news, videos). (2) <strong>Performance</strong> — response time < 100ms, load handling. (3) <strong>Relevance</strong> — top results match query intent, no spam. (4) <strong>Internationalization</strong> — 150+ languages, RTL, local results. (5) <strong>Special features</strong> — voice search, image search, "I'm Feeling Lucky". (6) <strong>Edge cases</strong> — empty query, special characters, very long queries, profanity. Automation: API tests for search backend, UI tests for rendering, A/B tests for result quality.</p></div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-number">7</span><div><span class="q-text">Tell me about a time you had to balance quality with delivery speed.</span><span class="q-badge badge-intermediate">Intermediate</span><span class="priority-p1">P1</span></div></div>
+  <div class="q-section"><div class="q-section-title">Basic Answer</div><p><strong>STAR Answer</strong>: <strong>S</strong> — Critical product launch with aggressive 2-week deadline. <strong>T</strong> — Full regression wasn't feasible. <strong>A</strong> — I used risk-based testing: identified critical paths (payment, login, checkout) and said "we MUST test these fully." Medium-risk paths got smoke tests. Low-risk paths got monitoring-only. Communicated the risk trade-off to stakeholders clearly. <strong>R</strong> — Launched on time. Zero critical defects. 3 minor issues (low risk) found post-launch and fixed in first patch. Stakeholders appreciated the transparency.</p></div>
+  <div class="callout callout-tip"><strong>💡 Insight</strong> The key is showing you can make data-driven risk decisions AND communicate them clearly. Never say "we had to skip testing." Say "we prioritized testing based on risk analysis."</div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-number">8</span><div><span class="q-text">Describe a time you had a disagreement with a developer or product manager about testing.</span><span class="q-badge badge-intermediate">Intermediate</span><span class="priority-p1">P1</span></div></div>
+  <div class="q-section"><div class="q-section-title">Basic Answer</div><p><strong>STAR Answer</strong>: <strong>S</strong> — Developer wanted to skip testing for a "minor UI change." <strong>T</strong> — I knew the change touched the payment confirmation page. <strong>A</strong> — Instead of saying "we must test," I showed data: the same component had 3 regression bugs last quarter. I proposed a compromise: automated smoke tests for the change (5 min), plus manual exploratory testing for edge cases (30 min). <strong>R</strong> — The smoke test caught a layout issue on mobile. Developer agreed the compromise was worth it. We established a testing checklist for future "minor changes."</p></div>
+  <div class="callout callout-warning"><strong>⚠️ Amazon LP</strong> This maps directly to "Have Backbone; Disagree and Commit." Show you can disagree professionally, back it with data, and commit once a decision is made.</div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-number">9</span><div><span class="q-text">Describe a time a severe bug reached production. How was it handled?</span><span class="q-badge badge-intermediate">Intermediate</span><span class="priority-p1">P1</span></div></div>
+  <div class="q-section"><div class="q-section-title">Basic Answer</div><p><strong>STAR Answer</strong>: <strong>S</strong> — A silent checkout failure reached production. Orders were created but payments weren't processed. <strong>T</strong> — Need to fix, recover data, and prevent recurrence. <strong>A</strong> — I immediately investigated root cause: the payment gateway response wasn't being validated. Created a hotfix. Ran scripts to identify affected orders (47 customers, $12k total). Wrote a blameless post-mortem. Added integration tests, monitoring alerts, and a CI gate for payment API contract changes. <strong>R</strong> — All 47 customers were refunded/notified. Same bug never recurred. Post-mortem led to quarterly contract testing reviews.</p></div>
+  <div class="callout callout-tip"><strong>💡 Key Principle</strong> Never blame people in your answer — focus on broken processes, lack of communication, or technical gaps that allowed the bug to escape.</div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-number">10</span><div><span class="q-text">How do you mentor junior QA engineers and help them grow?</span><span class="q-badge badge-intermediate">Intermediate</span><span class="priority-p1">P1</span></div></div>
+  <div class="q-section"><div class="q-section-title">Basic Answer</div><p><strong>STAR Answer</strong>: <strong>S</strong> — Two junior engineers joined lacking automation skills. <strong>T</strong> — Need to upskill them while maintaining delivery. <strong>A</strong> — Created a structured onboarding program: week 1 (shadowing + reading framework code), week 2 (pair programming on simple tests), week 3 (owning small features with code review), week 4 (independent contribution). Scheduled weekly 1:1s for questions. Created a "QA Playbook" document covering framework patterns. <strong>R</strong> — Both were independently contributing within 4 weeks. One later became a framework owner. The QA Playbook is used for all new hires.</p></div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-number">11</span><div><span class="q-text">Tell me about a project that failed or didn't meet goals. What did you learn?</span><span class="q-badge badge-intermediate">Intermediate</span><span class="priority-p1">P1</span></div></div>
+  <div class="q-section"><div class="q-section-title">Basic Answer</div><p><strong>STAR Answer</strong>: <strong>S</strong> — We attempted to automate 100% of regression tests in 3 months. <strong>T</strong> — Overambitious timeline. <strong>A</strong> — After 2 months, we had 60% coverage but test quality was poor (flakiness, poor locators). I paused, gathered data, and recommended a more realistic 80% target with quality gates. Pivot to a phased approach: critical paths first (4 weeks), then high-traffic features (6 weeks), then remaining (ongoing). <strong>R</strong> — Achieved 85% coverage in 5 months (better than the rushed 100% target). Test quality score improved from 6/10 to 9/10. Learned that test quality > test quantity.</p></div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-number">12</span><div><span class="q-text">How do you stay current with testing tools and industry trends?</span><span class="q-badge badge-beginner">Beginner</span><span class="priority-p1">P1</span></div></div>
+  <div class="q-section"><div class="q-section-title">Basic Answer</div><p>"I follow several strategies: (1) I run a small side project to evaluate new tools — currently exploring AI testing with LangSmith. (2) I follow Ministry of Testing, LinkedIn QA communities, and GitHub trending repos. (3) I attend 2-3 testing conferences per year (onsite or virtual). (4) I read post-mortems from major companies to understand how testing failures happen at scale. (5) I block 2 hours every Friday for learning — reading source code of frameworks I use, trying new patterns, or contributing to open-source testing tools."</p></div>
+  <div class="callout callout-tip"><strong>💡 Senior-Level Answer</strong> Juniors say "I read blogs." Seniors say "I evaluate tools through POCs, contribute to open source, and apply learnings to my current framework."</div>
+</div>
+
+</div>
+
+<div class="section-divider"><h2>P2 — Commonly Asked Questions</h2></div>
+<div class="container">
+
+<div class="question-card"><div class="q-header"><span class="q-number">13</span><div><span class="q-text">How would you test a Payment API end to end (status, schema, security, performance)?</span><span class="q-badge badge-advanced">Advanced</span><span class="priority-p2">P2</span></div></div><div class="q-section"><div class="q-section-title">Basic Answer</div><p>Test aspects: (1) <strong>Functional</strong> — successful payment, declined card, insufficient funds, expired card, 3D Secure. (2) <strong>Idempotency</strong> — retrying with same idempotency key doesn't charge twice. (3) <strong>Schema validation</strong> — response structure matches contract. (4) <strong>Security</strong> — no CC numbers in logs, tokenization, encryption. (5) <strong>Performance</strong> — p95 response time < 500ms, concurrent payment throughput. (6) <strong>Error handling</strong> — gateway timeout, network failure, invalid payload. Use contract testing (Pact) to catch API changes early.</p></div></div>
+
+<div class="question-card"><div class="q-header"><span class="q-number">14</span><div><span class="q-text">How do you handle a release blocker defect? Walk through your process.</span><span class="q-badge badge-intermediate">Intermediate</span><span class="priority-p2">P2</span></div></div><div class="q-section"><div class="q-section-title">Basic Answer</div><p>Process: (1) <strong>Assess</strong> — is it truly a blocker or can be worked around? (2) <strong>Communicate</strong> — notify team, product, stakeholders with impact analysis. (3) <strong>Investigate</strong> — root cause, reproduction steps, affected areas. (4) <strong>Decision</strong> — fix now (if low risk), rollback (if high impact), proceed with known issue (if workaround exists). (5) <strong>Fix verification</strong> — targeted tests, then regression of affected area. (6) <strong>Post-mortem</strong> — how did it escape? Update test coverage, add CI gate. Key: keep stakeholders informed at every step with clear impact data.</p></div></div>
+
+<div class="question-card"><div class="q-header"><span class="q-number">15</span><div><span class="q-text">How would you improve test coverage for a legacy codebase with no existing tests?</span><span class="q-badge badge-advanced">Advanced</span><span class="priority-p2">P2</span></div></div><div class="q-section"><div class="q-section-title">Basic Answer</div><p>Phased approach: <strong>Phase 1 (Characterization tests)</strong> — write tests that capture current behavior (even if buggy). This creates a safety net for refactoring. <strong>Phase 2 (Critical paths)</strong> — identify top 20% of features by business impact and write tests. <strong>Phase 3 (Integration tests)</strong> — add tests for APIs and database layers. <strong>Phase 4 (UI tests)</strong> — add Playwright tests for most-used user journeys. Always prioritize based on risk and business impact. Legacy code often requires refactoring for testability — extract pure functions from side-effect-heavy code.</p></div></div>
+
+</div>
+
+<div class="section-divider"><h2>P3 — Valuable Context</h2></div>
+<div class="container">
+
+<div class="question-card"><div class="q-header"><span class="q-number">16</span><div><span class="q-text">How would you build a QA Center of Excellence (CoE) for an enterprise?</span><span class="q-badge badge-expert">Expert</span><span class="priority-p3">P3</span></div></div><div class="q-section"><div class="q-section-title">Basic Answer</div><p>CoE pillars: (1) <strong>Standards & Governance</strong> — coding standards, framework templates, review processes, accessibility guidelines. (2) <strong>Shared Tools</strong> — core test library, CI/CD templates, reporting dashboard. (3) <strong>Training & Certification</strong> — onboarding programs, certification paths, lunch-and-learns, mentoring. (4) <strong>Metrics & OKRs</strong> — automation coverage %, defect escape rate, flakiness trend, execution time, team velocity. (5) <strong>Innovation</strong> — evaluate new tools, pilot AI testing, run POCs. Phase 1 (3 months): standards + shared library. Phase 2 (6 months): training + metrics. Phase 3 (ongoing): innovation loop.</p></div></div>
+
+<div class="question-card"><div class="q-header"><span class="q-number">17</span><div><span class="q-text">How do you evaluate a new test automation tool for your team?</span><span class="q-badge badge-advanced">Advanced</span><span class="priority-p3">P3</span></div></div><div class="q-section"><div class="q-section-title">Basic Answer</div><p>Evaluation framework: (1) <strong>Define criteria</strong> — features, language support, CI integration, reporting, community size, licensing cost, learning curve. (2) <strong>Weight criteria</strong> — rank by team priorities (e.g., cross-browser support might be 30%, CI integration 20%). (3) <strong>POC</strong> — build a small but realistic proof-of-concept (5-10 tests covering real workflows). (4) <strong>Score</strong> — each team member independently scores each tool against criteria. (5) <strong>Decision</strong> — review scores, discuss trade-offs, decide. Include migration cost and timeline in the analysis. Always involve developers in the evaluation — they'll collaborate on test maintenance.</p></div></div>
+
+</div>
+
+<div class="container">
+<div class="cheat-sheet">
+  <h3>📋 Behavioral — One-Page STAR Story Builder</h3>
+  <div class="cheat-grid">
+    <div class="cheat-item"><h4>Defect Detection</h4><p>S: Critical feature being deployed<br>T: Find bugs before release<br>A: Created targeted edge case tests<br>R: Caught bug, saved $X</p></div>
+    <div class="cheat-item"><h4>Framework Design</h4><p>S: No automation existing<br>T: Build scalable framework<br>A: Designed Playwright + CI/CD + Docker<br>R: 500+ tests, regression 2h → 30min</p></div>
+    <div class="cheat-item"><h4>Conflict Resolution</h4><p>S: Dev wanted to skip testing<br>T: Balance speed vs quality<br>A: Showed data, proposed compromise<br>R: Bug caught, process improved</p></div>
+    <div class="cheat-item"><h4>Production Incident</h4><p>S: Bug reached production<br>T: Fix + prevent recurrence<br>A: Hotfix, post-mortem, CI gates<br>R: Same bug never recurred</p></div>
+    <div class="cheat-item"><h4>Amazon LPs to Prepare</h4><p>Customer Obsession, Dive Deep, Invent & Simplify, Insist on Highest Standards, Have Backbone, Deliver Results, Ownership</p></div>
+    <div class="cheat-item"><h4>Failures & Learning</h4><p>S: Overambitious automation goal<br>T: Realistic target needed<br>A: Pivoted to phased approach<br>R: Better quality, on time</p></div>
+  </div>
+</div>
+
+<div class="end-section">
+  <h2>🎯 Prep Checklist</h2>
+  <p style="color:var(--text-secondary);line-height:2">
+    <strong>1.</strong> Prepare 7-8 STAR stories covering: defect detection, framework design, leadership, conflict, failure, mentoring, and innovation.<br>
+    <strong>2.</strong> Quantify EVERY result — hours saved, money saved, % improvement, time reduced.<br>
+    <strong>3.</strong> For Amazon: map each story to 2-3 Leadership Principles.<br>
+    <strong>4.</strong> For Google: prepare stories showing comfort with ambiguity and collaboration.<br>
+    <strong>5.</strong> Practice the "Tell me about yourself" opening — 60-90 seconds, past-present-future structure.<br>
+    <strong>6.</strong> When discussing failures, never blame others — focus on process gaps and what you learned.
+  </p>
+</div>
+</div>
+
+</body>
+</html>

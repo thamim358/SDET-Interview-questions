@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SQL + Database Interview Mastery — SDET Study Kit</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/nebula.css">
+<style>
+  /* SQL-specific overrides */
+  .cover-page::before {
+    background:
+      radial-gradient(circle at 30% 50%, rgba(251, 191, 36, 0.06) 0%, transparent 50%),
+      radial-gradient(circle at 70% 50%, rgba(251, 114, 133, 0.05) 0%, transparent 50%);
+  }
+  .cover-title { background: var(--gradient-warm); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .cover-divider { background: var(--gradient-warm); }
+  .cover-meta-item .number { background: var(--gradient-warm); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .section-divider h2 { background: var(--gradient-warm); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .q-number { background: var(--gradient-warm); }
+</style></head>
+<body>
+
+<div class="cover-page">
+  <div class="cover-badge">SDET Master Study Kit</div>
+  <h1 class="cover-title">SQL + Database Interview Mastery</h1>
+  <div class="cover-divider"></div>
+  <p class="cover-subtitle">38 High-Value Questions for Data Validation & Database Testing Interviews</p>
+  <div class="cover-meta">
+    <div class="cover-meta-item"><span class="number">15</span><span class="label">P1 — Must Know</span></div>
+    <div class="cover-meta-item"><span class="number">19</span><span class="label">P2 — Commonly Asked</span></div>
+    <div class="cover-meta-item"><span class="number">4</span><span class="label">P3 — Expert</span></div>
+  </div>
+</div>
+
+<div class="section-divider"><h2>P1 — Frequently Asked Questions</h2><p>Must-know SQL queries and database concepts for SDET interviews.</p></div>
+<div class="container">
+
+<div class="question-card">
+  <div class="q-header"><span class="q-number">1</span><div><span class="q-text">Write a query to find the second highest salary from an employee table (multiple approaches).</span><span class="q-badge badge-intermediate">Intermediate</span><span class="priority-p1">P1</span></div></div>
+  <div class="q-section"><div class="q-section-title">Basic Answer</div>      <p>Three ways to do it: (1) <strong>Subquery with MAX:</strong> <code>SELECT MAX(salary) FROM employees WHERE salary &lt; (SELECT MAX(salary) FROM employees)</code>. (2) <strong>LIMIT/OFFSET:</strong> <code>SELECT DISTINCT salary FROM employees ORDER BY salary DESC LIMIT 1 OFFSET 1</code>. (3) <strong>Window function:</strong> <code>SELECT DISTINCT salary FROM (SELECT salary, DENSE_RANK() OVER (ORDER BY salary DESC) as rnk FROM employees) WHERE rnk = 2</code>.</p></div>
+  <div class="callout callout-tip"><strong>Tip</strong> Showing multiple approaches scores points. The window function method is best for Nth highest salary.</div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-number">2</span><div><span class="q-text">Write a query to find and delete duplicate records while keeping one occurrence.</span><span class="q-badge badge-intermediate">Intermediate</span><span class="priority-p1">P1</span></div></div>
+  <div class="q-section"><div class="q-section-title">Basic Answer</div>      <p><strong>Find duplicates:</strong> <code>SELECT email, COUNT(*) FROM users GROUP BY email HAVING COUNT(*) &gt; 1</code>. <strong>Delete duplicates (keep first one):</strong> <code>DELETE FROM users WHERE id NOT IN (SELECT MIN(id) FROM users GROUP BY email)</code>. Or use <code>ROW_NUMBER()</code>: <code>DELETE FROM (SELECT *, ROW_NUMBER() OVER (PARTITION BY email ORDER BY id) as rn FROM users) WHERE rn &gt; 1</code>.</p></div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-number">3</span><div><span class="q-text">Explain INNER JOIN, LEFT JOIN, RIGHT JOIN, FULL OUTER JOIN, and SELF JOIN with examples.</span><span class="q-badge badge-intermediate">Intermediate</span><span class="priority-p1">P1</span></div></div>
+  <div class="q-section"><div class="q-section-title">Basic Answer</div>      <p><strong>INNER JOIN:</strong> Only matching rows from both tables. <strong>LEFT JOIN:</strong> All rows from left, matching rows from right (NULL if no match). <strong>RIGHT JOIN:</strong> Opposite of LEFT. <strong>FULL OUTER JOIN:</strong> All rows from both (NULL where no match). <strong>SELF JOIN:</strong> Joining a table to itself. Most common in SDET interviews: INNER JOIN and LEFT JOIN.</p></div>
+  <div class="code-block">
+<span class="comment">-- SELF JOIN: Employees earning more than their manager</span>
+<span class="keyword">SELECT</span> e1.name <span class="keyword">AS</span> employee, e1.salary, e2.name <span class="keyword">AS</span> manager
+<span class="keyword">FROM</span> employees e1
+<span class="keyword">INNER JOIN</span> employees e2 <span class="keyword">ON</span> e1.manager_id = e2.id
+<span class="keyword">WHERE</span> e1.salary > e2.salary;
+</div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-number">4</span><div><span class="q-text">What is the difference between WHERE and HAVING? When would you use each?</span><span class="q-badge badge-beginner">Beginner</span><span class="priority-p1">P1</span></div></div>
+  <div class="q-section"><div class="q-section-title">Basic Answer</div>      <p><code>WHERE</code> filters rows BEFORE grouping. <code>HAVING</code> filters groups AFTER grouping. <code>WHERE</code> can't use aggregate functions (like COUNT, AVG). <code>HAVING</code> can. Order: WHERE → GROUP BY → HAVING → ORDER BY. Example: <code>SELECT department, AVG(salary) FROM employees WHERE salary IS NOT NULL GROUP BY department HAVING AVG(salary) > 50000</code>.</p></div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-number">5</span><div><span class="q-text">Write a query using window functions: ROW_NUMBER(), RANK(), DENSE_RANK(), and NTILE().</span><span class="q-badge badge-advanced">Advanced</span><span class="priority-p1">P1</span></div></div>
+  <div class="q-section"><div class="q-section-title">Basic Answer</div>      <p><code>ROW_NUMBER()</code> — unique number for each row (ties get different numbers). <code>RANK()</code> — same number for ties, but skips numbers after. <code>DENSE_RANK()</code> — same number for ties, no skipping. <code>NTILE(n)</code> — divides rows into n equal groups. All used with <code>OVER (PARTITION BY col ORDER BY col)</code>.</p></div>
+  <div class="code-block">
+<span class="comment">-- Top 3 salaries per department</span>
+<span class="keyword">SELECT</span> department, name, salary, <span class="function">DENSE_RANK</span>() OVER (PARTITION BY department ORDER BY salary DESC) as rnk
+<span class="keyword">FROM</span> employees
+<span class="keyword">QUALIFY</span> rnk <= 3;  <span class="comment">-- QUALIFY filters window function results (Snowflake/Presto)</span>
+<span class="comment">-- Alternative: Use subquery: SELECT * FROM (...) WHERE rnk <= 3</span>
+</div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-number">6</span><div><span class="q-text">Write a query using LEAD() and LAG() to find month-over-month growth.</span><span class="q-badge badge-advanced">Advanced</span><span class="priority-p1">P1</span></div></div>
+  <div class="q-section"><div class="q-section-title">Basic Answer</div>      <p><code>LAG()</code> gets the previous row's value. <code>LEAD()</code> gets the next row's value. Both need <code>OVER (ORDER BY col)</code>. For month-over-month growth: <code>SELECT month, revenue, LAG(revenue) OVER (ORDER BY month) as prev_month, ROUND((revenue - LAG(revenue) OVER (ORDER BY month)) / LAG(revenue) OVER (ORDER BY month) * 100, 2) as growth_pct FROM monthly_revenue</code>.</p></div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-number">7</span><div><span class="q-text">Write a correlated subquery. How does it differ from a regular subquery?</span><span class="q-badge badge-advanced">Advanced</span><span class="priority-p1">P1</span></div></div>
+  <div class="q-section"><div class="q-section-title">Basic Answer</div>      <p>A <strong>correlated subquery</strong> references the outer query and runs once for EACH row. A <strong>regular subquery</strong> runs once and reuses the result. Correlated subqueries are slower but more powerful. Example: find employees earning more than their department's average: <code>SELECT e1.name, e1.salary FROM employees e1 WHERE e1.salary > (SELECT AVG(e2.salary) FROM employees e2 WHERE e2.department = e1.department)</code>.</p></div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-number">8</span><div><span class="q-text">Find customers with no orders using multiple approaches.</span><span class="q-badge badge-intermediate">Intermediate</span><span class="priority-p1">P1</span></div></div>
+  <div class="q-section"><div class="q-section-title">Basic Answer</div>      <p><strong>LEFT JOIN:</strong> <code>SELECT c.* FROM customers c LEFT JOIN orders o ON c.id = o.customer_id WHERE o.id IS NULL</code>. <strong>NOT EXISTS:</strong> <code>SELECT * FROM customers c WHERE NOT EXISTS (SELECT 1 FROM orders o WHERE o.customer_id = c.id)</code>. <strong>NOT IN:</strong> <code>SELECT * FROM customers WHERE id NOT IN (SELECT customer_id FROM orders)</code> (be careful with NULLs). NOT EXISTS is usually fastest.</p></div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-number">9</span><div><span class="q-text">Write a recursive CTE (Common Table Expression) for hierarchical data like an org chart.</span><span class="q-badge badge-expert">Expert</span><span class="priority-p1">P1</span></div></div>
+  <div class="q-section"><div class="q-section-title">Basic Answer</div>      <p>A recursive CTE has two parts: (1) <strong>Anchor</strong> — the starting query. (2) <strong>Recursive member</strong> — references itself with UNION ALL. Example: find all employees and their levels in an org chart: <code>WITH RECURSIVE org_chart AS (SELECT id, name, manager_id, 1 as level FROM employees WHERE manager_id IS NULL UNION ALL SELECT e.id, e.name, e.manager_id, oc.level + 1 FROM employees e INNER JOIN org_chart oc ON e.manager_id = oc.id) SELECT * FROM org_chart ORDER BY level, name</code>.</p></div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-number">10</span><div><span class="q-text">What is the difference between clustered and non-clustered indexes?</span><span class="q-badge badge-advanced">Advanced</span><span class="priority-p1">P1</span></div></div>
+  <div class="q-section"><div class="q-section-title">Basic Answer</div>      <p><strong>Clustered index:</strong> Determines the physical order of data on disk. Each table can have only ONE. Faster for sorting and range queries. <strong>Non-clustered index:</strong> A separate structure that stores the index key + pointer to the data row. Faster for lookups that don't need all columns. <strong>Index seek</strong> (finding specific rows) is faster than <strong>index scan</strong> (reading all rows). Use clustered index for primary keys.</p></div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-number">11</span><div><span class="q-text">Explain the ACID properties of database transactions.</span><span class="q-badge badge-intermediate">Intermediate</span><span class="priority-p1">P1</span></div></div>
+  <div class="q-section"><div class="q-section-title">Basic Answer</div>      <p><strong>Atomicity:</strong> All or nothing — the transaction either fully completes or fully rolls back. <strong>Consistency:</strong> Data stays valid — all rules and constraints are followed. <strong>Isolation:</strong> Concurrent transactions don't mess with each other. <strong>Durability:</strong> Once committed, data stays safe even if the system crashes. In test automation, ACID ensures test data is either completely set up or completely rolled back.</p></div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-number">12</span><div><span class="q-text">What is the difference between DELETE, TRUNCATE, and DROP?</span><span class="q-badge badge-beginner">Beginner</span><span class="priority-p1">P1</span></div></div>
+  <div class="q-section"><div class="q-section-title">Basic Answer</div>      <p><strong>DELETE:</strong> Removes rows one by one (slow), can use WHERE, triggers fire, can be rolled back. <strong>TRUNCATE:</strong> Removes ALL rows instantly (fast), can't use WHERE, resets auto-increment, harder to roll back. <strong>DROP:</strong> Removes the entire table (structure + data). In test automation, use TRUNCATE for fast cleanup between test suites.</p></div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-number">13</span><div><span class="q-text">Explain primary key, foreign key, unique key, and composite key differences.</span><span class="q-badge badge-beginner">Beginner</span><span class="priority-p1">P1</span></div></div>
+  <div class="q-section"><div class="q-section-title">Basic Answer</div>      <p><strong>Primary Key:</strong> Unique ID for each row, can't be NULL, one per table. <strong>Foreign Key:</strong> Links to a primary key in another table, keeps data consistent. <strong>Unique Key:</strong> Ensures all values are different, allows one NULL. <strong>Composite Key:</strong> Primary key made of multiple columns. Foreign keys can cascade (auto-update or auto-delete related rows).</p></div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-number">14</span><div><span class="q-text">How do you validate data between an API response and a database in test automation?</span><span class="q-badge badge-advanced">Advanced</span><span class="priority-p1">P1</span></div></div>
+  <div class="q-section"><div class="q-section-title">Basic Answer</div>      <p>To validate API vs DB data: (1) Query DB to get expected data. (2) Call API to get actual response. (3) Compare them. Use parameterized queries to prevent SQL injection. Handle type differences (SQL types vs JSON types). For timestamps, allow a small tolerance. For large datasets, compare counts or checksums instead of every row. Example: <code>const dbData = await db.query('SELECT * FROM users WHERE id = ?', [userId]); const apiData = await api.getUser(userId); expect(apiData).toMatchObject(dbData)</code>.</p></div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-number">15</span><div><span class="q-text">What is database normalization? Explain 1NF, 2NF, and 3NF with examples.</span><span class="q-badge badge-intermediate">Intermediate</span><span class="priority-p1">P1</span></div></div>
+  <div class="q-section"><div class="q-section-title">Basic Answer</div>      <p><strong>1NF:</strong> Each cell has one value only (no lists). <strong>2NF:</strong> Already in 1NF, plus every non-key column depends on ALL of the primary key (not just part of it). <strong>3NF:</strong> Already in 2NF, plus no non-key column depends on another non-key column (only on the key). Normalization reduces duplicate data. But denormalization can make reading faster for analytics.</p></div>
+</div>
+
+</div>
+
+<div class="section-divider"><h2>P2 — Commonly Asked Questions</h2><p>Beginner-level SQL queries frequently asked in technical screens.</p></div>
+<div class="container">
+
+<!-- Q16 -- NEW BEGINNER -->
+<div class="question-card">
+  <div class="q-header"><span class="q-number">16</span><div><span class="q-text">Write a basic SELECT query with a WHERE clause. How do you filter records?</span><span class="q-badge badge-beginner">Beginner</span><span class="priority-p2">P2</span></div></div>
+  <div class="q-section"><div class="q-section-title">Basic Answer</div>      <p><code>SELECT * FROM employees WHERE status = 'Active'</code>. The <code>WHERE</code> clause filters rows using comparison operators (<code>=</code>, <code>&lt;&gt;</code>, <code>&gt;</code>, <code>&lt;</code>, <code>&gt;=</code>, <code>&lt;=</code>). Use <code>AND</code>/<code>OR</code> to combine conditions. In test automation, SELECT with WHERE verifies specific records created by a test.</p></div>
+  <div class="code-block">
+<span class="keyword">SELECT</span> id, name, email, status
+<span class="keyword">FROM</span> users
+<span class="keyword">WHERE</span> status = <span class="string">'ACTIVE'</span>
+  <span class="keyword">AND</span> created_at >= <span class="string">'2024-01-01'</span>;
+    </div>
+</div>
+
+<!-- Q17 -- NEW BEGINNER -->
+<div class="question-card">
+  <div class="q-header"><span class="q-number">17</span><div><span class="q-text">How does ORDER BY work with ASC and DESC? How do LIMIT/OFFSET work for pagination?</span><span class="q-badge badge-beginner">Beginner</span><span class="priority-p2">P2</span></div></div>
+  <div class="q-section"><div class="q-section-title">Basic Answer</div>      <p><code>ORDER BY col ASC</code> sorts ascending (default), <code>DESC</code> sorts descending. Sort by multiple columns: <code>ORDER BY department ASC, salary DESC</code>. <code>LIMIT n</code> returns only n rows. <code>OFFSET m</code> skips m rows. <code>LIMIT 10 OFFSET 20</code> returns rows 21-30 (pagination). In tests: ORDER BY verifies sorting, LIMIT/OFFSET helps sample data from large tables.</p></div>
+</div>
+
+<!-- Q18 -- NEW BEGINNER -->
+<div class="question-card">
+  <div class="q-header"><span class="q-number">18</span><div><span class="q-text">Write a query using COUNT, SUM, AVG, MIN, MAX aggregate functions.</span><span class="q-badge badge-beginner">Beginner</span><span class="priority-p2">P2</span></div></div>
+  <div class="q-section"><div class="q-section-title">Basic Answer</div>      <p><code>COUNT(*)</code> — counts all rows. <code>COUNT(col)</code> — counts non-NULL values. <code>SUM()</code> — adds up numbers. <code>AVG()</code> — average. <code>MIN()</code> and <code>MAX()</code> — smallest/largest values. Aggregate functions ignore NULLs (except <code>COUNT(*)</code>). Use for data validation in test reports.</p></div>
+  <div class="code-block">
+<span class="keyword">SELECT</span>
+  <span class="function">COUNT</span>(*) <span class="keyword">AS</span> total_orders,
+  <span class="function">SUM</span>(amount) <span class="keyword">AS</span> total_revenue,
+  <span class="function">AVG</span>(amount) <span class="keyword">AS</span> avg_order_value,
+  <span class="function">MIN</span>(amount) <span class="keyword">AS</span> smallest_order,
+  <span class="function">MAX</span>(amount) <span class="keyword">AS</span> largest_order
+<span class="keyword">FROM</span> orders
+<span class="keyword">WHERE</span> created_at >= <span class="string">'2024-01-01'</span>;
+    </div>
+</div>
+
+<!-- Q19 -- NEW BEGINNER -->
+<div class="question-card">
+  <div class="q-header"><span class="q-number">19</span><div><span class="q-text">How does GROUP BY work? Write a query to count employees per department.</span><span class="q-badge badge-beginner">Beginner</span><span class="priority-p2">P2</span></div></div>
+  <div class="q-section"><div class="q-section-title">Basic Answer</div>      <p><code>GROUP BY</code> groups rows that share the same value, then applies aggregate functions (COUNT, SUM, AVG) to each group. Every column in SELECT must be in GROUP BY or in an aggregate function. Use <code>HAVING</code> to filter groups (like WHERE but for groups).</p></div>
+  <div class="code-block">
+<span class="keyword">SELECT</span> department, <span class="function">COUNT</span>(*) <span class="keyword">AS</span> employee_count
+<span class="keyword">FROM</span> employees
+<span class="keyword">GROUP BY</span> department
+<span class="keyword">HAVING</span> <span class="function">COUNT</span>(*) > <span class="number">5</span>  <span class="comment">-- Only departments with more than 5 employees</span>
+<span class="keyword">ORDER BY</span> employee_count <span class="keyword">DESC</span>;
+    </div>
+</div>
+
+<!-- Q20 -- NEW BEGINNER -->
+<div class="question-card">
+  <div class="q-header"><span class="q-number">20</span><div><span class="q-text">How do the BETWEEN, IN, and LIKE operators work? Give SDET examples.</span><span class="q-badge badge-beginner">Beginner</span><span class="priority-p2">P2</span></div></div>
+  <div class="q-section"><div class="q-section-title">Basic Answer</div>      <p><code>BETWEEN</code> — checks a range (inclusive): <code>salary BETWEEN 50000 AND 100000</code>. <code>IN</code> — checks against a list: <code>status IN ('Active', 'Pending')</code>. <code>LIKE</code> — pattern matching: <code>%</code> matches any characters, <code>_</code> matches one character. <code>LIKE 'john%'</code> finds names starting with 'john'. In tests, LIKE helps verify partial text matches in database records.</p></div>
+</div>
+
+<!-- Q21 -- NEW BEGINNER -->
+<div class="question-card">
+  <div class="q-header"><span class="q-number">21</span><div><span class="q-text">How does IS NULL work? How should you handle NULL values in queries?</span><span class="q-badge badge-beginner">Beginner</span><span class="priority-p2">P2</span></div></div>
+  <div class="q-section"><div class="q-section-title">Basic Answer</div>      <p>Use <code>IS NULL</code> and <code>IS NOT NULL</code> to check for NULL. NEVER use <code>= NULL</code> — NULL is not equal to anything, not even itself. NULLs are ignored in aggregate functions (<code>COUNT(col)</code> skips NULLs). NULL sorting depends on the database. Understanding NULL is important for correct test assertions.</p></div>
+  <div class="code-block">
+<span class="comment">-- Check for NULL values</span>
+<span class="keyword">SELECT</span> * <span class="keyword">FROM</span> users <span class="keyword">WHERE</span> email <span class="keyword">IS NULL</span>;  <span class="comment">-- Correct!</span>
+<span class="comment">-- SELECT * FROM users WHERE email = NULL; -- WRONG! Returns nothing</span>
+
+<span class="comment">-- Coalesce NULL to a default value</span>
+<span class="keyword">SELECT</span> name, <span class="function">COALESCE</span>(phone, <span class="string">'No Phone'</span>) <span class="keyword">AS</span> contact
+<span class="keyword">FROM</span> users;
+    </div>
+</div>
+
+<!-- Q22 -- NEW BEGINNER -->
+<div class="question-card">
+  <div class="q-header"><span class="q-number">22</span><div><span class="q-text">What is the DISTINCT keyword? Write a query to find unique values in a column.</span><span class="q-badge badge-beginner">Beginner</span><span class="priority-p2">P2</span></div></div>
+  <div class="q-section"><div class="q-section-title">Basic Answer</div>      <p><code>SELECT DISTINCT column</code> returns unique values (removes duplicates). <code>SELECT DISTINCT city FROM customers</code> gives all unique cities. Multiple columns: <code>SELECT DISTINCT city, state FROM customers</code> returns unique combinations. In tests, DISTINCT validates lookup values and data integrity.</p></div>
+</div>
+
+<!-- Q23 -- NEW BEGINNER -->
+<div class="question-card">
+  <div class="q-header"><span class="q-number">23</span><div><span class="q-text">How do string functions like CONCAT, UPPER, LOWER, and LENGTH work?</span><span class="q-badge badge-beginner">Beginner</span><span class="priority-p2">P2</span></div></div>
+  <div class="q-section"><div class="q-section-title">Basic Answer</div>      <p><code>CONCAT(str1, str2)</code> joins strings (or use <code>||</code>). <code>UPPER(str)</code> / <code>LOWER(str)</code> change case — useful for case-insensitive comparisons. <code>LENGTH(str)</code> returns character count. Also useful: <code>TRIM()</code> removes spaces, <code>SUBSTRING(str, start, length)</code> extracts parts. In tests, these normalize data for comparison.</p></div>
+  <div class="code-block">
+<span class="keyword">SELECT</span>
+  <span class="function">CONCAT</span>(first_name, <span class="string">' '</span>, last_name) <span class="keyword">AS</span> full_name,
+  <span class="function">LOWER</span>(email) <span class="keyword">AS</span> email_normalized,
+  <span class="function">LENGTH</span>(phone) <span class="keyword">AS</span> phone_digits
+<span class="keyword">FROM</span> users;
+    </div>
+</div>
+
+<!-- Q24 -- NEW BEGINNER -->
+<div class="question-card">
+  <div class="q-header"><span class="q-number">24</span><div><span class="q-text">How does the CASE statement work for conditional logic in SQL queries?</span><span class="q-badge badge-beginner">Beginner</span><span class="priority-p2">P2</span></div></div>
+  <div class="q-section"><div class="q-section-title">Basic Answer</div>      <p><code>CASE</code> gives you if-then-else logic in SQL. Two forms: <strong>Simple:</strong> <code>CASE col WHEN val1 THEN result1 END</code>. <strong>Searched:</strong> <code>CASE WHEN condition THEN result END</code>. In tests, CASE helps categorize data, apply test statuses, or transform values for comparison.</p></div>
+  <div class="code-block">
+<span class="keyword">SELECT</span>
+  name,
+  salary,
+  <span class="keyword">CASE</span>
+    <span class="keyword">WHEN</span> salary > <span class="number">100000</span> <span class="keyword">THEN</span> <span class="string">'High'</span>
+    <span class="keyword">WHEN</span> salary > <span class="number">50000</span> <span class="keyword">THEN</span> <span class="string">'Medium'</span>
+    <span class="keyword">ELSE</span> <span class="string">'Low'</span>
+  <span class="keyword">END</span> <span class="keyword">AS</span> salary_level
+<span class="keyword">FROM</span> employees;
+    </div>
+</div>
+
+<!-- Q25 -- NEW BEGINNER -->
+<div class="question-card">
+  <div class="q-header"><span class="q-number">25</span><div><span class="q-text">Write a basic INNER JOIN to fetch related data from two tables.</span><span class="q-badge badge-beginner">Beginner</span><span class="priority-p2">P2</span></div></div>
+  <div class="q-section"><div class="q-section-title">Basic Answer</div>      <p><code>INNER JOIN</code> returns only rows that match in BOTH tables. Use <code>ON</code> to say how they match. Table aliases (like <code>o</code> for orders, <code>c</code> for customers) make queries easier to read. This is the most common join for verifying related records across tables.</p></div>
+  <div class="code-block">
+<span class="comment">-- Fetch orders with customer details</span>
+<span class="keyword">SELECT</span>
+  o.id <span class="keyword">AS</span> order_id,
+  c.name <span class="keyword">AS</span> customer_name,
+  o.total_amount,
+  o.order_date
+<span class="keyword">FROM</span> orders o
+<span class="keyword">INNER JOIN</span> customers c <span class="keyword">ON</span> o.customer_id = c.id
+<span class="keyword">WHERE</span> o.status = <span class="string">'COMPLETED'</span>
+<span class="keyword">ORDER BY</span> o.order_date <span class="keyword">DESC</span>;
+    </div>
+</div>
+
+<!-- Q26 -- ORIGINAL P2 Q16 -->
+<div class="question-card"><div class="q-header"><span class="q-number">26</span><div><span class="q-text">Write a query to find the Nth highest salary without using LIMIT/OFFSET.</span><span class="q-badge badge-intermediate">Intermediate</span><span class="priority-p2">P2</span></div></div><div class="q-section"><div class="q-section-title">Basic Answer</div>      <p>Use a correlated subquery: <code>SELECT DISTINCT salary FROM employees e1 WHERE N-1 = (SELECT COUNT(DISTINCT salary) FROM employees e2 WHERE e2.salary > e1.salary)</code>. Or use window functions: <code>SELECT salary FROM (SELECT salary, DENSE_RANK() OVER (ORDER BY salary DESC) as rnk FROM employees) WHERE rnk = N LIMIT 1</code>.</p></div></div>
+
+<div class="question-card"><div class="q-header"><span class="q-number">27</span><div><span class="q-text">What is the difference between UNION and UNION ALL?</span><span class="q-badge badge-beginner">Beginner</span><span class="priority-p2">P2</span></div></div><div class="q-section"><div class="q-section-title">Basic Answer</div><p><code>UNION</code> removes duplicate rows and sorts the result. <code>UNION ALL</code> keeps all rows including duplicates and does not sort. UNION ALL is faster because it avoids the deduplication step. Use UNION when you need distinct results across multiple SELECT statements.</p></div></div>
+
+<div class="question-card"><div class="q-header"><span class="q-number">28</span><div><span class="q-text">What is an execution plan? How do you use EXPLAIN to analyze query performance?</span><span class="q-badge badge-advanced">Advanced</span><span class="priority-p2">P2</span></div></div><div class="q-section"><div class="q-section-title">Basic Answer</div><p>An execution plan shows how the database engine processes a query — which indexes are used, join types, scan methods. Use <code>EXPLAIN SELECT ...</code> to view it. Look for: table scans (bad → missing index), index seeks (good), join types (Nested Loops vs Hash Match vs Merge Join), estimated rows vs actual rows (large deviations suggest outdated statistics).</p></div></div>
+
+<div class="question-card"><div class="q-header"><span class="q-number">29</span><div><span class="q-text">How do you handle NULL values in sorting? How do you sort NULLs last?</span><span class="q-badge badge-intermediate">Intermediate</span><span class="priority-p2">P2</span></div></div><div class="q-section"><div class="q-section-title">Basic Answer</div><p>NULL handling in sorting is database-specific. In PostgreSQL: <code>ORDER BY column NULLS LAST</code>. In MySQL: <code>ORDER BY ISNULL(column), column</code>. In SQL Server: NULLs are lowest by default. Use <code>COALESCE(column, replacement)</code> to replace NULLs before sorting if consistent ordering is needed.</p></div></div>
+
+<div class="question-card"><div class="q-header"><span class="q-number">30</span><div><span class="q-text">What are the isolation levels in SQL? Explain dirty read, non-repeatable read, and phantom read.</span><span class="q-badge badge-advanced">Advanced</span><span class="priority-p2">P2</span></div></div><div class="q-section"><div class="q-section-title">Basic Answer</div><p><strong>Read Uncommitted</strong>: can see uncommitted data (dirty read). <strong>Read Committed</strong>: only sees committed data (default in most databases) — prevents dirty reads. <strong>Repeatable Read</strong>: same row read twice returns same data — prevents non-repeatable reads. <strong>Serializable</strong>: highest isolation, prevents phantoms (rows appearing/disappearing) by locking ranges. Higher isolation = better consistency, lower concurrency.</p></div></div>
+
+</div>
+
+<div class="section-divider"><h2>P3 — Valuable Context</h2></div>
+<div class="container">
+<div class="question-card"><div class="q-header"><span class="q-number">31</span><div><span class="q-text">Explain the CAP theorem. How does it apply to NoSQL databases?</span><span class="q-badge badge-expert">Expert</span><span class="priority-p3">P3</span></div></div><div class="q-section"><div class="q-section-title">Basic Answer</div><p>CAP theorem states a distributed database can only guarantee two of three: Consistency, Availability, Partition Tolerance. Most NoSQL databases choose AP (Cassandra) or CP (MongoDB, HBase). Relational databases typically focus on CA within a single node. Understanding CAP helps determine which database to use based on requirements: banking (CP) vs social media (AP).</p></div></div>
+
+<div class="question-card"><div class="q-header"><span class="q-number">32</span><div><span class="q-text">How do you optimize a slow query? Walk through your investigation process.</span><span class="q-badge badge-advanced">Advanced</span><span class="priority-p3">P3</span></div></div><div class="q-section"><div class="q-section-title">Basic Answer</div><p>Steps: (1) Run EXPLAIN to see the execution plan. (2) Check for full table scans — missing indexes. (3) Review join types — are they using appropriate indexes? (4) Check WHERE clause — are indexed columns being used with functions or type casting? (5) Review the number of rows being processed vs needed. (6) Check for N+1 queries (multiple queries in loops). (7) Consider query restructuring, denormalization, or caching.</p></div></div>
+
+<div class="question-card"><div class="q-header"><span class="q-number">33</span><div><span class="q-text">How do you seed and clean up test data for parallel database testing?</span><span class="q-badge badge-advanced">Advanced</span><span class="priority-p3">P3</span></div></div><div class="q-section"><div class="q-section-title">Basic Answer</div><p>Approaches: (1) Use database transactions that roll back after each test (fastest, but doesn't catch all state issues). (2) Create unique data per test using UUIDs or timestamps in test data. (3) Use dedicated test databases created per worker/container. (4) Use TRUNCATE between test suites. (5) For read-only tests, use a shared snapshot. The key is data isolation — tests should not share mutable state.</p></div></div>
+
+<div class="question-card"><div class="q-header"><span class="q-number">34</span><div><span class="q-text">How do you test ETL pipelines? What validations are critical?</span><span class="q-badge badge-expert">Expert</span><span class="priority-p3">P3</span></div></div><div class="q-section"><div class="q-section-title">Basic Answer</div><p>Critical ETL validations: (1) Row count matching between source and target. (2) Data type and format transformations are correct. (3) Null handling — are NULLs preserved or replaced? (4) Duplicate handling — are duplicates removed as expected? (5) Incremental vs full load — does incremental load produce the correct delta? (6) Reject handling — are failed rows logged? (7) Performance — does the pipeline meet SLA?</p></div></div>
+
+</div>
+
+<div class="container">
+<div class="cheat-sheet">
+  <h3>SQL — One-Page Revision Cheat Sheet</h3>
+  <div class="cheat-grid">
+    <div class="cheat-item"><h4>Join Reference</h4><p>INNER: only matches. LEFT: all left + matches. RIGHT: all right + matches. FULL: all rows. SELF: table to itself.</p></div>
+    <div class="cheat-item"><h4>Window Functions</h4><p>ROW_NUMBER (unique), RANK (with gaps), DENSE_RANK (no gaps), NTILE (buckets), LAG/LEAD (previous/next).</p></div>
+    <div class="cheat-item"><h4>Execution Order</h4><p>FROM → WHERE → GROUP BY → HAVING → SELECT → ORDER BY → LIMIT</p></div>
+    <div class="cheat-item"><h4>Index Types</h4><p>Clustered: physical order, 1 per table. Non-clustered: separate structure, many per table.</p></div>
+    <div class="cheat-item"><h4>SQL vs NoSQL</h4><p>SQL: ACID, structured, joins, vertical scaling. NoSQL: flexible schema, horizontal scaling, CAP tradeoffs.</p></div>
+    <div class="cheat-item"><h4>DDL vs DML vs DCL</h4><p>DDL: CREATE, ALTER, DROP, TRUNCATE. DML: SELECT, INSERT, UPDATE, DELETE. DCL: GRANT, REVOKE.</p></div>
+  </div>
+</div>
+<div class="end-section"><h2>Most Asked SQL Interview Questions</h2><p style="color:var(--text-secondary)">1. Second highest salary (multiple approaches) 2. JOIN types 3. Window functions (RANK, DENSE_RANK) 4. Duplicate detection/removal 5. WHERE vs HAVING 6. Index types 7. Subqueries (correlated vs non) 8. ACID properties</p></div>
+</div>
+
+</body>
+</html>

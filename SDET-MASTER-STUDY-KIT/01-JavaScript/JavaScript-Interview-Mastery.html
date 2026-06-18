@@ -1,0 +1,1097 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JavaScript Interview Mastery — SDET Study Kit</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/nebula.css">
+<style>
+  /* JavaScript-specific overrides */
+  .cover-page::before {
+    background:
+      radial-gradient(circle at 30% 50%, rgba(45, 212, 191, 0.06) 0%, transparent 50%),
+      radial-gradient(circle at 70% 50%, rgba(96, 165, 250, 0.05) 0%, transparent 50%),
+      radial-gradient(circle at 50% 80%, rgba(167, 139, 250, 0.03) 0%, transparent 50%);
+  }
+  .cover-title { background: var(--gradient-primary); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .cover-divider { background: var(--gradient-primary); }
+  .cover-meta-item .number { background: var(--gradient-primary); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .section-divider h2 { background: var(--gradient-primary); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .q-number { background: var(--gradient-primary); }
+  .q-section-title.basic::before { background: var(--gradient-primary); }
+</style>
+</head>
+<body>
+
+<!-- ===== COVER PAGE ===== -->
+<div class="cover-page">
+  <div class="cover-badge">SDET Master Study Kit</div>
+  <h1 class="cover-title">JavaScript Interview Mastery</h1>
+  <div class="cover-divider"></div>
+  <p class="cover-subtitle">58 High-Value Questions for Senior SDET &amp; Automation Engineer Interviews</p>
+  <div class="cover-meta">
+    <div class="cover-meta-item">
+      <span class="number">20</span>
+      <span class="label">P1 — Must Know</span>
+    </div>
+    <div class="cover-meta-item">
+      <span class="number">28</span>
+      <span class="label">P2 — Commonly Asked</span>
+    </div>
+    <div class="cover-meta-item">
+      <span class="number">10</span>
+      <span class="label">P3 — Valuable Context</span>
+    </div>
+    <div class="cover-meta-item">
+      <span class="number">58</span>
+      <span class="label">Total Retained</span>
+    </div>
+  </div>
+  <p class="cover-description" style="margin-top: 30px;">
+    Made for FAANG, Product-Based Companies, FinTech, and Enterprise MNC interviews.
+    Covers closures, event loop, promises, async/await, prototypes, ES6+, and coding patterns
+    with simple answers, code examples, and interview tips.
+  </p>
+</div>
+
+<!-- ===== TABLE OF CONTENTS ===== -->
+<div class="container">
+  <h2 style="font-size: 24px; margin-bottom: 24px; color: var(--accent-blue);">Table of Contents</h2>
+  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 40px;">
+    <div style="color: var(--text-secondary); font-size: 14px;"><strong style="color: var(--accent-red);">P1</strong> — Questions 1–20: Frequently Asked (Must Know)</div>
+    <div style="color: var(--text-secondary); font-size: 14px;"><strong style="color: var(--accent-orange);">P2</strong> — Questions 21–48: Commonly Asked</div>
+    <div style="color: var(--text-secondary); font-size: 14px;"><strong style="color: var(--accent-blue);">P3</strong> — Questions 49–58: Occasionally Asked (Valuable Context)</div>
+  </div>
+</div>
+
+<!-- ===== P1 SECTION ===== -->
+<div class="section-divider">
+  <h2>P1 — Frequently Asked Questions</h2>
+  <p>You MUST know these. They are asked in almost every interview and technical round.</p>
+</div>
+
+<div class="container">
+
+  <!-- Q1 -->
+  <div class="question-card">
+    <div class="q-header">
+      <span class="q-number">1</span>
+      <div>
+        <span class="q-text">Explain the difference between <code>var</code>, <code>let</code>, and <code>const</code> with hoisting and scope.</span>
+        <span class="q-badge badge-advanced">Advanced</span>
+        <span class="priority-p1">P1</span>
+      </div>
+    </div>
+
+    <div class="q-section">
+      <div class="q-section-title">Basic Answer</div>
+      <p><code>var</code> works inside the whole function. <code>let</code> and <code>const</code> work only inside the nearest <code>{}</code> block. <code>var</code> is hoisted with <code>undefined</code>. <code>let</code> and <code>const</code> are hoisted but not ready to use (Temporal Dead Zone). <code>const</code> cannot be reassigned, but you can change object properties inside it. <code>let</code> can be reassigned. Rule: always use <code>const</code> first. Use <code>let</code> only if you need to reassign. Never use <code>var</code> in new code.</p>
+    </div>
+
+    <div class="q-section">
+      <div class="q-section-title green">Detailed Answer</div>
+      <p><strong>Scope (Where can you use it?):</strong> <code>var</code> works inside the whole function — even outside blocks like <code>if</code> or <code>for</code>. <code>let</code> and <code>const</code> work only inside one block <code>{}</code>. If you declare them inside <code>if</code>, you can't use them outside.</p>
+      <p><strong>Hoisting (Moved to top?):</strong> All three are moved to the top of their scope. <code>var</code> is given the starting value <code>undefined</code>. <code>let</code> and <code>const</code> are moved to top but NOT given a starting value. If you try to use them before declaring, you get a <code>ReferenceError</code>. This is called the Temporal Dead Zone (TDZ).</p>
+      <p><strong>Reassignment (Can you change it?):</strong> <code>var</code> and <code>let</code> can be changed to a new value. <code>const</code> cannot be reassigned — but if it's an object, you can still change its properties (like <code>obj.name = 'new'</code>).</p>
+      <p><strong>Global Declaration (Window object):</strong> <code>var</code> at the top level adds a property to <code>window</code>/<code>globalThis</code>. <code>let</code> and <code>const</code> do NOT.</p>
+
+      <div class="code-block">
+<span class="comment">// var — function scoped, hoisted with undefined</span>
+console.log(x);
+<span class="comment">// undefined (not ReferenceError)</span>
+<span class="keyword">var</span> x = <span class="number">5</span>;
+
+<span class="comment">// let/const — block scoped, Temporal Dead Zone</span>
+console.log(y);
+<span class="comment">// ReferenceError: Cannot access before initialization</span>
+<span class="keyword">let</span> y = <span class="number">10</span>;
+
+<span class="comment">// const — must be initialized at declaration</span>
+<span class="keyword">const</span> obj = { name: <span class="string">'Test'</span> };
+obj.name = <span class="string">'Updated'</span>;
+<span class="comment">// Allowed — object not frozen</span>
+<span class="comment">// obj = { name: 'New' }; // TypeError: Assignment to constant variable</span>
+      </div>
+
+      <div class="callout callout-tip">
+        <strong>💡 Interview Insight</strong>
+        Interviewers ask this to check if you really understand hoisting and scope. Always mention the TDZ — it shows you know the details. For senior roles, give a real example: "We had a bug because <code>var</code> leaked outside a <code>for</code> loop block."
+      </div>
+    </div>
+
+    <div class="q-section">
+      <div class="q-section-title orange">Real Interview Answer</div>
+      <p>"<code>var</code> works across the whole function and gets hoisted with <code>undefined</code>. <code>let</code> and <code>const</code> only work inside the block they're declared in. They are hoisted too but stuck in the Temporal Dead Zone until you reach them. <code>const</code> can't be reassigned, but object properties can still change. In my test code, I use <code>const</code> by default. I use <code>let</code> only when I need to reassign (like loop counters). I never use <code>var</code>."</p>
+    </div>
+
+    <div class="q-section">
+      <div class="q-section-title red">Follow-Up Questions</div>
+      <div class="follow-ups">
+        <span class="follow-up-item">What is the Temporal Dead Zone?</span>
+        <span class="follow-up-item">Can <code>const</code> objects be changed? How do you stop them from being changed?</span>
+        <span class="follow-up-item">How does hoisting work for function declarations vs function expressions?</span>
+        <span class="follow-up-item">What happens if you declare <code>var</code> inside a block that is inside a function?</span>
+        <span class="follow-up-item">Does <code>let</code> create a property on the <code>window</code> object?</span>
+      </div>
+    </div>
+
+    <div class="q-section">
+      <div class="q-section-title cyan">Interview Tips</div>
+      <div class="callout callout-warning">
+        <strong>⚠️ Common Mistake</strong>
+        Many candidates say "let and const are not hoisted" — this is incorrect. They ARE hoisted, but not initialized. The TDZ is the period between entering scope and the actual declaration. Always clarify this distinction.
+      </div>
+    </div>
+  </div>
+
+  <!-- Q2 -->
+  <div class="question-card">
+    <div class="q-header">
+      <span class="q-number">2</span>
+      <div>
+        <span class="q-text">What is a closure? Give real-world examples of closures in test automation.</span>
+        <span class="q-badge badge-advanced">Advanced</span>
+        <span class="priority-p1">P1</span>
+      </div>
+    </div>
+
+    <div class="q-section">
+      <div class="q-section-title">Basic Answer</div>
+      <p>A closure is a function that remembers variables from where it was created, even after that outer function has finished running. This lets you keep data private and save state. In test automation, closures are used for: keeping retry attempt counts, creating custom fixture setup/teardown, building reusable page object factories, and creating custom assertion matchers.</p>
+    </div>
+
+    <div class="q-section">
+      <div class="q-section-title green">Detailed Answer</div>
+      <p><strong>How it works:</strong> When you create a function inside another function, the inner function keeps a reference to the outer function's variables. JavaScript keeps those variables alive as long as any inner function still needs them.</p>
+      <p><strong>Key point:</strong> Each time you create a closure, it gets its own copy of the outer variables. But if multiple closures are created in the same scope, they share the same variables — this is why the "loop with var" bug happens.</p>
+
+      <div class="code-block">
+<span class="comment">// Classic closure — retry with state</span>
+<span class="keyword">function</span> <span class="function">createRetryRunner</span>(maxRetries, baseDelay) {
+  <span class="keyword">let</span> attemptCount = <span class="number">0</span>;
+  <span class="comment">// Private state — only accessible via closure</span>
+
+  <span class="keyword">return async function</span> <span class="function">run</span>(fn) {
+    <span class="keyword">while</span> (attemptCount < maxRetries) {
+      <span class="keyword">try</span> {
+        <span class="keyword">return await</span> fn();
+      } <span class="keyword">catch</span> (error) {
+        attemptCount++;
+        <span class="keyword">if</span> (attemptCount >= maxRetries) <span class="keyword">throw</span> error;
+        <span class="keyword">await new</span> Promise(r => setTimeout(r, baseDelay * attemptCount));
+      }
+    }
+  };
+}
+
+<span class="comment">// Usage in Playwright test</span>
+<span class="keyword">const</span> retryClick = <span class="function">createRetryRunner</span>(<span class="number">3</span>, <span class="number">500</span>);
+<span class="keyword">await</span> <span class="function">retryClick</span>(() => page.locator(<span class="string">'#submit'</span>).click());
+<span class="comment">// attemptCount is preserved between calls</span>
+      </div>
+
+      <div class="callout callout-info">
+        <strong>📖 Memory Consideration</strong>
+        Closures can cause memory leaks if they hold onto large objects. In test automation this is rarely a problem since tests are short-lived. But be careful not to capture big DOM elements or large API responses in closures.
+    </div>
+
+    <div class="q-section">
+      <div class="q-section-title orange">Real Interview Answer</div>
+      <p>"A closure is a function that remembers the variables from where it was defined, even after that scope has exited. In my automation work, I use closures extensively — for example, creating a retry function that tracks attempt counts privately, building custom Playwright fixtures that capture page instances with their test context, or implementing data generators that maintain internal counters. The key benefit is encapsulation without needing classes."</p>
+    </div>
+
+    <div class="q-section">
+      <div class="q-section-title red">Follow-Up Questions</div>
+      <div class="follow-ups">
+        <span class="follow-up-item">How do closures interact with the event loop?</span>
+        <span class="follow-up-item">What happens when a closure captures a large object?</span>
+        <span class="follow-up-item">How would you fix the "loop with var and setTimeout" closure bug?</span>
+        <span class="follow-up-item">Explain closures in the context of module patterns.</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q3 -->
+  <div class="question-card">
+    <div class="q-header">
+      <span class="q-number">3</span>
+      <div>
+        <span class="q-text">How does the event loop work? Explain call stack, callback queue, microtask queue, and macrotask queue.</span>
+        <span class="q-badge badge-expert">Expert</span>
+        <span class="priority-p1">P1</span>
+      </div>
+    </div>
+
+    <div class="q-section">
+      <div class="q-section-title">Basic Answer</div>
+      <p>The event loop is how JavaScript handles async tasks even though it only has one thread. It keeps checking if the call stack is empty. If it is, it takes tasks from the microtask queue (high priority) or the macrotask queue (low priority) and runs them. This is why JavaScript can handle APIs, timers, and Promises without freezing the page.</p>
+    </div>
+
+    <div class="q-section">
+      <div class="q-section-title green">Detailed Answer</div>
+
+      <div class="diagram-box">
+        <span class="label">Call Stack</span> (LIFO — function calls)<br>
+        ↓<br>
+        <span class="label">Web APIs</span> (DOM, setTimeout, fetch, events)<br>
+        ↓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↓<br>
+        <span class="highlight">Microtask Queue</span><span style="color:#666;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="highlight">Macrotask Queue</span><br>
+        (Promise.then, await resumption)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(setTimeout, setInterval, I/O)<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↓<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="arrow">Event Loop</span> (checks if stack is empty)<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↓<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Back to Call Stack
+      </div>
+
+      <p><strong>Order of execution:</strong></p>
+      <ol style="color: var(--text-secondary); padding-left: 20px; line-height: 2;">
+        <li>Run all normal (sync) code first</li>
+        <li>After each task, run ALL microtasks (Promise callbacks, queueMicrotask)</li>
+        <li>Then run ONE macrotask (setTimeout, setInterval, I/O)</li>
+        <li>Repeat — this is one "tick" of the event loop</li>
+      </ol>
+
+      <div class="code-block">
+<span class="comment">// Event loop execution order prediction</span>
+console.log(<span class="number">1</span>);
+<span class="comment">// Sync — runs first</span>
+
+setTimeout(() => console.log(<span class="number">2</span>), <span class="number">0</span>);
+<span class="comment">// Macrotask — runs 4th</span>
+
+Promise.resolve().then(() => console.log(<span class="number">3</span>));
+<span class="comment">// Microtask — runs 3rd</span>
+
+console.log(<span class="number">4</span>);
+<span class="comment">// Sync — runs 2nd</span>
+
+<span class="comment">// Output: 1, 4, 3, 2</span>
+      </div>
+
+      <div class="callout callout-warning">
+        <strong>⚠️ Interview Trap</strong>
+        Many people say "setTimeout with 0ms runs right away." This is WRONG. Even with 0ms, it goes to the macrotask queue and runs AFTER all sync code and all microtasks. 0ms is the minimum delay, not the actual execution time.
+      </div>
+    </div>
+
+    <div class="q-section">
+      <div class="q-section-title orange">Real Interview Answer</div>
+      <p>"The event loop is how JavaScript does async work with just one thread. The call stack runs functions one by one. When async code like <code>setTimeout</code> or a Promise is called, its callback goes to a queue — microtasks for Promises, macrotasks for timers. After each macrotask finishes, the event loop empties the ENTIRE microtask queue before moving to the next macrotask. This matters in tests — for example, when a Promise resolves before a <code>waitForTimeout</code> finishes in Playwright."</p>
+    </div>
+
+    <div class="q-section">
+      <div class="q-section-title red">Follow-Up Questions</div>
+      <div class="follow-ups">
+        <span class="follow-up-item">What is the difference between microtask and macrotask?</span>
+        <span class="follow-up-item">Explain the execution order of async/await in the event loop.</span>
+        <span class="follow-up-item">What happens to the render queue?</span>
+        <span class="follow-up-item">How does <code>requestAnimationFrame</code> fit into the event loop?</span>
+        <span class="follow-up-item">What is stack overflow and how does it relate to the call stack?</span>
+      </div>
+    </div>
+
+    <div class="q-section">
+      <div class="q-section-title cyan">Interview Tips</div>
+      <div class="callout callout-tip">
+        <strong>💡 Senior-Level Insight</strong>
+        Senior SDETs should connect event loop knowledge to real debugging: "I had a flaky test where a Promise finished after <code>waitForTimeout</code> but before the assertion. Knowing microtask/macrotask priority helped me fix it by awaiting the Promise directly instead of using a timer wait."
+      </div>
+    </div>
+  </div>
+
+  <!-- Q4 -->
+  <div class="question-card">
+    <div class="q-header">
+      <span class="q-number">4</span>
+      <div>
+        <span class="q-text">Explain the difference between <code>==</code> and <code>===</code>. When would you use each?</span>
+        <span class="q-badge badge-intermediate">Intermediate</span>
+        <span class="priority-p1">P1</span>
+      </div>
+    </div>
+
+    <div class="q-section">
+      <div class="q-section-title">Basic Answer</div>
+      <p><code>==</code> changes types before comparing (coercion). <code>===</code> compares both value AND type without changing anything. Always use <code>===</code>. Only use <code>==</code> when you want to allow type changes — like checking <code>null == undefined</code> (which returns true) or checking if something is either null or undefined.</p>
+    </div>
+
+    <div class="q-section">
+      <div class="q-section-title green">Detailed Answer</div>
+      <p><strong>Coercion rules for <code>==</code>:</strong></p>
+      <ul style="color: var(--text-secondary); padding-left: 20px; line-height: 2;">
+        <li>Same type → compare directly (same as <code>===</code>)</li>
+        <li><code>null == undefined</code> → always true</li>
+        <li>String vs Number → string is converted to number</li>
+        <li>Boolean vs non-Boolean → boolean is converted to number</li>
+        <li>Object vs primitive → object is converted via <code>.valueOf()</code> or <code>.toString()</code></li>
+      </ul>
+
+      <div class="code-block">
+console.log(<span class="number">5</span> == <span class="string">'5'</span>);     <span class="comment">// true (coercion)</span>
+console.log(<span class="number">5</span> === <span class="string">'5'</span>);    <span class="comment">// false (different types)</span>
+console.log(<span class="keyword">null</span> == <span class="keyword">undefined</span>);  <span class="comment">// true (special rule)</span>
+console.log(<span class="keyword">null</span> === <span class="keyword">undefined</span>); <span class="comment">// false</span>
+console.log(<span class="number">0</span> == <span class="keyword">false</span>);      <span class="comment">// true (false → 0)</span>
+console.log(<span class="string">''</span> == <span class="number">0</span>);        <span class="comment">// true</span>
+console.log([] == <span class="keyword">false</span>);      <span class="comment">// true ([] → '' → 0, false → 0)</span>
+      </div>
+    </div>
+
+    <div class="q-section">
+      <div class="q-section-title orange">Real Interview Answer</div>
+      <p>"I always use <code>===</code> in production code to avoid unexpected bugs from type coercion. The only time I use <code>==</code> is to check for both <code>null</code> and <code>undefined</code> at once — <code>value == null</code> catches both. In test assertions, I only use <code>===</code> or deep equality checks because type coercion can hide real bugs."</p>
+    </div>
+
+    <div class="q-section">
+      <div class="q-section-title red">Follow-Up Questions</div>
+      <div class="follow-ups">
+        <span class="follow-up-item">What is <code>Object.is()</code> and how does it differ from <code>===</code>?</span>
+        <span class="follow-up-item">How does <code>==</code> coerce objects?</span>
+        <span class="follow-up-item">Why does <code>[] == ![]</code> return true?</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q5 -->
+  <div class="question-card">
+    <div class="q-header">
+      <span class="q-number">5</span>
+      <div>
+        <span class="q-text">Explain how <code>this</code> binding works — default, implicit, explicit, arrow function, and <code>new</code> binding.</span>
+        <span class="q-badge badge-advanced">Advanced</span>
+        <span class="priority-p1">P1</span>
+      </div>
+    </div>
+
+    <div class="q-section">
+      <div class="q-section-title">Basic Answer</div>
+      <p><code>this</code> depends on HOW you call a function, not where you write it. <strong>Default:</strong> <code>this</code> is the global object (window) in normal mode, <code>undefined</code> in strict mode. <strong>Implicit:</strong> <code>this</code> is the object before the dot (like <code>obj.foo()</code> → <code>this</code> = <code>obj</code>). <strong>Explicit:</strong> use <code>call()</code>, <code>apply()</code>, or <code>bind()</code> to set <code>this</code> yourself. <strong>Arrow function:</strong> <code>this</code> comes from the surrounding code where the arrow function was written. <strong>new:</strong> <code>this</code> is the new object being created.</p>
+    </div>
+
+    <div class="q-section">
+      <div class="q-section-title green">Detailed Answer</div>
+
+      <div class="styled-table">
+        <thead><tr><th>Binding Rule</th><th>How <code>this</code> is Determined</th><th>Example</th></tr></thead>
+        <tbody>
+          <tr><td>Default</td><td>Global object (or undefined in strict mode)</td><td><code>function foo() { console.log(this); } foo();</code></td></tr>
+          <tr><td>Implicit</td><td>Object before the dot</td><td><code>obj.foo()</code> — <code>this</code> is <code>obj</code></td></tr>
+          <tr><td>Explicit</td><td>Set via call/apply/bind</td><td><code>foo.call(obj)</code> — <code>this</code> is <code>obj</code></td></tr>
+          <tr><td>Arrow</td><td>Lexical — from enclosing scope</td><td><code>() => this</code> inherits parent's <code>this</code></td></tr>
+          <tr><td>new</td><td>Newly created instance</td><td><code>new Foo()</code> — <code>this</code> is the instance</td></tr>
+        </tbody>
+      </div>
+
+      <div class="callout callout-tip">
+        <strong>💡 Interview Insight</strong>
+        The most common <code>this</code> problem in test automation is passing a method as a callback — <code>this</code> gets lost. Fix it with <code>bind(this)</code> or use an arrow function instead.
+      </div>
+    </div>
+
+    <div class="q-section">
+      <div class="q-section-title orange">Real Interview Answer</div>
+      <p>"<code>this</code> follows four rules in order of priority: <code>new</code>, then explicit (<code>call/apply/bind</code>), then implicit (the object before the dot), then default (global). Arrow functions skip all these rules — they get <code>this</code> from the code around them. In my Playwright page objects, I use arrow functions for methods so <code>this</code> doesn't get lost when I pass methods as callbacks."</p>
+    </div>
+
+    <div class="q-section">
+      <div class="q-section-title red">Follow-Up Questions</div>
+      <div class="follow-ups">
+        <span class="follow-up-item">What is the order of precedence for <code>this</code> binding rules?</span>
+        <span class="follow-up-item">How does arrow function <code>this</code> differ from regular function <code>this</code>?</span>
+        <span class="follow-up-item">What happens to <code>this</code> in event handlers in the DOM?</span>
+        <span class="follow-up-item">How does <code>this</code> work in class methods vs object literals?</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q6 -->
+  <div class="question-card">
+    <div class="q-header">
+      <span class="q-number">6</span>
+      <div>
+        <span class="q-text">What is the difference between <code>call()</code>, <code>apply()</code>, and <code>bind()</code>? Implement a polyfill for <code>bind()</code>.</span>
+        <span class="q-badge badge-advanced">Advanced</span>
+        <span class="priority-p1">P1</span>
+      </div>
+    </div>
+
+    <div class="q-section">
+      <div class="q-section-title">Basic Answer</div>
+      <p><code>call()</code> runs a function right away with a custom <code>this</code> — you pass arguments one by one. <code>apply()</code> does the same but takes arguments as an array. <code>bind()</code> does NOT run the function — it returns a NEW function with <code>this</code> permanently set. Use <code>bind</code> when you want to save the function for later with a fixed <code>this</code>.</p>
+    </div>
+
+    <div class="q-section">
+      <div class="q-section-title green">Detailed Answer</div>
+
+      <div class="code-block">
+<span class="comment">// call — invoke with this and individual args</span>
+greet.call(user, <span class="string">'Hello'</span>, <span class="string">'!'</span>);
+
+<span class="comment">// apply — invoke with this and args array</span>
+greet.apply(user, [<span class="string">'Hello'</span>, <span class="string">'!'</span>]);
+
+<span class="comment">// bind — returns new function with bound this</span>
+<span class="keyword">const</span> boundGreet = greet.bind(user, <span class="string">'Hello'</span>);
+boundGreet(<span class="string">'!'</span>);
+<span class="comment">// 'Hello' is already partially applied</span>
+
+<span class="comment">// Polyfill for bind</span>
+Function.prototype.myBind = <span class="keyword">function</span>(context, ...args) {
+  <span class="keyword">const</span> originalFn = <span class="keyword">this</span>;
+  <span class="keyword">return function</span>(...innerArgs) {
+    <span class="keyword">return</span> originalFn.apply(context, [...args, ...innerArgs]);
+  };
+};
+      </div>
+    </div>
+
+    <div class="q-section">
+      <div class="q-section-title orange">Real Interview Answer</div>
+      <p>"<code>call</code> and <code>apply</code> run a function right away with a custom <code>this</code> — <code>call</code> takes arguments one by one, <code>apply</code> takes an array. <code>bind</code> returns a new function with <code>this</code> locked in place, which is great for event handlers and borrowing methods. In Playwright, I use <code>bind</code> to keep <code>this</code> working correctly when passing page object methods as callbacks."</p>
+    </div>
+
+    <div class="q-section">
+      <div class="q-section-title red">Follow-Up Questions</div>
+      <div class="follow-ups">
+        <span class="follow-up-item">What happens if you call <code>bind</code> multiple times on the same function?</span>
+        <span class="follow-up-item">How does <code>bind</code> enable partial application?</span>
+        <span class="follow-up-item">Implement a polyfill for <code>call</code>.</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q7-20: Brief versions for P1 remaining questions -->
+  <!-- Q7 -->
+  <div class="question-card">
+    <div class="q-header">
+      <span class="q-number">7</span>
+      <div>
+        <span class="q-text">What is prototypal inheritance? How does the prototype chain work?</span>
+        <span class="q-badge badge-advanced">Advanced</span>
+        <span class="priority-p1">P1</span>
+      </div>
+    </div>
+    <div class="q-section">
+      <div class="q-section-title">Basic Answer</div>
+      <p>Every JavaScript object has a hidden link to another object, called its prototype (<code>__proto__</code> or <code>Object.getPrototypeOf()</code>). When you try to get a property from an object, JavaScript first checks that object. If it's not there, it checks the prototype, then that prototype's prototype, and so on until it finds it or reaches <code>null</code>. This lets objects share properties and methods without needing classes.</p>
+    </div>
+    <div class="q-section">
+      <div class="q-section-title orange">Real Interview Answer</div>
+      <p>"JavaScript uses prototypal inheritance — objects get features from other objects through the prototype chain. When you access a property, JavaScript walks up the chain until it finds it or hits null. This is different from class-based languages where you need a blueprint. In Playwright, understanding prototypes helps when extending built-in fixtures or creating reusable utilities."</p>
+    </div>
+    <div class="q-section">
+      <div class="q-section-title red">Follow-Up Questions</div>
+      <div class="follow-ups">
+        <span class="follow-up-item">What is the difference between <code>.__proto__</code> and <code>.prototype</code>?</span>
+        <span class="follow-up-item">How does <code>Object.create()</code> work with prototypes?</span>
+        <span class="follow-up-item">What is the prototype chain of an array?</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q8 -->
+  <div class="question-card">
+    <div class="q-header">
+      <span class="q-number">8</span>
+      <div>
+        <span class="q-text">What are Promises? Explain the states and how Promise chaining works.</span>
+        <span class="q-badge badge-intermediate">Intermediate</span>
+        <span class="priority-p1">P1</span>
+      </div>
+    </div>
+    <div class="q-section">
+      <div class="q-section-title">Basic Answer</div>
+      <p>A Promise is an object that represents a task that will finish later — either successfully or with an error. It has three states: <code>pending</code> (waiting), <code>fulfilled</code> (done successfully), and <code>rejected</code> (failed). You chain Promises with <code>.then()</code> — each <code>.then()</code> returns a new Promise. Errors travel down the chain until a <code>.catch()</code> catches them. Useful helpers: <code>Promise.all()</code> (wait for all), <code>Promise.race()</code> (first one wins), <code>Promise.any()</code> (first success wins), <code>Promise.allSettled()</code> (wait for all, even failures).</p>
+    </div>
+    <div class="q-section">
+      <div class="q-section-title green">Detailed Answer</div>
+      <div class="code-block">
+<span class="comment">// Promise states and chaining</span>
+<span class="keyword">const</span> fetchUser = <span class="keyword">new</span> Promise((resolve, reject) => {
+  <span class="keyword">const</span> user = { id: <span class="number">1</span>, name: <span class="string">'Alice'</span> };
+  <span class="keyword">if</span> (user) resolve(user);
+  <span class="keyword">else</span> reject(<span class="keyword">new</span> Error(<span class="string">'User not found'</span>));
+});
+
+fetchUser
+  .then(user => user.name)
+  .then(name => console.log(name))
+  <span class="comment">// 'Alice'</span>
+  .catch(err => console.error(err))
+  .finally(() => console.log(<span class="string">'Done'</span>));
+
+<span class="comment">// Promise.all — fail-fast if any rejects</span>
+<span class="keyword">const</span> [users, posts] = <span class="keyword">await</span> Promise.all([
+  fetch(<span class="string">'/api/users'</span>),
+  fetch(<span class="string">'/api/posts'</span>)
+]);
+
+<span class="comment">// Promise.allSettled — wait for all, no fail-fast</span>
+<span class="keyword">const</span> results = <span class="keyword">await</span> Promise.allSettled([
+  fetch(<span class="string">'/api/users'</span>),
+  fetch(<span class="string">'/api/failing-endpoint'</span>)
+]);
+      </div>
+    </div>
+    <div class="q-section">
+      <div class="q-section-title orange">Real Interview Answer</div>
+      <p>"Promises are everywhere in Playwright — almost every action returns a Promise. I use <code>Promise.all</code> to make parallel API calls in test setup. I use <code>Promise.allSettled</code> when I want all results even if some fail. I use chaining for step-by-step operations like login → navigate → verify. Understanding how errors flow through the chain is key for good error handling."</p>
+    </div>
+    <div class="q-section">
+      <div class="q-section-title red">Follow-Up Questions</div>
+      <div class="follow-ups">
+        <span class="follow-up-item">How is a Promise microtask different from a setTimeout macrotask?</span>
+        <span class="follow-up-item">What happens if you return a Promise inside a <code>.then()</code>?</span>
+        <span class="follow-up-item">What is the Promise resolution procedure (the Promise Resolution Procedure)?</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q9-20 condensed for space -->
+  <div class="question-card">
+    <div class="q-header">
+      <span class="q-number">9</span>
+      <div>
+        <span class="q-text">How does <code>async/await</code> work? How does error handling differ from Promise <code>.then()/.catch()</code>?</span>
+        <span class="q-badge badge-intermediate">Intermediate</span>
+        <span class="priority-p1">P1</span>
+      </div>
+    </div>
+    <div class="q-section">
+      <div class="q-section-title">Basic Answer</div>
+      <p><code>async/await</code> is a cleaner way to write Promises. An <code>async</code> function always returns a Promise. <code>await</code> pauses the function until the Promise finishes — but it does NOT block the main thread. Use <code>try/catch</code> for error handling, which is easier to read than <code>.catch()</code> chains. Behind the scenes, <code>await</code> is just <code>.then()</code> with cleaner syntax.</p>
+    </div>
+    <div class="q-section">
+      <div class="q-section-title orange">Real Interview Answer</div>
+      <p>"I prefer <code>async/await</code> over raw Promises because it's easier to read — especially in Playwright tests where steps happen one after another. I wrap test code in <code>try/catch</code> for clean error handling. I use <code>Promise.all</code> inside async functions for parallel work. One trap: <code>await</code> inside a loop runs one at a time (slow!). Use <code>Promise.all</code> with <code>map</code> to run things in parallel."</p>
+    </div>
+  </div>
+
+  <div class="question-card">
+    <div class="q-header">
+      <span class="q-number">10</span>
+      <div>
+        <span class="q-text">What is hoisting? How does it differ for <code>var</code>, <code>let</code>, <code>const</code>, and function declarations?</span>
+        <span class="q-badge badge-intermediate">Intermediate</span>
+        <span class="priority-p1">P1</span>
+      </div>
+    </div>
+    <div class="q-section">
+      <div class="q-section-title">Basic Answer</div>
+      <p>Hoisting means JavaScript moves all declarations to the top of their scope during setup. Function declarations are fully hoisted — you can call them before writing them. <code>var</code> is hoisted and starts as <code>undefined</code>. <code>let</code> and <code>const</code> are hoisted but NOT initialized (Temporal Dead Zone). Function expressions and arrow functions follow the hoisting rules of the variable (<code>var</code>/<code>let</code>/<code>const</code>) they're assigned to.</p>
+    </div>
+    <div class="q-section">
+      <div class="q-section-title orange">Real Interview Answer</div>
+      <p>"Hoisting means declarations are processed before the code runs. For function declarations, you can call them before they appear in the file — great for putting helper functions at the bottom. For <code>var</code>, the declaration is hoisted but the value assignment stays in place, so it's <code>undefined</code> until that line. <code>let</code> and <code>const</code> are hoisted too, but using them before the declaration line throws a ReferenceError."</p>
+    </div>
+  </div>
+
+  <!-- Continue with Q11-20 in same pattern -->
+  <div class="question-card">
+    <div class="q-header"><span class="q-number">11</span><div><span class="q-text">Explain event delegation, event bubbling, and event capturing in the DOM.</span><span class="q-badge badge-intermediate">Intermediate</span><span class="priority-p1">P1</span></div></div>
+    <div class="q-section"><div class="q-section-title">Basic Answer</div><p>When an event happens on an element, it goes through three phases: (1) Capturing — from window down to the target. (2) Target — the element itself. (3) Bubbling — from the target back up to window. Event delegation uses bubbling — instead of adding a listener to each child, you add ONE listener to the parent and check which child triggered it. This saves memory and works for elements added after page load.</p></div>
+    <div class="q-section"><div class="q-section-title orange">Real Interview Answer</div><p>"Event delegation is important for dynamic elements — common in modern single-page apps. Instead of adding listeners to every button, I add one to the parent and check <code>event.target</code> to find which child was clicked. This connects to Playwright's auto-waiting: understanding event flow helps debug timing issues when elements load dynamically."</p></div>
+    <div class="q-section"><div class="q-section-title red">Follow-Up Questions</div><div class="follow-ups"><span class="follow-up-item">How does <code>stopPropagation()</code> differ from <code>stopImmediatePropagation()</code>?</span><span class="follow-up-item">How do you get the target element in a delegated event?</span></div></div>
+  </div>
+
+  <div class="question-card">
+    <div class="q-header"><span class="q-number">12</span><div><span class="q-text">What is the difference between <code>map()</code>, <code>filter()</code>, and <code>reduce()</code>? Provide real use cases.</span><span class="q-badge badge-intermediate">Intermediate</span><span class="priority-p1">P1</span></div></div>
+    <div class="q-section"><div class="q-section-title">Basic Answer</div><p><code>map()</code> changes every element and returns a new array (same length). <code>filter()</code> picks elements that pass a test and returns a new array (shorter or same). <code>reduce()</code> combines all elements into any single value (number, object, array). None of them change the original array. In testing: use <code>map</code> to get text from page elements, <code>filter</code> to remove invalid test cases, and <code>reduce</code> to add up test results.</p></div>
+    <div class="q-section"><div class="q-section-title green">Detailed Answer</div>
+    <div class="code-block">
+<span class="comment">// Extract prices from page elements</span>
+<span class="keyword">const</span> prices = <span class="keyword">await</span> page.locator(<span class="string">'.price'</span>).allTextContents();
+<span class="keyword">const</span> priceNumbers = prices
+  .map(p => <span class="function">parseFloat</span>(p.replace(<span class="string">'$'</span>, <span class="string">''</span>)))
+  .filter(p => p > <span class="number">0</span>);
+  <span class="comment">// Remove free items</span>
+
+<span class="keyword">const</span> totalPrice = priceNumbers.reduce((sum, p) => sum + p, <span class="number">0</span>);
+    </div>
+    </div>
+  </div>
+
+  <div class="question-card">
+    <div class="q-header"><span class="q-number">13</span><div><span class="q-text">How do you deep clone an object in JavaScript? What are the limitations of <code>JSON.parse(JSON.stringify(obj))</code>?</span><span class="q-badge badge-intermediate">Intermediate</span><span class="priority-p1">P1</span></div></div>
+    <div class="q-section"><div class="q-section-title">Basic Answer</div><p><code>JSON.parse(JSON.stringify(obj))</code> is the easiest way to deep-clone an object, but it has big limitations: it drops functions, <code>undefined</code>, Symbols, <code>BigInt</code>, circular references, and converts <code>Date</code> to string, and loses <code>Map</code>, <code>Set</code>, and <code>RegExp</code>. For proper deep cloning, use <code>structuredClone()</code> (Node 17+ or modern browsers) or Lodash's <code>_.cloneDeep()</code>.</p></div>
+    <div class="q-section"><div class="q-section-title orange">Real Interview Answer</div><p>"For simple API response data, <code>JSON.parse(JSON.stringify())</code> works fine. But for objects with Dates, Maps, or circular references — common in complex test configs — I use <code>structuredClone()</code> which handles all these. Deep cloning is important in test automation so each test gets its own copy of test data without sharing."</p></div>
+  </div>
+
+  <div class="question-card">
+    <div class="q-header"><span class="q-number">14</span><div><span class="q-text">What are arrow functions? How do they differ from regular functions regarding <code>this</code>, <code>arguments</code>, and <code>new</code>?</span><span class="q-badge badge-intermediate">Intermediate</span><span class="priority-p1">P1</span></div></div>
+    <div class="q-section"><div class="q-section-title">Basic Answer</div><p>Arrow functions are a shorter way to write functions. They differ from regular functions in three ways: (1) No own <code>this</code> — they take <code>this</code> from the surrounding code. (2) No <code>arguments</code> object — use <code>...args</code> instead. (3) Can't be used with <code>new</code> as constructors. They also can't be generators (no <code>yield</code>). Use arrow functions for callbacks and methods where you don't want <code>this</code> to change.</p></div>
+  </div>
+
+  <div class="question-card">
+    <div class="q-header"><span class="q-number">15</span><div><span class="q-text">What is the nullish coalescing operator (<code>??</code>) and how does it differ from <code>||</code>?</span><span class="q-badge badge-intermediate">Intermediate</span><span class="priority-p1">P1</span></div></div>
+    <div class="q-section"><div class="q-section-title">Basic Answer</div><p><code>??</code> (nullish coalescing) gives the right value ONLY when the left value is <code>null</code> or <code>undefined</code>. <code>||</code> (OR) gives the right value for ALL falsy values — <code>false</code>, <code>0</code>, <code>''</code>, <code>null</code>, <code>undefined</code>, <code>NaN</code>. Use <code>??</code> when you want to keep valid values like <code>0</code> or empty string as real values. This matters for test config — <code>config.timeout ?? 30000</code> keeps <code>0</code> as a real value, while <code>config.timeout || 30000</code> would replace <code>0</code> with <code>30000</code> (a bug!).</p></div>
+    <div class="code-block">
+<span class="keyword">const</span> timeout = config.timeout ?? <span class="number">30000</span>;
+<span class="comment">// Uses 0 if explicitly set to 0</span>
+<span class="keyword">const</span> timeout2 = config.timeout || <span class="number">30000</span>;
+<span class="comment">// Replaces 0 with 30000 — bug!</span>
+    </div>
+  </div>
+
+  <div class="question-card">
+    <div class="q-header"><span class="q-number">16</span><div><span class="q-text">What is the spread operator vs rest operator? Give practical test automation examples.</span><span class="q-badge badge-intermediate">Intermediate</span><span class="priority-p1">P1</span></div></div>
+    <div class="q-section"><div class="q-section-title">Basic Answer</div><p><strong>Spread</strong> (<code>...</code>) spreads items out — like unpacking an array into separate values. <strong>Rest</strong> (<code>...</code>) collects items together — like grouping function arguments into an array. Use spread to copy arrays/objects, merge them, or pass array items as function arguments. Use rest for functions with any number of arguments or destructuring. In Playwright, spread is great for merging default config with overrides: <code>{ ...defaultConfig, ...overrides }</code>.</p></div>
+  </div>
+
+  <div class="question-card">
+    <div class="q-header"><span class="q-number">17</span><div><span class="q-text">How does <code>Object.freeze()</code> differ from <code>Object.seal()</code> and <code>Object.preventExtensions()</code>?</span><span class="q-badge badge-advanced">Advanced</span><span class="priority-p1">P1</span></div></div>
+    <div class="q-section"><div class="q-section-title">Basic Answer</div><p><code>Object.preventExtensions()</code> — stops you from adding new properties. <code>Object.seal()</code> — stops add + delete. <code>Object.freeze()</code> — stops add + delete + change values. All three are shallow — nested objects can still be changed. Use <code>freeze</code> for configuration objects that should never change in your test framework.</p></div>
+  </div>
+
+  <div class="question-card">
+    <div class="q-header"><span class="q-number">18</span><div><span class="q-text">Implement debounce and throttle functions. When would you use each in test automation?</span><span class="q-badge badge-advanced">Advanced</span><span class="priority-p1">P1</span></div></div>
+    <div class="q-section"><div class="q-section-title">Basic Answer</div><p><strong>Debounce:</strong> waits until the user stops calling the function for X time, then runs it once. Like waiting for someone to stop typing before searching. <strong>Throttle:</strong> runs the function at most once every X time, no matter how many times it's called. Like limiting API calls to once per second. In testing: debounce for search input tests, throttle for scroll event or rate limit tests.</p></div>
+    <div class="code-block">
+<span class="keyword">function</span> <span class="function">debounce</span>(fn, delay) {
+  <span class="keyword">let</span> timer;
+  <span class="keyword">return function</span>(...args) {
+    clearTimeout(timer);
+    timer = setTimeout(() => fn.apply(<span class="keyword">this</span>, args), delay);
+  };
+}
+
+<span class="keyword">function</span> <span class="function">throttle</span>(fn, interval) {
+  <span class="keyword">let</span> lastCall = <span class="number">0</span>;
+  <span class="keyword">return function</span>(...args) {
+    <span class="keyword">const</span> now = Date.now();
+    <span class="keyword">if</span> (now - lastCall >= interval) {
+      lastCall = now;
+      fn.apply(<span class="keyword">this</span>, args);
+    }
+  };
+}
+    </div>
+  </div>
+
+  <div class="question-card">
+    <div class="q-header"><span class="q-number">19</span><div><span class="q-text">What is the difference between <code>Map</code> and <code>WeakMap</code>? What about <code>Set</code> and <code>WeakSet</code>?</span><span class="q-badge badge-advanced">Advanced</span><span class="priority-p1">P1</span></div></div>
+    <div class="q-section"><div class="q-section-title">Basic Answer</div><p><strong>Map vs WeakMap:</strong> <code>Map</code> keeps references strong (object stays in memory). <code>WeakMap</code> keys must be objects, and if nothing else references that object, it gets cleaned up (garbage collected). <code>WeakMap</code> can't be looped over and has no <code>.size</code>. Use <code>WeakMap</code> to attach data to DOM elements without causing memory leaks. Same for <code>Set</code> vs <code>WeakSet</code>. In Playwright, <code>WeakMap</code> helps cache element references safely.</p></div>
+  </div>
+
+  <div class="question-card">
+    <div class="q-header"><span class="q-number">20</span><div><span class="q-text">What is <code>NaN</code>? How do you reliably check if a value is <code>NaN</code>?</span><span class="q-badge badge-intermediate">Intermediate</span><span class="priority-p1">P1</span></div></div>
+    <div class="q-section"><div class="q-section-title">Basic Answer</div><p><code>NaN</code> stands for "Not-a-Number." It's a special value that represents an invalid number. <code>NaN</code> is the only value in JavaScript that is NOT equal to itself (<code>NaN !== NaN</code> is true). To check for <code>NaN</code>, use <code>Number.isNaN()</code>. DON'T use the global <code>isNaN()</code> — it converts the value to a number first, so <code>isNaN('hello')</code> returns true (wrong!), while <code>Number.isNaN('hello')</code> returns false (correct).</p></div>
+    <div class="code-block">
+isNaN(<span class="string">'hello'</span>);
+<span class="comment">// true — coerces 'hello' → NaN</span>
+Number.isNaN(<span class="string">'hello'</span>);
+<span class="comment">// false — no coercion</span>
+Number.isNaN(NaN);
+<span class="comment">// true</span>
+    </div>
+  </div>
+
+  <!-- ===== P2 SECTION ===== -->
+  <div class="section-divider">
+    <h2>P2 — Commonly Asked Questions</h2>
+    <p>Beginner to intermediate questions often asked in technical screens and mid-level interviews.</p>
+  </div>
+
+  <!-- Q21 -- NEW BEGINNER -->
+  <div class="question-card">
+    <div class="q-header"><span class="q-number">21</span><div><span class="q-text">What are the primitive data types in JavaScript? How do they differ from reference types?</span><span class="q-badge badge-beginner">Beginner</span><span class="priority-p2">P2</span></div></div>
+    <div class="q-section"><div class="q-section-title">Basic Answer</div><p><strong>Primitive types</strong> (7): string, number, boolean, null, undefined, symbol, bigint. They are stored directly as values — like putting a number in a box. <strong>Reference types</strong>: objects, arrays, functions. They are stored as a reference (a pointer) to where the data lives in memory. When you compare objects, JavaScript checks if they point to the SAME memory location, not if they have the same content. This is why two identical objects aren't equal — you need deep comparison (<code>toEqual</code> vs <code>toBe</code>).</p></div>
+    <div class="q-section"><div class="q-section-title orange">Real Interview Answer</div><p>"JavaScript has 7 primitive types and reference types. Primitives store the actual value — <code>let b = a</code> (where <code>a</code> is a number) creates a copy. Objects and arrays store a reference — assigning copies the address, not the data. This matters in test assertions: <code>toBe</code> checks reference (same object?), <code>toEqual</code> checks values (same content?)."</p></div>
+    <div class="q-section"><div class="q-section-title red">Follow-Up Questions</div><div class="follow-ups"><span class="follow-up-item">How does <code>typeof</code> handle <code>null</code>?</span><span class="follow-up-item">What is the difference between <code>==</code> and <code>===</code> for objects?</span></div></div>
+  </div>
+
+  <!-- Q22 -- NEW BEGINNER -->
+  <div class="question-card">
+    <div class="q-header"><span class="q-number">22</span><div><span class="q-text">What are truthy and falsy values in JavaScript? How do they affect conditional logic in tests?</span><span class="q-badge badge-beginner">Beginner</span><span class="priority-p2">P2</span></div></div>
+    <div class="q-section"><div class="q-section-title">Basic Answer</div><p>There are only <strong>6 falsy values</strong> in JavaScript: <code>false</code>, <code>0</code>, <code>''</code> (empty string), <code>null</code>, <code>undefined</code>, <code>NaN</code>. EVERYTHING else is truthy — including <code>'0'</code>, <code>[]</code>, <code>{}</code>, and <code>'false'</code>. This matters in tests: <code>if (element)</code> is true for ANY object, even an empty array. Always be explicit about what you're checking.</p></div>
+    <div class="q-section"><div class="q-section-title green">Detailed Answer</div><div class="code-block">
+<span class="comment">// Common pitfalls in test automation</span>
+<span class="keyword">const</span> count = <span class="number">0</span>;  <span class="keyword">if</span> (count) {
+    <span class="comment">/* This won't execute — 0 is falsy! */</span>
+  }
+
+<span class="keyword">const</span> arr: string[] = [];  <span class="keyword">if</span> (arr.length) {
+    <span class="comment">// 0 is falsy — correct way to check empty array</span>
+  }
+
+<span class="comment">// Truthy check for "value exists" — wrong for empty string or 0</span>
+<span class="keyword">if</span> (inputValue) {
+  <span class="comment">/* Skipped if value is empty string */</span>
+}
+<span class="comment">// Use explicit check instead:</span>
+<span class="keyword">if</span> (inputValue !== <span class="keyword">null</span> && inputValue !== <span class="keyword">undefined</span>) { }
+      </div></div>
+    <div class="q-section"><div class="q-section-title orange">Real Interview Answer</div><p>"Knowing truthy/falsy values prevents subtle bugs. For example, <code>if (response.data)</code> on an empty array <code>[]</code> is truthy — the correct check is <code>if (response.data.length > 0)</code>. Similarly, <code>if (errorCode)</code> fails when errorCode is 0, which might be a valid error code. I always use explicit comparisons in test assertions."</p></div>
+  </div>
+
+  <!-- Q23 -- NEW BEGINNER -->
+  <div class="question-card">
+    <div class="q-header"><span class="q-number">23</span><div><span class="q-text">What is the difference between <code>null</code> and <code>undefined</code>? When does each occur?</span><span class="q-badge badge-beginner">Beginner</span><span class="priority-p2">P2</span></div></div>
+    <div class="q-section"><div class="q-section-title">Basic Answer</div><p><code>undefined</code> means a variable exists but hasn't been given a value — it's JavaScript's default. <code>null</code> is something you set intentionally to mean "nothing" or "empty." <code>typeof null</code> returns <code>'object'</code> (this is a known bug). <code>typeof undefined</code> returns <code>'undefined'</code>. Use <code>value == null</code> to check for both at once. In API testing: <code>null</code> means the field exists but is empty; <code>undefined</code> means the field doesn't exist.</p></div>
+    <div class="code-block">
+<span class="keyword">let</span> a;
+<span class="comment">// undefined — declared but not assigned</span>
+<span class="keyword">const</span> b = <span class="keyword">null</span>;
+<span class="comment">// null — explicitly set to "nothing"</span>
+
+<span class="keyword">const</span> obj = { name: <span class="string">'Test'</span> };
+console.log(obj.age);
+<span class="comment">// undefined — property doesn't exist</span>
+
+<span class="comment">// In API responses</span>
+<span class="keyword">const</span> user = <span class="keyword">await</span> api.getUser(<span class="number">1</span>);
+<span class="comment">// user.email might be null (field exists, empty) or undefined (field missing)</span>
+    </div>
+  </div>
+
+  <!-- Q24 -- NEW BEGINNER -->
+  <div class="question-card">
+    <div class="q-header"><span class="q-number">24</span><div><span class="q-text">How do <code>push()</code>, <code>pop()</code>, <code>shift()</code>, and <code>unshift()</code> work for array manipulation in test data prep?</span><span class="q-badge badge-beginner">Beginner</span><span class="priority-p2">P2</span></div></div>
+    <div class="q-section"><div class="q-section-title">Basic Answer</div><p><code>push()</code> — adds to the end. <code>pop()</code> — removes from the end. <code>shift()</code> — removes from the start. <code>unshift()</code> — adds to the start. All four CHANGE the original array. <code>push/pop</code> are fast (O(1)). <code>shift/unshift</code> are slower (O(n)) because all items must re-index. In tests: <code>push</code> is great for building test data collections.</p></div>
+    <div class="code-block">
+<span class="keyword">const</span> testUsers = [];
+<span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">1</span>; i <= <span class="number">5</span>; i++) {
+  testUsers.push({ id: i, name: <span class="string">`User<span class="keyword">${</span>i<span class="keyword">}</span>`</span> });
+}
+<span class="comment">// Later cleanup — remove the last created user</span>
+testUsers.pop();
+    </div>
+  </div>
+
+  <!-- Q25 -- NEW BEGINNER -->
+  <div class="question-card">
+    <div class="q-header"><span class="q-number">25</span><div><span class="q-text">How does <code>setTimeout</code> work? How does it relate to async test execution?</span><span class="q-badge badge-beginner">Beginner</span><span class="priority-p2">P2</span></div></div>
+    <div class="q-section"><div class="q-section-title">Basic Answer</div><p><code>setTimeout(callback, delay)</code> schedules a function to run after at least X milliseconds. It goes to the macrotask queue, so it runs only after ALL sync code and ALL microtasks finish. Even with 0ms delay, it won't run right away. In tests: DON'T use <code>setTimeout</code> for waiting — use Playwright's built-in auto-wait or <code>waitFor</code> methods instead. They're faster and more reliable.</p></div>
+    <div class="code-block">
+<span class="comment">// DON'T do this in tests:</span>
+<span class="keyword">await new</span> Promise(r => setTimeout(r, <span class="number">2000</span>));
+<span class="comment">// Flaky, slow, unreliable</span>
+
+<span class="comment">// Instead, use Playwright's auto-waiting:</span>
+<span class="keyword">await</span> page.getByText(<span class="string">'Success'</span>).waitFor({ state: <span class="string">'visible'</span> });
+    </div>
+  </div>
+
+  <!-- Q26 -- NEW BEGINNER -->
+  <div class="question-card">
+    <div class="q-header"><span class="q-number">26</span><div><span class="q-text">What is <code>JSON.stringify()</code> and <code>JSON.parse()</code>? How are they used in API testing?</span><span class="q-badge badge-beginner">Beginner</span><span class="priority-p2">P2</span></div></div>
+    <div class="q-section"><div class="q-section-title">Basic Answer</div><p><code>JSON.stringify(obj)</code> turns a JavaScript object into a JSON string (serialization). <code>JSON.parse(str)</code> turns a JSON string back into a JavaScript object (deserialization). These are essential for API testing — you send request bodies as JSON strings, and parse responses from JSON strings. They're also used for simple deep cloning, but they drop functions, <code>undefined</code>, and Symbols.</p></div>
+    <div class="code-block">
+<span class="comment">// API request body — convert object to JSON string</span>
+<span class="keyword">const</span> payload = { name: <span class="string">'Alice'</span>, email: <span class="string">'alice@example.com'</span> };
+<span class="keyword">await</span> request.post(<span class="string">'/api/users'</span>, { data: payload });
+<span class="comment">// Playwright automatically serializes objects to JSON</span>
+
+<span class="comment">// Parsing API response</span>
+<span class="keyword">const</span> response = <span class="keyword">await</span> request.get(<span class="string">'/api/users/1'</span>);
+<span class="keyword">const</span> data = <span class="keyword">await</span> response.json();  <span class="comment">// Uses JSON.parse internally</span>
+
+<span class="comment">// Deep clone for test data — simple but limited</span>
+<span class="keyword">const</span> cloned = JSON.parse(JSON.stringify(originalConfig));
+    </div>
+  </div>
+
+  <!-- Q27 -- NEW BEGINNER -->
+  <div class="question-card">
+    <div class="q-header"><span class="q-number">27</span><div><span class="q-text">How does <code>try/catch/finally</code> error handling work in JavaScript? Give a Playwright example.</span><span class="q-badge badge-beginner">Beginner</span><span class="priority-p2">P2</span></div></div>
+    <div class="q-section"><div class="q-section-title">Basic Answer</div><p><code>try</code> wraps code that might fail. <code>catch</code> handles the error. <code>finally</code> always runs (for cleanup). In Playwright tests, use <code>try/catch</code> for graceful failure handling — take a screenshot, log details, then re-throw the error. Don't overuse it — let tests fail naturally for clear error messages. Use it for non-critical actions like screenshot capture.</p></div>
+    <div class="code-block">
+<span class="keyword">try</span> {
+  <span class="keyword">await</span> page.goto(<span class="string">'https://example.com'</span>);
+  <span class="keyword">await</span> page.getByText(<span class="string">'Welcome'</span>).waitFor();
+} <span class="keyword">catch</span> (error) {
+  <span class="keyword">await</span> page.screenshot({ path: <span class="string">'failure.png'</span> });
+  console.error(<span class="string">'Test failed:'</span>, error.message);
+  <span class="keyword">throw</span> error;
+  <span class="comment">// Re-throw to mark test as failed</span>
+} <span class="keyword">finally</span> {
+  <span class="keyword">await</span> page.close();
+  <span class="comment">// Always clean up</span>
+}
+    </div>
+  </div>
+
+  <!-- Q28 -- NEW BEGINNER -->
+  <div class="question-card">
+    <div class="q-header"><span class="q-number">28</span><div><span class="q-text">What is the difference between <code>for</code> loops and <code>forEach()</code>? When would you use each in test automation?</span><span class="q-badge badge-beginner">Beginner</span><span class="priority-p2">P2</span></div></div>
+    <div class="q-section"><div class="q-section-title">Basic Answer</div><p>A <code>for</code> loop gives you full control — you can <code>break</code>, <code>continue</code>, or track the index. <code>forEach()</code> runs a function on each element — you can't stop it early. Use <code>for</code> when you need early exit or index-based logic. Use <code>forEach</code> for simple iteration over all elements. In Playwright, use <code>for...of</code> with <code>await</code> for sequential element processing.</p></div>
+    <div class="code-block">
+<span class="comment">// Sequential async — use for...of with await</span>
+<span class="keyword">for</span> (<span class="keyword">const</span> user <span class="keyword">of</span> testUsers) {
+  <span class="keyword">const</span> response = <span class="keyword">await</span> api.createUser(user);
+  expect(response.status).toBe(<span class="number">201</span>);
+}
+
+<span class="comment">// Parallel async — use Promise.all with map</span>
+<span class="keyword">await</span> Promise.all(testUsers.map(user => api.createUser(user)));
+    </div>
+  </div>
+
+  <!-- Q29 -- ORIGINAL P2 Q21 -->
+  <div class="question-card">
+    <div class="q-header"><span class="q-number">29</span><div><span class="q-text">What is a pure function vs impure function? Why does it matter for testing?</span><span class="q-badge badge-intermediate">Intermediate</span><span class="priority-p2">P2</span></div></div>
+    <div class="q-section"><div class="q-section-title">Basic Answer</div><p>A <strong>pure function</strong> always gives the same output for the same input and doesn't change anything outside itself (no I/O, no DOM changes, no mutations). An <strong>impure function</strong> might depend on outside state or cause side effects. Pure functions are easy to test and debug. In test automation: keep your assertion logic pure, and separate impure operations (DOM queries, API calls) into their own layers.</p></div>
+  </div>
+
+  <div class="question-card">
+    <div class="q-header"><span class="q-number">30</span><div><span class="q-text">How does destructuring work for arrays, objects, and nested structures?</span><span class="q-badge badge-intermediate">Intermediate</span><span class="priority-p2">P2</span></div></div>
+    <div class="q-section"><div class="q-section-title">Basic Answer</div><p>Destructuring unpacks values from arrays/objects into variables in one line. <strong>Array destructuring</strong> uses position: <code>const [first, second] = arr</code>. <strong>Object destructuring</strong> uses property names: <code>const { name, age } = obj</code>. You can set defaults, rename variables, and handle nested data. Great for extracting fields from API responses.</p></div>
+    <div class="code-block">
+<span class="comment">// API response destructuring</span>
+<span class="keyword">const</span> { id, name, address: { city, country } } = <span class="keyword">await</span> response.json();
+expect(id).toBe(<span class="number">1</span>);
+expect(city).toBe(<span class="string">'New York'</span>);
+    </div>
+  </div>
+
+  <div class="question-card">
+    <div class="q-header"><span class="q-number">31</span><div><span class="q-text">What is currying? How is it useful in test configuration?</span><span class="q-badge badge-advanced">Advanced</span><span class="priority-p2">P2</span></div></div>
+    <div class="q-section"><div class="q-section-title">Basic Answer</div><p>Currying turns a function that takes multiple arguments into a chain of functions that each take one argument. <code>f(a, b, c)</code> becomes <code>f(a)(b)(c)</code>. Use this to create reusable test helpers: <code>const createUser = (role) => (overrides) => ({ ...baseConfig, role, ...overrides })</code>.</p></div>
+  </div>
+
+  <div class="question-card">
+    <div class="q-header"><span class="q-number">32</span><div><span class="q-text">How do you remove duplicates from an array? Compare Set vs filter approaches.</span><span class="q-badge badge-intermediate">Intermediate</span><span class="priority-p2">P2</span></div></div>
+    <div class="q-section"><div class="q-section-title">Basic Answer</div><p><strong>For simple values:</strong> <code>[...new Set(arr)]</code> — easiest and fast (O(n)). <strong>For objects:</strong> Use <code>filter</code> with <code>findIndex</code> — slower (O(n²)) but works. <strong>For large object arrays:</strong> Use a <code>Map</code> with a unique key for best performance.</p></div>
+  </div>
+
+  <div class="question-card">
+    <div class="q-header"><span class="q-number">33</span><div><span class="q-text">What is memoization? Implement a memoized function.</span><span class="q-badge badge-advanced">Advanced</span><span class="priority-p2">P2</span></div></div>
+    <div class="q-section"><div class="q-section-title">Basic Answer</div><p>Memoization stores (caches) the result of a function call so if you call it again with the same arguments, it returns the cached result instead of recalculating. Useful for expensive operations. The cache is usually a <code>Map</code> or object keyed by the function's arguments.</p></div>
+    <div class="code-block">
+<span class="keyword">function</span> <span class="function">memoize</span>(fn) {
+  <span class="keyword">const</span> cache = <span class="keyword">new</span> Map();
+  <span class="keyword">return function</span>(...args) {
+    <span class="keyword">const</span> key = JSON.stringify(args);
+    <span class="keyword">if</span> (cache.has(key)) <span class="keyword">return</span> cache.get(key);
+    <span class="keyword">const</span> result = fn.apply(<span class="keyword">this</span>, args);
+    cache.set(key, result);
+    <span class="keyword">return</span> result;
+  };
+}
+    </div>
+  </div>
+
+  <div class="question-card">
+    <div class="q-header"><span class="q-number">34</span><div><span class="q-text">What is the difference between <code>splice()</code> and <code>slice()</code>?</span><span class="q-badge badge-beginner">Beginner</span><span class="priority-p2">P2</span></div></div>
+    <div class="q-section"><div class="q-section-title">Basic Answer</div><p><code>slice(start, end)</code> returns a new array (does NOT change the original). <code>splice(start, deleteCount, ...items)</code> changes the original array (adds/removes items). <strong>Remember:</strong> <code>slice</code> = copy (safe), <code>splice</code> = change (mutates).</p></div>
+  </div>
+
+  <div class="question-card">
+    <div class="q-header"><span class="q-number">35</span><div><span class="q-text">How do you flatten a nested array? Implement both recursive and <code>flat()</code> approaches.</span><span class="q-badge badge-intermediate">Intermediate</span><span class="priority-p2">P2</span></div></div>
+    <div class="q-section"><div class="q-section-title">Basic Answer</div><p>Use <code>arr.flat(depth)</code> to flatten nested arrays. For unlimited depth: <code>arr.flat(Infinity)</code>. A recursive approach uses <code>reduce</code> and <code>concat</code>. In tests, flattening helps process multi-level API response data.</p></div>
+  </div>
+
+  <div class="question-card">
+    <div class="q-header"><span class="q-number">36</span><div><span class="q-text">What are generators and iterators? When would you use them?</span><span class="q-badge badge-advanced">Advanced</span><span class="priority-p2">P2</span></div></div>
+    <div class="q-section"><div class="q-section-title">Basic Answer</div><p>Generators (<code>function*</code>) are functions that can pause and resume. Use <code>yield</code> to return values one at a time. They return an iterator with <code>.next()</code>. Great for generating large test datasets lazily (only when needed), infinite sequences, or custom iteration patterns.</p></div>
+  </div>
+
+  <div class="question-card">
+    <div class="q-header"><span class="q-number">37</span><div><span class="q-text">How does short-circuit evaluation work with <code>&&</code> and <code>||</code>?</span><span class="q-badge badge-beginner">Beginner</span><span class="priority-p2">P2</span></div></div>
+    <div class="q-section"><div class="q-section-title">Basic Answer</div><p><strong>&&</strong> returns the first falsy value, or the last value if all are truthy. <strong>||</strong> returns the first truthy value, or the last value if all are falsy. Short-circuit means JavaScript stops evaluating as soon as it knows the result. Used for: <code>isLoggedIn && redirect()</code> (run if true) or defaults: <code>const name = user.name || 'Guest'</code>.</p></div>
+  </div>
+
+  <div class="question-card">
+    <div class="q-header"><span class="q-number">38</span><div><span class="q-text">How does <code>forEach()</code> differ from <code>map()</code>? When should you avoid <code>forEach()</code>?</span><span class="q-badge badge-beginner">Beginner</span><span class="priority-p2">P2</span></div></div>
+    <div class="q-section"><div class="q-section-title">Basic Answer</div><p><code>forEach()</code> runs a function on each element but returns nothing. <code>map()</code> runs a function on each element and returns a NEW array with the results. Use <code>forEach</code> for side-effects (logging, clicking elements). Use <code>map</code> for transformations (extracting data). In tests: prefer <code>map</code> for data extraction, <code>forEach</code> for one-by-one element interaction.</p></div>
+  </div>
+
+  <!-- Q31-40 more condensed -->
+  <div class="question-card">
+    <div class="q-header"><span class="q-number">39</span><div><span class="q-text">Explain how <code>reduce()</code> can be used for grouping, counting, and flattening.</span><span class="q-badge badge-intermediate">Intermediate</span><span class="priority-p2">P2</span></div></div>
+    <div class="q-section"><div class="q-section-title">Basic Answer</div><p><code>reduce()</code> is the most flexible array method — it can do almost anything. <strong>Grouping:</strong> group items by category. <strong>Counting:</strong> count how many of each item. <strong>Flattening:</strong> turn a 2D array into a 1D array. Think of <code>reduce</code> as: start with a starting value, then combine each element into it one by one.</p></div>
+  </div>
+
+  <div class="question-card">
+    <div class="q-header"><span class="q-number">40</span><div><span class="q-text">What is an IIFE? Why would you use one?</span><span class="q-badge badge-intermediate">Intermediate</span><span class="priority-p2">P2</span></div></div>
+    <div class="q-section"><div class="q-section-title">Basic Answer</div><p>IIFE stands for Immediately Invoked Function Expression. It's a function that runs right away when it's defined: <code>(function(){ ... })()</code>. It creates a private scope so variables don't leak to the global scope. Used in module patterns before ES6 modules came along. Still useful for keeping code isolated.</p></div>
+  </div>
+
+  <div class="question-card">
+    <div class="q-header"><span class="q-number">41</span><div><span class="q-text">What are template literals and tagged templates? Give a Playwright locator example.</span><span class="q-badge badge-intermediate">Intermediate</span><span class="priority-p2">P2</span></div></div>
+    <div class="q-section"><div class="q-section-title">Basic Answer</div><p>Template literals use backticks (`` ` ``) and let you insert variables with <code>${expr}</code>. Tagged templates let you process template literals with a function. In Playwright, they're great for dynamic locators: <code>page.locator(`[data-testid="user-${userId}"]`)</code>.</p></div>
+  </div>
+
+  <div class="question-card">
+    <div class="q-header"><span class="q-number">42</span><div><span class="q-text">What is the difference between local storage, session storage, and cookies in browser storage?</span><span class="q-badge badge-intermediate">Intermediate</span><span class="priority-p2">P2</span></div></div>
+    <div class="q-section"><div class="q-section-title">Basic Answer</div><p><strong>Local Storage:</strong> stays until you clear it, shared across tabs. <strong>Session Storage:</strong> lives only in the current tab, gone when tab closes. <strong>Cookies:</strong> sent with every HTTP request, max 4KB, can expire. In Playwright, use <code>page.evaluate(() => localStorage.getItem('token'))</code> to access storage, and <code>storageState</code> to save auth across tests.</p></div>
+  </div>
+
+  <div class="question-card">
+    <div class="q-header"><span class="q-number">43</span><div><span class="q-text">How does the <code>typeof</code> operator work? What is <code>typeof null</code>?</span><span class="q-badge badge-beginner">Beginner</span><span class="priority-p2">P2</span></div></div>
+    <div class="q-section"><div class="q-section-title">Basic Answer</div><p><code>typeof</code> returns a string saying what type something is. <code>typeof null</code> returns <code>'object'</code> — this is a famous bug from JavaScript's early days. Use <code>value === null</code> to check for null. Other quirks: <code>typeof NaN</code> returns <code>'number'</code>, <code>typeof []</code> returns <code>'object'</code> (use <code>Array.isArray()</code> instead).</p></div>
+  </div>
+
+  <div class="question-card">
+    <div class="q-header"><span class="q-number">44</span><div><span class="q-text">How do you implement a simple Promise from scratch?</span><span class="q-badge badge-expert">Expert</span><span class="priority-p2">P2</span></div></div>
+    <div class="q-section"><div class="q-section-title">Basic Answer</div><p>A basic Promise needs: a state machine (pending → fulfilled/rejected), an executor function, <code>resolve</code>/<code>reject</code> callbacks, and a <code>.then()</code> method for chaining. The executor runs right away. <code>.then()</code> queues callbacks that run when the state changes (or immediately if already done). For proper async behavior, use <code>queueMicrotask</code>.</p></div>
+  </div>
+
+  <div class="question-card">
+    <div class="q-header"><span class="q-number">45</span><div><span class="q-text">How does JavaScript handle type coercion? Give examples of implicit vs explicit coercion.</span><span class="q-badge badge-intermediate">Intermediate</span><span class="priority-p2">P2</span></div></div>
+    <div class="q-section"><div class="q-section-title">Basic Answer</div><p><strong>Implicit coercion</strong> (JavaScript changes types automatically): <code>'5' - 3</code> → <code>2</code> (string becomes number), <code>'5' + 3</code> → <code>'53'</code> (number becomes string), <code>!0</code> → <code>true</code>. <strong>Explicit coercion</strong> (you do it on purpose): <code>Number('5')</code>, <code>String(5)</code>, <code>Boolean(0)</code>. The <code>+</code> operator prefers to make strings if either side is a string.</p></div>
+  </div>
+
+  <div class="question-card">
+    <div class="q-header"><span class="q-number">46</span><div><span class="q-text">What is the difference between <code>for...in</code> and <code>for...of</code>?</span><span class="q-badge badge-beginner">Beginner</span><span class="priority-p2">P2</span></div></div>
+    <div class="q-section"><div class="q-section-title">Basic Answer</div><p><code>for...in</code> loops over property NAMES (keys). Use for objects. <code>for...of</code> loops over property VALUES. Use for arrays, strings, Maps, Sets. <code>for...in</code> on arrays can include prototype properties — avoid it for arrays.</p></div>
+  </div>
+
+  <div class="question-card">
+    <div class="q-header"><span class="q-number">47</span><div><span class="q-text">How does <code>Object.create()</code> work? Compare with constructor functions and class syntax.</span><span class="q-badge badge-advanced">Advanced</span><span class="priority-p2">P2</span></div></div>
+    <div class="q-section"><div class="q-section-title">Basic Answer</div><p><code>Object.create(proto)</code> creates a new object with a given prototype — pure prototypal inheritance without constructors. Constructor functions (<code>new Fn()</code>) and classes (<code>class</code>) are just easier ways to use prototypes. <code>Object.create(null)</code> creates an object with NO prototype — useful for dictionaries that shouldn't inherit anything.</p></div>
+  </div>
+
+  <div class="question-card">
+    <div class="q-header"><span class="q-number">48</span><div><span class="q-text">What is the difference between <code>Array.isArray()</code> and <code>instanceof Array</code>?</span><span class="q-badge badge-intermediate">Intermediate</span><span class="priority-p2">P2</span></div></div>
+    <div class="q-section"><div class="q-section-title">Basic Answer</div><p>Use <code>Array.isArray()</code> to check if something is an array — it's the reliable way. <code>instanceof Array</code> can fail if the array comes from a different frame or context (different Array constructor). <code>Array.isArray()</code> works everywhere.</p></div>
+  </div>
+
+  <!-- ===== P3 SECTION ===== -->
+  <div class="section-divider">
+    <h2>P3 — Occasionally Asked (Valuable Context)</h2>
+    <p>Less common but useful for senior roles and deep-dive interview rounds.</p>
+  </div>
+
+  <!-- P3 Q49-58 -->
+  <div class="question-card">
+    <div class="q-header"><span class="q-number">49</span><div><span class="q-text">What is strict mode (<code>"use strict"</code>) and what does it prevent?</span><span class="q-badge badge-intermediate">Intermediate</span><span class="priority-p3">P3</span></div></div>
+    <div class="q-section"><div class="q-section-title">Basic Answer</div><p>Strict mode (<code>"use strict"</code>) makes JavaScript stricter and catches more errors. It prevents: using variables without declaring them, deleting things that can't be deleted, duplicate function parameter names, the <code>with</code> statement, <code>this</code> being the global object in functions, and setting properties on primitive values. Instead of silently failing, JavaScript throws errors.</p></div>
+  </div>
+
+  <div class="question-card">
+    <div class="q-header"><span class="q-number">50</span><div><span class="q-text">What are Symbols and where are they useful?</span><span class="q-badge badge-advanced">Advanced</span><span class="priority-p3">P3</span></div></div>
+    <div class="q-section"><div class="q-section-title">Basic Answer</div><p>Symbols are unique, unchangeable values used as object property keys to avoid name conflicts. <code>Symbol.for('key')</code> creates shared global symbols. Used for custom iterators, metadata, and framework internals. Not needed in daily test automation, but useful for designing utility libraries.</p></div>
+  </div>
+
+  <div class="question-card">
+    <div class="q-header"><span class="q-number">51</span><div><span class="q-text">Explain the <code>Proxy</code> API and give a test automation use case.</span><span class="q-badge badge-expert">Expert</span><span class="priority-p3">P3</span></div></div>
+    <div class="q-section"><div class="q-section-title">Basic Answer</div><p><code>Proxy</code> wraps an object and lets you intercept operations (get, set, has, delete, etc.). Use cases: a logging proxy that records every property access on a test config object, or a validation proxy that checks required properties are set before tests run.</p></div>
+  </div>
+
+  <div class="question-card">
+    <div class="q-header"><span class="q-number">52</span><div><span class="q-text">How does <code>Intl</code> work for localization testing?</span><span class="q-badge badge-advanced">Advanced</span><span class="priority-p3">P3</span></div></div>
+    <div class="q-section"><div class="q-section-title">Basic Answer</div><p>The <code>Intl</code> API formats dates, numbers, and currencies for different countries/languages. Useful for localization testing — checking that your app shows the right format for each region. Example: <code>new Intl.DateTimeFormat('de-DE').format(date)</code> vs <code>'en-US'</code>.</p></div>
+  </div>
+
+  <div class="question-card">
+    <div class="q-header"><span class="q-number">53</span><div><span class="q-text">What is the <code>Reflect</code> API? How does it relate to Proxy?</span><span class="q-badge badge-expert">Expert</span><span class="priority-p3">P3</span></div></div>
+    <div class="q-section"><div class="q-section-title">Basic Answer</div><p><code>Reflect</code> is a global object with methods that match Proxy traps (<code>Reflect.get()</code>, <code>Reflect.set()</code>, etc.). It provides the default behavior for Proxy traps. Use <code>Reflect</code> inside Proxy traps to forward operations to the original object.</p></div>
+  </div>
+
+  <div class="question-card">
+    <div class="q-header"><span class="q-number">54</span><div><span class="q-text">How do you check if an object has a property (own vs inherited)?</span><span class="q-badge badge-intermediate">Intermediate</span><span class="priority-p3">P3</span></div></div>
+    <div class="q-section"><div class="q-section-title">Basic Answer</div><p><code>obj.hasOwnProperty('key')</code> or <code>Object.hasOwn(obj, 'key')</code> — checks ONLY the object's own properties (not inherited). <code>'key' in obj</code> — checks own AND inherited properties. Don't use <code>obj.key !== undefined</code> — the property could exist but be set to <code>undefined</code>.</p></div>
+  </div>
+
+  <div class="question-card">
+    <div class="q-header"><span class="q-number">55</span><div><span class="q-text">What are tagged templates and how would you use them for building safe SQL queries?</span><span class="q-badge badge-advanced">Advanced</span><span class="priority-p3">P3</span></div></div>
+    <div class="q-section"><div class="q-section-title">Basic Answer</div><p>Tagged templates let you process template literals with a function that receives the string parts and the interpolated values separately. Useful for: safely escaping user input in SQL queries (like parameterized queries), building safe HTML, or creating custom mini-languages.</p></div>
+  </div>
+
+  <div class="question-card">
+    <div class="q-header"><span class="q-number">56</span><div><span class="q-text">What is the difference between <code>requestAnimationFrame</code> and <code>setTimeout</code>?</span><span class="q-badge badge-advanced">Advanced</span><span class="priority-p3">P3</span></div></div>
+    <div class="q-section"><div class="q-section-title">Basic Answer</div><p><code>requestAnimationFrame</code> schedules code to run before the next browser screen update (~60fps). <code>setTimeout</code> runs after a delay regardless of rendering. <code>requestAnimationFrame</code> pauses when the tab is inactive (saves battery/resources). Useful for testing animations and visual changes.</p></div>
+  </div>
+
+  <div class="question-card">
+    <div class="q-header"><span class="q-number">57</span><div><span class="q-text">What are Web Workers and how do they relate to the event loop?</span><span class="q-badge badge-expert">Expert</span><span class="priority-p3">P3</span></div></div>
+    <div class="q-section"><div class="q-section-title">Basic Answer</div><p>Web Workers run JavaScript in a background thread — they have their own event loop and call stack. They talk to the main thread using <code>postMessage</code>. They can't access the DOM. Useful for offloading heavy calculations (like generating test data) without freezing the page.</p></div>
+  </div>
+
+  <div class="question-card">
+    <div class="q-header"><span class="q-number">58</span><div><span class="q-text">How does <code>Error.captureStackTrace()</code> work and when is it useful?</span><span class="q-badge badge-expert">Expert</span><span class="priority-p3">P3</span></div></div>
+    <div class="q-section"><div class="q-section-title">Basic Answer</div><p><code>Error.captureStackTrace(target, constructorOpt)</code> is a V8 method that creates a <code>.stack</code> property on an object. It captures the call stack at the moment it's called. Useful in custom assertion libraries to make error stack traces point to the actual test line, not inside the assertion library.</p></div>
+  </div>
+
+  <!-- ===== CHEAT SHEET ===== -->
+  <div class="cheat-sheet">
+    <h3>📋 JavaScript — One-Page Revision Cheat Sheet</h3>
+    <div class="cheat-grid">
+      <div class="cheat-item">
+        <h4>Scope & Hoisting</h4>
+        <p><code>var</code> → whole function, hoisted as undefined</p>
+        <p><code>let/const</code> → inside one block (TDZ)</p>
+        <p>Function declarations → fully hoisted (can call before writing)</p>
+      </div>
+      <div class="cheat-item">
+        <h4>Closures</h4>
+        <p>Function remembers its outer variables</p>
+        <p>Used for: private data, retry logic, factory functions</p>
+        <p>Risk: memory leaks if holding big objects</p>
+      </div>
+      <div class="cheat-item">
+        <h4>Event Loop</h4>
+        <p>1. Run all sync code first</p>
+        <p>2. Run ALL microtasks (Promises)</p>
+        <p>3. Run ONE macrotask (setTimeout)</p>
+        <p>4. Repeat</p>
+      </div>
+      <div class="cheat-item">
+        <h4><code>this</code> Priority</h4>
+        <p><code>new</code> > explicit (call/apply/bind) > implicit (obj.method) > default (global)</p>
+        <p>Arrow functions: inherit from surrounding code</p>
+      </div>
+      <div class="cheat-item">
+        <h4>Promise Helpers</h4>
+        <p><code>Promise.all</code> → fails on first error</p>
+        <p><code>Promise.allSettled</code> → waits for all, even failures</p>
+        <p><code>Promise.race</code> → first one to finish wins</p>
+        <p><code>Promise.any</code> → first success wins</p>
+      </div>
+      <div class="cheat-item">
+        <h4>Object Methods</h4>
+        <p><code>freeze</code> → no add/delete/change</p>
+        <p><code>seal</code> → no add/delete, can change values</p>
+        <p><code>preventExtensions</code> → no add</p>
+        <p>All are shallow (nested objects still changeable)</p>
+      </div>
+      <div class="cheat-item">
+        <h4>Array Methods</h4>
+        <p><code>map</code> → transform each item (returns new array)</p>
+        <p><code>filter</code> → keep items that pass test (returns new array)</p>
+        <p><code>reduce</code> → combine all into one value</p>
+        <p><code>find</code> → first match</p>
+        <p><code>some/every</code> → true/false check</p>
+      </div>
+      <div class="cheat-item">
+        <h4>Cloning</h4>
+        <p>Shallow: spread (<code>...obj</code>), <code>Object.assign()</code></p>
+        <p>Deep: <code>structuredClone()</code>, <code>JSON.parse/stringify</code> (limited)</p>
+        <p>Watch out: functions, Dates, Maps, Sets, circular refs</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== END SECTION ===== -->
+  <div class="end-section">
+    <h2>🎯 Most Frequently Asked Questions</h2>
+    <div class="styled-table">
+      <thead><tr><th>Rank</th><th>Topic</th><th>Frequency in SDET Interviews</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td>Closures + Event Loop</td><td>Asked in nearly every interview</td></tr>
+        <tr><td>2</td><td>var/let/const + Hoisting</td><td>Almost always in screening rounds</td></tr>
+        <tr><td>3</td><td>Promises + async/await</td><td>Essential for Playwright interviews</td></tr>
+        <tr><td>4</td><td><code>this</code> binding + call/apply/bind</td><td>Very common in JS-focused rounds</td></tr>
+        <tr><td>5</td><td>Prototype chain + inheritance</td><td>Common for senior SDET roles</td></tr>
+      </tbody>
+    </div>
+  </div>
+
+  <div class="end-section">
+    <h2>Quick Interview Revision Guide</h2>
+    <p style="color: var(--text-secondary); line-height: 2;">
+      <strong style="color: var(--accent-green);">Before the interview:</strong> Master P1 questions. Understand P2 concepts well.<br>
+      <strong style="color: var(--accent-orange);">For senior roles:</strong> Be ready to write polyfills (bind, Promise), explain event loop with diagrams, and discuss closure patterns.<br>
+      <strong style="color: var(--accent-red);">Common traps:</strong> Saying "let/const aren't hoisted" (they are, just not initialized), confusing == and ===, forgetting arrow function this behavior.<br>
+      <strong style="color: var(--accent-cyan);">SDET-specific:</strong> Always connect answers to test automation — retry logic, fixture design, config management, DOM events.
+    </p>
+  </div>
+
+</div>
+
+</body>
+</html>

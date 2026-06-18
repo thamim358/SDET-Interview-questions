@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Coding Interview Mastery — SDET Study Kit</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/nebula.css">
+<style>
+  .cover-page::before {
+    background:
+      radial-gradient(circle at 30% 50%, rgba(248, 113, 113, 0.06) 0%, transparent 50%),
+      radial-gradient(circle at 70% 50%, rgba(251, 191, 36, 0.05) 0%, transparent 50%);
+  }
+  .cover-title { background: linear-gradient(135deg, #f87171 0%, #fbbf24 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .cover-divider { background: linear-gradient(135deg, #f87171 0%, #fbbf24 100%); }
+  .cover-meta-item .number { background: linear-gradient(135deg, #f87171 0%, #fbbf24 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .section-divider h2 { background: linear-gradient(135deg, #f87171 0%, #fbbf24 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .q-number { background: linear-gradient(135deg, #f87171 0%, #fbbf24 100%); }
+  .q-section-title { color: var(--accent-amber); }
+  .q-section-title::before { background: var(--accent-amber); }
+  .end-section h2 { background: linear-gradient(135deg, #f87171 0%, #fbbf24 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .cover-meta-item.green .number { background: linear-gradient(135deg, #34d399, #2dd4bf); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .cover-meta-item.orange .number { background: linear-gradient(135deg, #fbbf24, #f59e0b); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .cover-meta-item.red .number { background: linear-gradient(135deg, #f87171, #ef4444); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .cheat-sheet { border-color: rgba(251, 191, 36, 0.3); }
+  .cheat-sheet h3 { background: linear-gradient(135deg, #f87171 0%, #fbbf24 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+</style>
+</head>
+<body>
+
+<div class="cover-page">
+  <div class="cover-badge">SDET Master Study Kit</div>
+  <h1 class="cover-title">Coding Interview Mastery</h1>
+  <div class="cover-divider"></div>
+  <p class="cover-subtitle">30 Coding Problems from Easy to Hard • Time/Space Complexity • SDET Relevance • Interview Strategies</p>
+  <div class="cover-meta">
+    <div class="cover-meta-item green"><span class="number">12</span><span class="label">Easy</span></div>
+    <div class="cover-meta-item orange"><span class="number">12</span><span class="label">Medium</span></div>
+    <div class="cover-meta-item red"><span class="number">6</span><span class="label">Hard</span></div>
+  </div>
+  <p class="cover-description" style="margin-top:30px;max-width:600px;color:var(--text-secondary);position:relative;z-index:1;line-height:1.8">
+    Based on 2024-2026 SDET interview patterns. Every problem includes: brute force, optimized solution,
+    time/space complexity, SDET relevance, and interview explanation strategy.
+  </p>
+</div>
+
+<div class="section-divider"><h2>🟢 Easy — Frequently Asked</h2><p>These 12 problems cover ~70% of SDET coding screens. Master these first.</p></div>
+<div class="container">
+
+<div class="question-card">
+  <div class="q-header"><span class="q-number">1</span><div><span class="q-text">Two Sum — Given an array and target, return indices of two numbers that sum to target.</span><span class="q-badge badge-easy">Easy</span></div></div>
+  <div class="q-section"><div class="q-section-title">Solution</div>      <p>Use a hash map to store numbers you've seen. For each number, check if (target - current number) is already in the map. If yes, you found the pair!</p></div>
+  <div class="code-block"><span class="keyword">function</span> <span class="function">twoSum</span>(nums, target) {
+  <span class="keyword">const</span> map = <span class="keyword">new</span> Map();
+  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i < nums.length; i++) {
+    <span class="keyword">const</span> complement = target - nums[i];
+    <span class="keyword">if</span> (map.has(complement)) <span class="keyword">return</span> [map.get(complement), i];
+    map.set(nums[i], i);
+  }
+  <span class="keyword">return</span> [];
+}</div>
+  <div class="q-section"><div class="q-section-title green">Complexity</div><p><span class="complexity">Time: O(n)</span><span class="complexity">Space: O(n)</span><strong>Pattern:</strong> Hash Map, Complement Lookup</p></div>
+  <div class="callout callout-tip"><strong>🎯 SDET Relevance</strong> Most commonly asked problem. The complement pattern is useful for comparing API response data against expected values.</div>
+  <div class="q-section"><div class="q-section-title red">Follow-Ups</div><div class="follow-ups"><span class="follow-up-item">What if the array is sorted? Can you do O(1) space?</span><span class="follow-up-item">Return all pairs instead of just one?</span></div></div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-number">2</span><div><span class="q-text">Valid Parentheses — Determine if a string of brackets <code>(){}[]</code> is valid.</span><span class="q-badge badge-easy">Easy</span></div></div>
+  <div class="q-section"><div class="q-section-title">Solution</div>      <p>Use a stack. Push opening brackets (like <code>(</code>) onto the stack. When you see a closing bracket, pop from stack and check if they match. At the end, stack must be empty.</p></div>
+  <div class="code-block"><span class="keyword">function</span> <span class="function">isValid</span>(s) {
+  <span class="keyword">const</span> stack = [];
+  <span class="keyword">const</span> pairs = { ')': '(', ']': '[', '}': '{' };
+  <span class="keyword">for</span> (<span class="keyword">const</span> c <span class="keyword">of</span> s) {
+    <span class="keyword">if</span> (<span class="string">'([{'</span>.includes(c)) stack.push(c);
+    <span class="keyword">else</span> <span class="keyword">if</span> (stack.pop() !== pairs[c]) <span class="keyword">return</span> <span class="keyword">false</span>;
+  }
+  <span class="keyword">return</span> stack.length === <span class="number">0</span>;
+}</div>
+  <div class="q-section"><div class="q-section-title green">Complexity</div><p><span class="complexity">Time: O(n)</span><span class="complexity">Space: O(n)</span></p></div>
+  <div class="callout callout-tip"><strong>🎯 SDET Relevance</strong> Stack pattern directly applies to HTML/XML validation in web testing and JSON structure verification.</div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-number">3</span><div><span class="q-text">Valid Palindrome — Check if a string is a palindrome considering only alphanumeric chars.</span><span class="q-badge badge-easy">Easy</span></div></div>
+  <div class="q-section"><div class="q-section-title">Solution</div>      <p>Two pointers — one at start, one at end. Skip non-letter/number characters. Compare characters (ignore case). If they don't match, it's not a palindrome.</p></div>
+  <div class="code-block"><span class="keyword">function</span> <span class="function">isPalindrome</span>(s) {
+  <span class="keyword">let</span> l = <span class="number">0</span>, r = s.length - <span class="number">1</span>;
+  <span class="keyword">while</span> (l < r) {
+    <span class="keyword">while</span> (l < r && !<span class="regexp">/[a-zA-Z0-9]/</span>.test(s[l])) l++;
+    <span class="keyword">while</span> (l < r && !<span class="regexp">/[a-zA-Z0-9]/</span>.test(s[r])) r--;
+    <span class="keyword">if</span> (s[l].toLowerCase() !== s[r].toLowerCase()) <span class="keyword">return</span> <span class="keyword">false</span>;
+    l++; r--;
+  }
+  <span class="keyword">return</span> <span class="keyword">true</span>;
+}</div>
+  <div class="q-section"><div class="q-section-title green">Complexity</div><p><span class="complexity">Time: O(n)</span><span class="complexity">Space: O(1)</span></p></div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-number">4</span><div><span class="q-text">Valid Anagram — Determine if two strings have the same characters with same frequency.</span><span class="q-badge badge-easy">Easy</span></div></div>
+  <div class="q-section"><div class="q-section-title">Solution</div>      <p>Count how many times each character appears in the first string. Then subtract counts for the second string. If all counts are zero, they're anagrams.</p></div>
+  <div class="code-block"><span class="keyword">function</span> <span class="function">isAnagram</span>(s, t) {
+  <span class="keyword">if</span> (s.length !== t.length) <span class="keyword">return</span> <span class="keyword">false</span>;
+  <span class="keyword">const</span> count = {};
+  <span class="keyword">for</span> (<span class="keyword">const</span> c <span class="keyword">of</span> s) count[c] = (count[c] || <span class="number">0</span>) + <span class="number">1</span>;
+  <span class="keyword">for</span> (<span class="keyword">const</span> c <span class="keyword">of</span> t) { <span class="keyword">if</span> (!count[c]) <span class="keyword">return</span> <span class="keyword">false</span>; count[c]--; }
+  <span class="keyword">return</span> <span class="keyword">true</span>;
+}</div>
+  <div class="q-section"><div class="q-section-title green">Complexity</div><p><span class="complexity">Time: O(n)</span><span class="complexity">Space: O(1)</span></p></div>
+  <div class="callout callout-tip"><strong>🎯 SDET Relevance</strong> Frequency counter pattern is used to compare list contents regardless of order — common in test data validation.</div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-number">5</span><div><span class="q-text">Binary Search — Implement binary search on a sorted array (iterative and recursive).</span><span class="q-badge badge-easy">Easy</span></div></div>
+  <div class="q-section"><div class="q-section-title">Solution</div>      <p>Divide and conquer. Check the middle element. If it matches, done. If target is bigger, search the right half. If smaller, search the left half. Each step cuts the search space in half.</p></div>
+  <div class="code-block"><span class="keyword">function</span> <span class="function">binarySearch</span>(nums, target) {
+  <span class="keyword">let</span> l = <span class="number">0</span>, r = nums.length - <span class="number">1</span>;
+  <span class="keyword">while</span> (l <= r) {
+    <span class="keyword">const</span> m = Math.floor((l + r) / <span class="number">2</span>);
+    <span class="keyword">if</span> (nums[m] === target) <span class="keyword">return</span> m;
+    <span class="keyword">if</span> (nums[m] < target) l = m + <span class="number">1</span>;
+    <span class="keyword">else</span> r = m - <span class="number">1</span>;
+  }
+  <span class="keyword">return</span> -<span class="number">1</span>;
+}</div>
+  <div class="q-section"><div class="q-section-title green">Complexity</div><p><span class="complexity">Time: O(log n)</span><span class="complexity">Space: O(1)</span></p></div>
+  <div class="callout callout-tip"><strong>🎯 SDET Relevance</strong> Binary search is fundamental for efficient test data lookup and divide-and-conquer debugging strategies.</div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-number">6</span><div><span class="q-text">Contains Duplicate — Check if any value appears at least twice in an array.</span><span class="q-badge badge-easy">Easy</span></div></div>
+  <div class="q-section"><div class="q-section-title">Solution</div>      <p>Use a Set to track numbers you've seen. If you try to add a number that's already there, you found a duplicate.</p></div>
+  <div class="code-block"><span class="keyword">function</span> <span class="function">containsDuplicate</span>(nums) {
+  <span class="keyword">const</span> seen = <span class="keyword">new</span> Set();
+  <span class="keyword">for</span> (<span class="keyword">const</span> n <span class="keyword">of</span> nums) { <span class="keyword">if</span> (seen.has(n)) <span class="keyword">return</span> <span class="keyword">true</span>; seen.add(n); }
+  <span class="keyword">return</span> <span class="keyword">false</span>;
+}</div>
+  <div class="q-section"><div class="q-section-title green">Complexity</div><p><span class="complexity">Time: O(n)</span><span class="complexity">Space: O(n)</span></p></div>
+  <div class="callout callout-tip"><strong>🎯 SDET Relevance</strong> Directly applicable to checking for duplicate test data, verifying unique constraints in UI validation.</div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-number">7</span><div><span class="q-text">Reverse String — Reverse a string in-place (array of characters).</span><span class="q-badge badge-easy">Easy</span></div></div>
+  <div class="q-section"><div class="q-section-title">Solution</div>      <p>Two pointers — start at both ends. Swap the characters, then move pointers inward. Continue until they meet in the middle.</p></div>
+  <div class="code-block"><span class="keyword">function</span> <span class="function">reverseString</span>(s) {
+  <span class="keyword">let</span> l = <span class="number">0</span>, r = s.length - <span class="number">1</span>;
+  <span class="keyword">while</span> (l < r) { [s[l], s[r]] = [s[r], s[l]]; l++; r--; }
+}</div>
+  <div class="q-section"><div class="q-section-title green">Complexity</div><p><span class="complexity">Time: O(n)</span><span class="complexity">Space: O(1)</span></p></div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-number">8</span><div><span class="q-text">FizzBuzz — Classic screening question. Print Fizz, Buzz, or number for 1 to n.</span><span class="q-badge badge-easy">Easy</span></div></div>
+  <div class="q-section"><div class="q-section-title">Solution</div>      <p>Check if divisible by 15 FIRST (both 3 and 5). Then check 3, then 5, else print the number. Order matters — FizzBuzz must be checked first!</p></div>
+  <div class="code-block"><span class="keyword">function</span> <span class="function">fizzBuzz</span>(n) {
+  <span class="keyword">return</span> Array.from({length: n}, (_, i) => {
+    i++; <span class="keyword">if</span> (i % <span class="number">15</span> === <span class="number">0</span>) <span class="keyword">return</span> <span class="string">'FizzBuzz'</span>;
+    <span class="keyword">if</span> (i % <span class="number">3</span> === <span class="number">0</span>) <span class="keyword">return</span> <span class="string">'Fizz'</span>;
+    <span class="keyword">if</span> (i % <span class="number">5</span> === <span class="number">0</span>) <span class="keyword">return</span> <span class="string">'Buzz'</span>;
+    <span class="keyword">return</span> String(i);
+  });
+}</div>
+  <div class="callout callout-warning"><strong>⚠️ Trap</strong> Check FizzBuzz FIRST (divisible by both). Many candidates check Fizz first, which catches numbers divisible by 15 too.</div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-number">9</span><div><span class="q-text">Climbing Stairs — Count distinct ways to climb n steps (1 or 2 steps at a time).</span><span class="q-badge badge-easy">Easy</span></div></div>
+  <div class="q-section"><div class="q-section-title">Solution</div>      <p>This is the Fibonacci pattern. To reach step n, you can come from step n-1 or n-2. So ways[n] = ways[n-1] + ways[n-2]. Use just two variables to save memory.</p></div>
+  <div class="code-block"><span class="keyword">function</span> <span class="function">climbStairs</span>(n) {
+  <span class="keyword">if</span> (n <= <span class="number">2</span>) <span class="keyword">return</span> n;
+  <span class="keyword">let</span> a = <span class="number">1</span>, b = <span class="number">2</span>;
+  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">3</span>; i <= n; i++) { <span class="keyword">const</span> c = a + b; a = b; b = c; }
+  <span class="keyword">return</span> b;
+}</div>
+  <div class="q-section"><div class="q-section-title green">Complexity</div><p><span class="complexity">Time: O(n)</span><span class="complexity">Space: O(1)</span></p></div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-number">10</span><div><span class="q-text">Merge Sorted Array — Merge two sorted arrays into one sorted array in-place.</span><span class="q-badge badge-easy">Easy</span></div></div>
+  <div class="q-section"><div class="q-section-title">Solution</div>      <p>Use two pointers starting from the end of both arrays. Compare the last elements and place the bigger one at the end of the result. Continue backward through both arrays.</p></div>
+  <div class="code-block"><span class="keyword">function</span> <span class="function">merge</span>(nums1, m, nums2, n) {
+  <span class="keyword">let</span> i = m - <span class="number">1</span>, j = n - <span class="number">1</span>, k = m + n - <span class="number">1</span>;
+  <span class="keyword">while</span> (j >= <span class="number">0</span>) {
+    <span class="keyword">if</span> (i >= <span class="number">0</span> && nums1[i] > nums2[j]) nums1[k--] = nums1[i--];
+    <span class="keyword">else</span> nums1[k--] = nums2[j--];
+  }
+}</div>
+  <div class="q-section"><div class="q-section-title green">Complexity</div><p><span class="complexity">Time: O(m+n)</span><span class="complexity">Space: O(1)</span></p></div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-number">11</span><div><span class="q-text">Remove Duplicates from Sorted Array — Remove duplicates in-place, return new length.</span><span class="q-badge badge-easy">Easy</span></div></div>
+  <div class="q-section"><div class="q-section-title">Solution</div><p>Two-pointer technique. One pointer for unique elements, one for iteration. When values differ, move unique pointer forward and copy.</p></div>
+  <div class="code-block"><span class="keyword">function</span> <span class="function">removeDuplicates</span>(nums) {
+  <span class="keyword">if</span> (nums.length === <span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;
+  <span class="keyword">let</span> k = <span class="number">0</span>;
+  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">1</span>; i < nums.length; i++) {
+    <span class="keyword">if</span> (nums[i] !== nums[k]) { k++; nums[k] = nums[i]; }
+  }
+  <span class="keyword">return</span> k + <span class="number">1</span>;
+}</div>
+  <div class="q-section"><div class="q-section-title green">Complexity</div><p><span class="complexity">Time: O(n)</span><span class="complexity">Space: O(1)</span></p></div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-number">12</span><div><span class="q-text">First Unique Character — Find first non-repeating character in a string.</span><span class="q-badge badge-easy">Easy</span></div></div>
+  <div class="q-section"><div class="q-section-title">Solution</div><p>Two-pass approach. First pass: count frequencies. Second pass: find first character with count === 1.</p></div>
+  <div class="code-block"><span class="keyword">function</span> <span class="function">firstUniqChar</span>(s) {
+  <span class="keyword">const</span> count = {};
+  <span class="keyword">for</span> (<span class="keyword">const</span> c <span class="keyword">of</span> s) count[c] = (count[c] || <span class="number">0</span>) + <span class="number">1</span>;
+  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i < s.length; i++) { <span class="keyword">if</span> (count[s[i]] === <span class="number">1</span>) <span class="keyword">return</span> i; }
+  <span class="keyword">return</span> -<span class="number">1</span>;
+}</div>
+  <div class="q-section"><div class="q-section-title green">Complexity</div><p><span class="complexity">Time: O(n)</span><span class="complexity">Space: O(1)</span> (26 letters, or Unicode if extended)</p></div>
+</div>
+
+</div>
+
+<div class="section-divider"><h2>🟡 Medium — Commonly Asked</h2></div>
+<div class="container">
+
+<div class="question-card">
+  <div class="q-header"><span class="q-number">13</span><div><span class="q-text">Longest Substring Without Repeating Characters — Sliding window.</span><span class="q-badge badge-medium">Medium</span></div></div>
+  <div class="q-section"><div class="q-section-title">Solution</div><p>Sliding window with two pointers and hash map tracking last seen index. When duplicate found, move left past previous occurrence.</p></div>
+  <div class="code-block"><span class="keyword">function</span> <span class="function">lengthOfLongestSubstring</span>(s) {
+  <span class="keyword">let</span> max = <span class="number">0</span>, left = <span class="number">0</span>;
+  <span class="keyword">const</span> map = <span class="keyword">new</span> Map();
+  <span class="keyword">for</span> (<span class="keyword">let</span> right = <span class="number">0</span>; right < s.length; right++) {
+    <span class="keyword">const</span> char = s[right];
+    <span class="keyword">if</span> (map.has(char)) left = Math.max(left, map.get(char) + <span class="number">1</span>);
+    map.set(char, right);
+    max = Math.max(max, right - left + <span class="number">1</span>);
+  }
+  <span class="keyword">return</span> max;
+}</div>
+  <div class="q-section"><div class="q-section-title green">Complexity</div><p><span class="complexity">Time: O(n)</span><span class="complexity">Space: O(min(m,n))</span></p></div>
+  <div class="callout callout-tip"><strong>🎯 SDET Relevance</strong> Sliding window pattern is useful for analyzing dynamic content extraction and handling paginated data streams.</div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-number">14</span><div><span class="q-text">Maximum Subarray (Kadane's Algorithm) — Find contiguous subarray with largest sum.</span><span class="q-badge badge-medium">Medium</span></div></div>
+  <div class="q-section"><div class="q-section-title">Solution</div><p>Track current sum and max sum. Reset current sum if it becomes negative. Kadane's algorithm.</p></div>
+  <div class="code-block"><span class="keyword">function</span> <span class="function">maxSubArray</span>(nums) {
+  <span class="keyword">let</span> curr = nums[<span class="number">0</span>], max = nums[<span class="number">0</span>];
+  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">1</span>; i < nums.length; i++) {
+    curr = Math.max(nums[i], curr + nums[i]);
+    max = Math.max(max, curr);
+  }
+  <span class="keyword">return</span> max;
+}</div>
+  <div class="q-section"><div class="q-section-title green">Complexity</div><p><span class="complexity">Time: O(n)</span><span class="complexity">Space: O(1)</span></p></div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-number">15</span><div><span class="q-text">Reverse a Linked List — Reverse a singly linked list (iterative and recursive).</span><span class="q-badge badge-medium">Medium</span></div></div>
+  <div class="q-section"><div class="q-section-title">Solution</div><p>Iterative: track prev, current, next pointers. Recursive: reverse rest, then point next.next to current.</p></div>
+  <div class="code-block"><span class="keyword">function</span> <span class="function">reverseList</span>(head) {
+  <span class="keyword">let</span> prev = <span class="keyword">null</span>, curr = head;
+  <span class="keyword">while</span> (curr) {
+    <span class="keyword">const</span> next = curr.next;
+    curr.next = prev;
+    prev = curr;
+    curr = next;
+  }
+  <span class="keyword">return</span> prev;
+}</div>
+  <div class="q-section"><div class="q-section-title green">Complexity</div><p><span class="complexity">Time: O(n)</span><span class="complexity">Space: O(1) iterative</span></p></div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-number">16</span><div><span class="q-text">Product of Array Except Self — Return products of all elements except self, without division.</span><span class="q-badge badge-medium">Medium</span></div></div>
+  <div class="q-section"><div class="q-section-title">Solution</div><p>Prefix and suffix products in two passes. First pass: left products. Second pass: multiply by right products.</p></div>
+  <div class="code-block"><span class="keyword">function</span> <span class="function">productExceptSelf</span>(nums) {
+  <span class="keyword">const</span> result = <span class="keyword">new</span> Array(nums.length).fill(<span class="number">1</span>);
+  <span class="keyword">let</span> left = <span class="number">1</span>;
+  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i < nums.length; i++) { result[i] = left; left *= nums[i]; }
+  <span class="keyword">let</span> right = <span class="number">1</span>;
+  <span class="keyword">for</span> (<span class="keyword">let</span> i = nums.length - <span class="number">1</span>; i >= <span class="number">0</span>; i--) { result[i] *= right; right *= nums[i]; }
+  <span class="keyword">return</span> result;
+}</div>
+  <div class="q-section"><div class="q-section-title green">Complexity</div><p><span class="complexity">Time: O(n)</span><span class="complexity">Space: O(1)</span></p></div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-number">17</span><div><span class="q-text">Linked List Cycle — Detect cycle using Floyd's Tortoise and Hare algorithm.</span><span class="q-badge badge-medium">Medium</span></div></div>
+  <div class="q-section"><div class="q-section-title">Solution</div><p>Two pointers: slow moves one step, fast moves two steps. If they meet, there's a cycle.</p></div>
+  <div class="code-block"><span class="keyword">function</span> <span class="function">hasCycle</span>(head) {
+  <span class="keyword">let</span> slow = head, fast = head;
+  <span class="keyword">while</span> (fast && fast.next) {
+    slow = slow.next; fast = fast.next.next;
+    <span class="keyword">if</span> (slow === fast) <span class="keyword">return</span> <span class="keyword">true</span>;
+  }
+  <span class="keyword">return</span> <span class="keyword">false</span>;
+}</div>
+  <div class="q-section"><div class="q-section-title green">Complexity</div><p><span class="complexity">Time: O(n)</span><span class="complexity">Space: O(1)</span></p></div>
+  <div class="callout callout-tip"><strong>🎯 SDET Relevance</strong> Floyd's algorithm tests ability to detect infinite loops — directly applicable to debugging flaky tests and detecting circular refs in data.</div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-number">18</span><div><span class="q-text">Group Anagrams — Group strings that are anagrams of each other.</span><span class="q-badge badge-medium">Medium</span></div></div>
+  <div class="q-section"><div class="q-section-title">Solution</div><p>Use a hash map keyed by sorted string or character count. Group strings with same key together.</p></div>
+  <div class="code-block"><span class="keyword">function</span> <span class="function">groupAnagrams</span>(strs) {
+  <span class="keyword">const</span> map = <span class="keyword">new</span> Map();
+  <span class="keyword">for</span> (<span class="keyword">const</span> s <span class="keyword">of</span> strs) {
+    <span class="keyword">const</span> key = s.split(<span class="string">''</span>).sort().join(<span class="string">''</span>);
+    <span class="keyword">if</span> (!map.has(key)) map.set(key, []);
+    map.get(key).push(s);
+  }
+  <span class="keyword">return</span> [...map.values()];
+}</div>
+  <div class="q-section"><div class="q-section-title green">Complexity</div><p><span class="complexity">Time: O(nk log k)</span><span class="complexity">Space: O(nk)</span></p></div>
+  <div class="callout callout-tip"><strong>🎯 SDET Relevance</strong> Grouping pattern applies to categorizing test results, grouping API responses, and clustering similar failure patterns.</div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-number">19</span><div><span class="q-text">Move Zeroes — Move all zeroes to end while maintaining relative order of non-zero elements.</span><span class="q-badge badge-medium">Medium</span></div></div>
+  <div class="q-section"><div class="q-section-title">Solution</div><p>Two-pointer approach. Maintain position for next non-zero element, swap when found.</p></div>
+  <div class="code-block"><span class="keyword">function</span> <span class="function">moveZeroes</span>(nums) {
+  <span class="keyword">let</span> pos = <span class="number">0</span>;
+  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i < nums.length; i++) {
+    <span class="keyword">if</span> (nums[i] !== <span class="number">0</span>) { [nums[pos], nums[i]] = [nums[i], nums[pos]]; pos++; }
+  }
+}</div>
+  <div class="q-section"><div class="q-section-title green">Complexity</div><p><span class="complexity">Time: O(n)</span><span class="complexity">Space: O(1)</span></p></div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-number">20</span><div><span class="q-text">Three Sum — Find all triplets that sum to zero. No duplicate triplets.</span><span class="q-badge badge-medium">Medium</span></div></div>
+  <div class="q-section"><div class="q-section-title">Solution</div><p>Sort array, then fix one element and use two-pointer technique on the rest. Skip duplicates.</p></div>
+  <div class="code-block"><span class="keyword">function</span> <span class="function">threeSum</span>(nums) {
+  nums.sort((a,b) => a - b);
+  <span class="keyword">const</span> result = [];
+  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i < nums.length - <span class="number">2</span>; i++) {
+    <span class="keyword">if</span> (i > <span class="number">0</span> && nums[i] === nums[i-<span class="number">1</span>]) <span class="keyword">continue</span>;
+    <span class="keyword">let</span> l = i+<span class="number">1</span>, r = nums.length-<span class="number">1</span>;
+    <span class="keyword">while</span> (l < r) {
+      <span class="keyword">const</span> sum = nums[i] + nums[l] + nums[r];
+      <span class="keyword">if</span> (sum === <span class="number">0</span>) { result.push([nums[i], nums[l], nums[r]]);
+        <span class="keyword">while</span> (l < r && nums[l] === nums[l+<span class="number">1</span>]) l++; <span class="keyword">while</span> (l < r && nums[r] === nums[r-<span class="number">1</span>]) r--; l++; r--; }
+      <span class="keyword">else if</span> (sum < <span class="number">0</span>) l++;
+      <span class="keyword">else</span> r--;
+    }
+  }
+  <span class="keyword">return</span> result;
+}</div>
+  <div class="q-section"><div class="q-section-title green">Complexity</div><p><span class="complexity">Time: O(n²)</span><span class="complexity">Space: O(1)</span></p></div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-number">21</span><div><span class="q-text">Implement a JSON Validator — Check if a string is valid JSON.</span><span class="q-badge badge-medium">Medium</span></div></div>
+  <div class="q-section"><div class="q-section-title">Solution</div><p>Use try/catch with JSON.parse. For deeper validation, use schema validation (like AJV) that checks structure matches expected schema.</p></div>
+  <div class="code-block"><span class="keyword">function</span> <span class="function">isValidJSON</span>(str) {
+  <span class="keyword">try</span> { JSON.parse(str); <span class="keyword">return</span> <span class="keyword">true</span>; }
+  <span class="keyword">catch</span> { <span class="keyword">return</span> <span class="keyword">false</span>; }
+}
+
+<span class="comment">// Validate schema compliance</span>
+<span class="keyword">function</span> <span class="function">validateSchema</span>(data, schema) {
+  <span class="keyword">for</span> (<span class="keyword">const</span> [key, type] <span class="keyword">of</span> Object.entries(schema)) {
+    <span class="keyword">if</span> (<span class="keyword">typeof</span> data[key] !== type) <span class="keyword">return</span> <span class="keyword">false</span>;
+  }
+  <span class="keyword">return</span> <span class="keyword">true</span>;
+}</div>
+  <div class="callout callout-tip"><strong>🎯 SDET Relevance</strong> Essential for API response validation. Every test automation framework needs JSON validation utilities.</div>
+</div>
+
+</div>
+
+<div class="section-divider"><h2>🔴 Hard — Expert-Level Problems</h2></div>
+<div class="container">
+
+<div class="question-card">
+  <div class="q-header"><span class="q-number">22</span><div><span class="q-text">LRU Cache — Design and implement a Least Recently Used cache with O(1) get and put.</span><span class="q-badge badge-hard">Hard</span></div></div>
+  <div class="q-section"><div class="q-section-title">Solution</div><p>Use a doubly linked list (for ordering) + hash map (for O(1) lookups). On get: move accessed node to head. On put: if full, remove tail node.</p></div>
+  <div class="q-section"><div class="q-section-title green">Complexity</div><p><span class="complexity">Time: O(1) for get/put</span><span class="complexity">Space: O(capacity)</span></p></div>
+  <div class="callout callout-tip"><strong>🎯 SDET Relevance</strong> Tests understanding of data structure combinations. The LRU pattern is used for caching test fixtures and browser instances in frameworks.</div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-number">23</span><div><span class="q-text">Implement Custom Retry Logic with Exponential Backoff (async version).</span><span class="q-badge badge-medium">Medium</span></div></div>
+  <div class="q-section"><div class="q-section-title">Solution</div><p>Retry with exponential backoff: wait baseDelay × 2^attempt between retries. Include jitter to avoid thundering herd.</p></div>
+  <div class="code-block"><span class="keyword">async function</span> <span class="function">retryWithBackoff</span>(fn, maxRetries = <span class="number">3</span>, baseDelay = <span class="number">500</span>) {
+  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i < maxRetries; i++) {
+    <span class="keyword">try</span> { <span class="keyword">return await</span> fn(); }
+    <span class="keyword">catch</span> (err) {
+      <span class="keyword">if</span> (i === maxRetries - <span class="number">1</span>) <span class="keyword">throw</span> err;
+      <span class="keyword">const</span> delay = baseDelay * Math.pow(<span class="number">2</span>, i) + Math.random() * <span class="number">100</span>;
+      <span class="comment">// +jitter</span>
+      <span class="keyword">await</span> <span class="keyword">new</span> Promise(r => setTimeout(r, delay));
+    }
+  }
+}</div>
+  <div class="callout callout-tip"><strong>🎯 SDET Relevance</strong> Directly applicable to handling flaky elements, network timeouts, and dynamic content loading in test automation.</div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-number">24</span><div><span class="q-text">Merge Intervals — Merge overlapping intervals.</span><span class="q-badge badge-medium">Medium</span></div></div>
+  <div class="q-section"><div class="q-section-title">Solution</div><p>Sort intervals by start time. Iterate — if current interval overlaps with previous, merge them. Otherwise add previous to result.</p></div>
+  <div class="code-block"><span class="keyword">function</span> <span class="function">merge</span>(intervals) {
+  intervals.sort((a,b) => a[<span class="number">0</span>] - b[<span class="number">0</span>]);
+  <span class="keyword">const</span> result = [intervals[<span class="number">0</span>]];
+  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">1</span>; i < intervals.length; i++) {
+    <span class="keyword">if</span> (intervals[i][<span class="number">0</span>] <= result[result.length-<span class="number">1</span>][<span class="number">1</span>]) {
+      result[result.length-<span class="number">1</span>][<span class="number">1</span>] = Math.max(result[result.length-<span class="number">1</span>][<span class="number">1</span>], intervals[i][<span class="number">1</span>]);
+    } <span class="keyword">else</span> { result.push(intervals[i]); }
+  }
+  <span class="keyword">return</span> result;
+}</div>
+  <div class="q-section"><div class="q-section-title green">Complexity</div><p><span class="complexity">Time: O(n log n)</span><span class="complexity">Space: O(n)</span></p></div>
+  <div class="callout callout-tip"><strong>🎯 SDET Relevance</strong> Merge intervals pattern is useful for scheduling test execution windows, analyzing overlapping time ranges in test data.</div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-number">25</span><div><span class="q-text">Promise.all Implementation — Implement Promise.all from scratch.</span><span class="q-badge badge-medium">Medium</span></div></div>
+  <div class="q-section"><div class="q-section-title">Solution</div><p>Create a new Promise. Iterate inputs, resolve each. If any rejects, reject immediately. If all resolve, resolve with array of results.</p></div>
+  <div class="code-block"><span class="keyword">function</span> <span class="function">promiseAll</span>(promises) {
+  <span class="keyword">return new</span> <span class="keyword">Promise</span>((resolve, reject) => {
+    <span class="keyword">const</span> results = [];
+    <span class="keyword">let</span> completed = <span class="number">0</span>;
+    <span class="keyword">if</span> (promises.length === <span class="number">0</span>) resolve([]);
+    promises.forEach((p, i) => {
+      <span class="keyword">Promise</span>.resolve(p).then(val => {
+        results[i] = val;
+        completed++;
+        <span class="keyword">if</span> (completed === promises.length) resolve(results);
+      }).catch(reject);
+    });
+  });
+}</div>
+  <div class="q-section"><div class="q-section-title green">Complexity</div><p><span class="complexity">Time: O(n)</span><span class="complexity">Space: O(n)</span></p></div>
+  <div class="callout callout-tip"><strong>🎯 SDET Relevance</strong> Tests deep understanding of async patterns. Promise.all is used for parallel test fixtures and concurrent API validations.</div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-number">26</span><div><span class="q-text">Debounce vs Throttle — Implement both from scratch.</span><span class="q-badge badge-medium">Medium</span></div></div>
+  <div class="q-section"><div class="q-section-title">Solution</div><p>Debounce: timer-based, resets on each call. Throttle: timestamp-based, executes at most once per interval.</p></div>
+  <div class="code-block"><span class="keyword">function</span> <span class="function">debounce</span>(fn, delay) {
+  <span class="keyword">let</span> timer;
+  <span class="keyword">return function</span>(...args) {
+    clearTimeout(timer);
+    timer = setTimeout(() => fn.apply(<span class="keyword">this</span>, args), delay);
+  };
+}
+
+<span class="keyword">function</span> <span class="function">throttle</span>(fn, interval) {
+  <span class="keyword">let</span> lastCall = <span class="number">0</span>;
+  <span class="keyword">return function</span>(...args) {
+    <span class="keyword">const</span> now = Date.now();
+    <span class="keyword">if</span> (now - lastCall >= interval) {
+      lastCall = now;
+      fn.apply(<span class="keyword">this</span>, args);
+    }
+  };
+}</div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-number">27</span><div><span class="q-text">Flatten Nested Array — Flatten an array of arbitrary nesting depth (implement Array.flat).</span><span class="q-badge badge-medium">Medium</span></div></div>
+  <div class="q-section"><div class="q-section-title">Solution</div><p>Recursive approach: iterate through array, if element is array, recurse. Or use stack-based iterative approach.</p></div>
+  <div class="code-block"><span class="keyword">function</span> <span class="function">flatten</span>(arr, depth = Infinity) {
+  <span class="keyword">return</span> arr.reduce((acc, val) =>
+    acc.concat(Array.isArray(val) && depth > <span class="number">0</span> ? flatten(val, depth - <span class="number">1</span>) : val), []);
+}</div>
+  <div class="q-section"><div class="q-section-title green">Complexity</div><p><span class="complexity">Time: O(n)</span><span class="complexity">Space: O(n)</span></p></div>
+</div>
+
+</div>
+
+<div class="container">
+<div class="cheat-sheet">
+  <h3>📋 Coding Patterns — One-Page Revision Cheat Sheet</h3>
+  <div class="cheat-grid">
+    <div class="cheat-item"><h4>Two Pointers</h4><p>Palindrome check, Remove duplicates, Container with most water</p></div>
+    <div class="cheat-item"><h4>Sliding Window</h4><p>Longest substring, Maximum average subarray, String permutations</p></div>
+    <div class="cheat-item"><h4>Hash Map</h4><p>Two Sum, Group Anagrams, Contains Duplicate, LRU Cache</p></div>
+    <div class="cheat-item"><h4>Fast & Slow Pointers</h4><p>Linked list cycle, Find middle, Find cycle start</p></div>
+    <div class="cheat-item"><h4>Stack</h4><p>Valid Parentheses, Min Stack, Expression evaluation</p></div>
+    <div class="cheat-item"><h4>Dynamic Programming</h4><p>Climbing stairs, Max subarray, Fibonacci, Coin change</p></div>
+  </div>
+</div>
+
+<div class="end-section">
+  <h2>SDET Coding Interview Strategy</h2>
+  <p style="color:var(--text-secondary);line-height:2">
+    <strong>1.</strong> Start with brute force, then optimize — shows structured thinking.<br>
+    <strong>2.</strong> Always test with sample inputs and edge cases (empty, single element, null).<br>
+    <strong>3.</strong> Explain SDET relevance — connect the pattern to test automation.<br>
+    <strong>4.</strong> Know your language's built-in methods (map, filter, reduce, Set, Map).<br>
+    <strong>5.</strong> Master the 6 patterns above — they cover 80%+ of SDET coding problems.<br>
+    <strong>6.</strong> Talk through your thought process — communication matters as much as the solution.
+  </p>
+</div>
+</div>
+
+</body>
+</html>

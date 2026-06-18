@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mobile Automation Interview Mastery — SDET Study Kit</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/nebula.css">
+<style>
+  .cover-page::before {
+    background:
+      radial-gradient(circle at 30% 50%, rgba(52, 211, 153, 0.06) 0%, transparent 50%),
+      radial-gradient(circle at 70% 50%, rgba(96, 165, 250, 0.05) 0%, transparent 50%);
+  }
+  .cover-title { background: linear-gradient(135deg, #34d399 0%, #60a5fa 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .cover-divider { background: linear-gradient(135deg, #34d399 0%, #60a5fa 100%); }
+  .cover-meta-item .number { background: linear-gradient(135deg, #34d399 0%, #60a5fa 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .section-divider h2 { background: linear-gradient(135deg, #34d399 0%, #60a5fa 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .q-number { background: linear-gradient(135deg, #34d399 0%, #60a5fa 100%); }
+  .q-section-title { color: var(--accent-emerald); }
+  .q-section-title::before { background: var(--accent-emerald); }
+</style></head>
+<body>
+
+<div class="cover-page">
+  <div class="cover-badge">SDET Master Study Kit</div>
+  <h1 class="cover-title">Mobile Automation Mastery</h1>
+  <div class="cover-divider"></div>
+  <p class="cover-subtitle">Appium 2.0 • Android • iOS • Device Farms — 22 Questions from Basic to Expert</p>
+  <div class="cover-meta">
+    <div class="cover-meta-item"><span class="number">10</span><span class="label">P1 — Must Know</span></div>
+    <div class="cover-meta-item"><span class="number">8</span><span class="label">P2 — Commonly Asked</span></div>
+    <div class="cover-meta-item"><span class="number">4</span><span class="label">P3 — Valuable</span></div>
+  </div>
+  <p class="cover-description" style="margin-top:30px;max-width:600px;color:var(--text-secondary);position:relative;z-index:1;line-height:1.8">
+    Based on 2024-2026 interview trends. Covers: Appium architecture, locator strategies, gestures, hybrid apps,
+    device farms, CI/CD integration, and framework design for mobile automation.
+  </p>
+</div>
+
+<div class="section-divider"><h2>P1 — Frequently Asked Questions</h2><p>Core mobile automation concepts that appear in every Appium/SDET interview.</p></div>
+<div class="container">
+
+<div class="question-card">
+  <div class="q-header"><span class="q-number">1</span><div><span class="q-text">Explain Appium architecture — client-server model, JSON Wire Protocol, W3C WebDriver Protocol, and session creation flow.</span><span class="q-badge badge-advanced">Advanced</span><span class="priority-p1">P1</span></div></div>
+  <div class="q-section"><div class="q-section-title">Basic Answer</div>      <p>Appium uses a client-server setup. The <strong>Appium Server</strong> (Node.js) listens for HTTP requests from <strong>Appium Clients</strong>. They talk using the W3C WebDriver Protocol. Session flow: Client sends POST /session with Desired Capabilities → Appium Server checks and starts the right driver (UiAutomator2 for Android, XCUITest for iOS) → Driver talks to the device → Session ID sent back to client. Appium 2.0 uses a plugin system where drivers are installed separately.</p></div>
+  <div class="diagram-box">
+    <span style="color:#58a6ff;">Test Code</span> (JS/Python/Java)<br>
+    &nbsp;↓&nbsp;&nbsp;(W3C WebDriver Protocol / HTTP)<br>
+    <span style="color:#3fb950;">Appium 2.0 Server</span> (Plugin-based)<br>
+    &nbsp;↓&nbsp;&nbsp;↘<br>
+    <span style="color:#d29922;">UiAutomator2</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#bc8cff;">XCUITest</span><br>
+    &nbsp;↓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↓<br>
+    <span style="color:#8b949e;">Android</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#8b949e;">iOS</span>
+  </div>
+  <div class="q-section"><div class="q-section-title orange">Real Interview Answer</div>      <p>"Appium 2.0 separated drivers from the core server — you install drivers via npm separately. The server stays lightweight and you only install what you need. Session creation uses the W3C WebDriver Protocol (the modern standard). For Android, UiAutomator2 talks through ADB. For iOS, XCUITest uses WebDriverAgent (WDA) which Apple provides."</p></div>
+  <div class="q-section"><div class="q-section-title red">Follow-Up Questions</div><div class="follow-ups"><span class="follow-up-item">How is Appium 2.0 different from Appium 1.x?</span><span class="follow-up-item">What is WebDriverAgent and how does it work?</span><span class="follow-up-item">Explain the Espresso driver vs UiAutomator2.</span></div></div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-number">2</span><div><span class="q-text">What are Desired Capabilities? Explain key capabilities for Android and iOS.</span><span class="q-badge badge-intermediate">Intermediate</span><span class="priority-p1">P1</span></div></div>
+  <div class="q-section"><div class="q-section-title">Basic Answer</div>      <p>Desired Capabilities configure the Appium session. <strong>Android:</strong> <code>platformName: 'Android'</code>, <code>deviceName</code>, <code>appPackage</code>, <code>appActivity</code>, <code>automationName: 'UiAutomator2'</code>, <code>autoGrantPermissions</code>, <code>noReset</code>. <strong>iOS:</strong> <code>platformName: 'iOS'</code>, <code>deviceName</code>, <code>platformVersion</code>, <code>automationName: 'XCUITest'</code>, <code>bundleId</code>, <code>udid</code>, <code>useNewWDA</code>.</p></div>
+  <div class="q-section"><div class="q-section-title green">Detailed Answer</div><p><strong>Common capabilities</strong>: <code>platformName</code>, <code>deviceName</code>, <code>app</code> (path to APK/IPA), <code>automationName</code>, <code>noReset</code> (preserve app state), <code>fullReset</code> (destroy and reinstall), <code>autoGrantPermissions</code> (auto-accept runtime permissions). <strong>Android-specific</strong>: <code>appPackage</code> (app identifier), <code>appActivity</code> (starting activity), <code>appWaitActivity</code> (activity to wait for). <strong>iOS-specific</strong>: <code>bundleId</code>, <code>udid</code> (device ID), <code>useNewWDA</code> (install fresh WDA), <code>wdaLaunchTimeout</code>. For cloud devices: <code>deviceOrientation</code>, <code>build</code> name, <code>name</code> (test name).</p></div>
+  <div class="q-section"><div class="q-section-title orange">Real Interview Answer</div><p>"I configure capabilities at the config level with environment-specific overrides. For debugging locally, I use <code>noReset: true</code> to keep app data and speed up iterations. In CI, I use <code>fullReset: true</code> to ensure a clean state. The most important capability for reliability is setting appropriate timeouts — <code>newCommandTimeout</code> and <code>wdaLaunchTimeout</code> prevent tests from hanging."</p></div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-number">3</span><div><span class="q-text">How do you locate elements in mobile apps? Compare all strategies.</span><span class="q-badge badge-intermediate">Intermediate</span><span class="priority-p1">P1</span></div></div>
+  <div class="q-section"><div class="q-section-title">Basic Answer</div>      <p><strong>Accessibility ID:</strong> Works on both platforms (content-desc for Android, accessibilityIdentifier for iOS). Most stable. <strong>XPath:</strong> Flexible but slow (avoid for often-used paths). <strong>Class Name:</strong> Android class/iOS class. <strong>Android UIAutomator:</strong> <code>new UiSelector().text("Login")</code>. <strong>iOS Predicate:</strong> <code>label == 'Login'</code>. <strong>iOS Class Chain:</strong> <code>**/XCUIElementTypeButton[\`label == 'Login'\`]</code>. Priority: Accessibility ID > Predicate/UIAutomator > Class Chain > XPath.</p></div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-number">4</span><div><span class="q-text">How do you handle context switching between Native App and WebView in hybrid apps?</span><span class="q-badge badge-advanced">Advanced</span><span class="priority-p1">P1</span></div></div>
+  <div class="q-section"><div class="q-section-title">Basic Answer</div>      <p><code>driver.getContextHandles()</code> returns available contexts like ['NATIVE_APP', 'WEBVIEW_com.example.app']. To switch: <code>driver.context('WEBVIEW_...')</code>. Once in WebView, use normal web locators. Challenges: WebViews need ChromeDriver (Android) or Safari (iOS). Make sure WebView debugging is enabled. Wait for WebView to appear before switching. After WebView steps, switch back to NATIVE_APP.</p></div>
+  <div class="q-section"><div class="q-section-title green">Detailed Answer</div><p>Hybrid app testing requires understanding how WebViews are rendered. On Android, WebViews must have web debugging enabled (<code>WebView.setWebContentsDebuggingEnabled(true)</code> in the app code). On iOS, XCUITest automatically detects WKWebView instances. <strong>Timing strategy</strong>: wait for the WebView context to appear in the available contexts list (poll every 500ms with timeout). <strong>Best practice</strong>: wrap context switching in a helper: <code>switchToWebView()</code> that finds the right WebView context, and <code>switchToNative()</code>. For multiple WebViews, identify by URL or title.</p></div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-number">5</span><div><span class="q-text">How do you automate gestures — tap, swipe, scroll, pinch, zoom — using W3C Actions API?</span><span class="q-badge badge-advanced">Advanced</span><span class="priority-p1">P1</span></div></div>
+  <div class="q-section"><div class="q-section-title">Basic Answer</div>      <p>The W3C Actions API standardizes gesture automation. <strong>Scroll:</strong> <code>new Actions(driver).scroll(element, 0, 200).perform()</code>. <strong>Swipe:</strong> press at start, move to end, release. <strong>Pinch/zoom:</strong> use multi-touch with two fingers. Appium 2.0 replaces old MobileElement gestures with W3C Actions. For scroll-to-text on Android: <code>driver.findElement(MobileBy.AndroidUIAutomator("new UiScrollable(new UiSelector().scrollable(true)).scrollTextIntoView('Button')"))</code>.</p></div>
+  <div class="callout callout-tip"><strong>💡 Best Practice</strong> For reliable scrolling on both platforms, use the Appium <code>mobile: scrollGesture</code> or <code>mobile: swipeGesture</code> execute script commands which are natively optimized.</div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-number">6</span><div><span class="q-text">What are the differences between emulators, simulators, and real devices for test automation?</span><span class="q-badge badge-beginner">Beginner</span><span class="priority-p1">P1</span></div></div>
+  <div class="q-section"><div class="q-section-title">Basic Answer</div>      <p><strong>Emulators</strong> (Android): Software that pretends to be hardware, slower but full-featured. Good for testing different Android versions. <strong>Simulators</strong> (iOS): Run only on macOS, faster but don't exactly match real hardware. <strong>Real devices:</strong> Actual phones/tablets, slower, can't run as many in parallel, but needed for camera, GPS, biometrics, and performance testing. Strategy: emulators/simulators for CI (cheap, parallel), real devices for pre-release validation (critical paths, performance).</p></div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-number">7</span><div><span class="q-text">How do you set up Appium in a CI/CD pipeline using Docker and cloud device labs?</span><span class="q-badge badge-advanced">Advanced</span><span class="priority-p1">P1</span></div></div>
+  <div class="q-section"><div class="q-section-title">Basic Answer</div>      <p>Two approaches: (1) <strong>Cloud device labs</strong> (BrowserStack/SauceLabs): set remote URL and capabilities, run tests from CI. Benefits: lots of devices, parallel execution, video recording. (2) <strong>In-house Docker:</strong> use <code>appium/appium</code> Docker image with Android emulator, run in CI. For iOS, use macOS agents with simulators. Best practice: cloud labs for broad device coverage, in-house for quick feedback on main devices.</p></div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-number">8</span><div><span class="q-text">What is the Appium Page Object Model design for mobile? How does it differ from web POM?</span><span class="q-badge badge-advanced">Advanced</span><span class="priority-p1">P1</span></div></div>
+  <div class="q-section"><div class="q-section-title">Basic Answer</div>      <p>Mobile POM adds platform abstraction. Create a <strong>Base Screen</strong> with shared methods (<code>waitForElement</code>, <code>scrollTo</code>, <code>takeScreenshot</code>). <strong>Platform-specific locators</strong> are defined in the page object. <strong>Screen objects</strong> represent each screen. <strong>Platform factory</strong> picks the right locator strategy based on platform (Android/iOS). Extra challenges: element caching (app restart breaks references), dynamic content (lazy loading), and context switching (native ↔ web).</p></div>
+</div>
+
+</div>
+
+<div class="section-divider"><h2>P2 — Commonly Asked Questions</h2></div>
+<div class="container">
+
+<div class="question-card"><div class="q-header"><span class="q-number">9</span><div><span class="q-text">What are the main challenges in mobile test automation? How do you address flaky tests?</span><span class="q-badge badge-intermediate">Intermediate</span><span class="priority-p2">P2</span></div></div><div class="q-section"><div class="q-section-title">Basic Answer</div>      <p>Key challenges: (1) <strong>Device fragmentation</strong> — thousands of models. Focus on top 10-20 devices by user base. (2) <strong>OS fragmentation</strong> — test on most common OS versions. (3) <strong>Network</strong> — simulate 3G/4G/offline. (4) <strong>App state</strong> — use <code>noReset: false</code> in CI for clean state. (5) <strong>Timing</strong> — use explicit waits, never <code>Thread.sleep()</code>. (6) <strong>System popups</strong> — use <code>autoGrantPermissions</code> or handle with UI automation. Reduce flakiness with good locators (Accessibility ID), proper waits, and retries.</p></div></div>
+
+<div class="question-card"><div class="q-header"><span class="q-number">10</span><div><span class="q-text">How do you handle OTP and MFA verification in mobile automation?</span><span class="q-badge badge-advanced">Advanced</span><span class="priority-p2">P2</span></div></div><div class="q-section"><div class="q-section-title">Basic Answer</div><p>Strategies: (1) <strong>API bypass</strong> — use test endpoint returning OTP. (2) <strong>Email automation</strong> — read OTP via IMAP (Gmail). (3) <strong>SMS gateway</strong> — Twilio API to read SMS. (4) <strong>Disable MFA</strong> for test accounts in lower environments. (5) <strong>TOTP generation</strong> — use <code>otplib</code> if shared secret is known. (6) <strong>storageState</strong> — authenticate once, reuse session. Best practice: run auth tests once and use <code>noReset: true</code> or session reuse for downstream tests.</p></div></div>
+
+<div class="question-card"><div class="q-header"><span class="q-number">11</span><div><span class="q-text">How do you handle deep linking and push notifications in mobile test automation?</span><span class="q-badge badge-advanced">Advanced</span><span class="priority-p2">P2</span></div></div><div class="q-section"><div class="q-section-title">Basic Answer</div><p><strong>Deep linking</strong>: use <code>driver.get()</code> with the app's URL scheme (e.g., <code>myapp://product/123</code>) or Android Intents: <code>driver.executeScript("mobile:deepLink", {url: "...", package: "..."})</code>. Validate that the app navigates to the correct screen. <strong>Push notifications</strong>: Android — use <code>driver.openNotifications()</code> to open notification tray, then interact. iOS — use SpringBoard APIs or XCUITest to interact with notification center. Verify notification content and tap behavior.</p></div></div>
+
+<div class="question-card"><div class="q-header"><span class="q-number">12</span><div><span class="q-text">How do you handle app permissions (location, camera, notifications) in mobile automation?</span><span class="q-badge badge-intermediate">Intermediate</span><span class="priority-p2">P2</span></div></div><div class="q-section"><div class="q-section-title">Basic Answer</div><p>Android: use <code>autoGrantPermissions: true</code> in capabilities to auto-accept all permissions. For specific grants: use <code>adb shell pm grant</code> commands. iOS: use <code>autoAcceptAlerts</code> capability (accepts all system alerts). For specific permission handling, use XCUITest to tap the alert button. Strategy: auto-accept in automation environments, test permission denial scenarios separately to verify graceful degradation.</p></div></div>
+
+<div class="question-card"><div class="q-header"><span class="q-number">13</span><div><span class="q-text">How do you implement visual testing for mobile apps?</span><span class="q-badge badge-advanced">Advanced</span><span class="priority-p2">P2</span></div></div><div class="q-section"><div class="q-section-title">Basic Answer</div><p>Use tools like <strong>Applitools Eyes</strong> (with Ultrafast Grid for cross-device) or <strong>Pixelmatch</strong> for in-house comparison. Capture screenshots at key states and compare against baselines. Handle: device-specific rendering differences, OS-level UI chrome (status bar, navigation bar), dynamic content (loading states, animations). Best practice: use full-page screenshots for scrollable content, element-level screenshots for focused comparisons.</p></div></div>
+
+</div>
+
+<div class="section-divider"><h2>P3 — Valuable Context</h2></div>
+<div class="container">
+
+<div class="question-card"><div class="q-header"><span class="q-number">14</span><div><span class="q-text">How does Appium 2.0 differ from Appium 1.x? What are plugins and drivers?</span><span class="q-badge badge-advanced">Advanced</span><span class="priority-p3">P3</span></div></div><div class="q-section"><div class="q-section-title">Basic Answer</div><p>Appium 2.0 decouples drivers from the core server. <strong>Drivers</strong> (UiAutomator2, XCUITest, Espresso) are installed as npm packages: <code>appium driver install uiautomator2</code>. <strong>Plugins</strong> extend server functionality: image comparison, device farm integration, custom commands. Key improvements: better W3C compliance, no JSON Wire Protocol fallback, plugin architecture, TypeScript support, improved performance. Migration: old capabilities use camelCase in 2.0 (appium: prefix for standard caps).</p></div></div>
+
+<div class="question-card"><div class="q-header"><span class="q-number">15</span><div><span class="q-text">How do you implement video recording of test execution for failure analysis in mobile automation?</span><span class="q-badge badge-advanced">Advanced</span><span class="priority-p3">P3</span></div></div><div class="q-section"><div class="q-section-title">Basic Answer</div><p>Android: <code>adb shell screenrecord /sdcard/test.mp4</code> or Appium's <code>startRecordingScreen()</code>. iOS: Appium's <code>startRecordingScreen()</code> returns base64-encoded video. Strategy: only record on failure to save storage and execution time. Store videos with test names and timestamps as CI artifacts. BrowserStack/SauceLabs provide automatic video recording.</p></div></div>
+
+<div class="question-card"><div class="q-header"><span class="q-number">16</span><div><span class="q-text">How do you test mobile app performance (startup time, ANR, memory leaks, UI rendering)?</span><span class="q-badge badge-expert">Expert</span><span class="priority-p3">P3</span></div></div><div class="q-section"><div class="q-section-title">Basic Answer</div><p>Performance metrics: (1) <strong>Cold startup time</strong> — measure from app launch to first frame rendered. (2) <strong>ANR (Application Not Responding)</strong> — monitor <code>adb logcat</code> for ANR events. (3) <strong>Memory usage</strong> — <code>adb shell dumpsys meminfo</code>. (4) <strong>Frame rate</strong> — measure dropped frames using <code>dumpsys gfxinfo</code> or <code>sysprof</code>. (5) <strong>Network latency</strong> — use <code>page.route()</code> in WebViews or proxy tools. Automate via performance test suites that capture metrics on each build.</p></div></div>
+
+</div>
+
+<div class="container">
+<div class="cheat-sheet">
+  <h3>📋 Mobile Automation — One-Page Revision Cheat Sheet</h3>
+  <div class="cheat-grid">
+    <div class="cheat-item"><h4>Appium 2.0 Architecture</h4><p>Client → Appium Server → Driver (UiAutomator2/XCUITest) → Device<br>Drivers installed via npm: <code>appium driver install uiautomator2</code></p></div>
+    <div class="cheat-item"><h4>Locator Priority</h4><p>Accessibility ID > iOS Predicate/UIAutomator > Class Chain > XPath (avoid)</p></div>
+    <div class="cheat-item"><h4>Key Capabilities</h4><p>Android: appPackage, appActivity, autoGrantPermissions<br>iOS: bundleId, udid, useNewWDA<br>Both: noReset, fullReset, newCommandTimeout</p></div>
+    <div class="cheat-item"><h4>Device Strategy</h4><p>Emulators/Simulators: CI/parallel testing<br>Real devices: pre-release validation<br>Cloud labs: broad coverage</p></div>
+    <div class="cheat-item"><h4>Fixing Flakiness</h4><p>Accessibility ID locators<br>Explicit waits (never Thread.sleep)<br>clean app state in CI<br>autoGrantPermissions for system dialogs</p></div>
+    <div class="cheat-item"><h4>W3C Actions</h4><p>Unified gesture API (scroll, swipe, pinch)<br>Multi-touch for zoom/rotate<br>Replaces MobileElement gestures in 2.0</p></div>
+  </div>
+</div>
+
+<div class="end-section">
+  <h2>🎯 Most Asked Mobile Automation Topics</h2>
+  <p style="color:var(--text-secondary);line-height:2">
+    <strong>1.</strong> Appium architecture & 2.0 features — asked in every mobile SDET interview<br>
+    <strong>2.</strong> Locator strategies (Accessibility ID, iOS Predicate, Android UIAutomator)<br>
+    <strong>3.</strong> Gesture automation using W3C Actions API<br>
+    <strong>4.</strong> Hybrid app testing (Native ↔ WebView context switching)<br>
+    <strong>5.</strong> Cloud device labs — BrowserStack/SauceLabs integration<br>
+    <strong>6.</strong> Flaky test management — waits, app state, permissions handling<br>
+    <strong>7.</strong> CI/CD pipeline integration with Docker and cloud devices
+  </p>
+</div>
+</div>
+
+</body>
+</html>

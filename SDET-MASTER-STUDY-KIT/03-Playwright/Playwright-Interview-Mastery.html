@@ -1,0 +1,2010 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Playwright Interview Mastery — SDET Study Kit</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/nebula.css">
+<style>
+  .cover-page::before {
+    background:
+      radial-gradient(circle at 30% 50%, rgba(45, 212, 191, 0.06) 0%, transparent 50%),
+      radial-gradient(circle at 70% 50%, rgba(52, 211, 153, 0.05) 0%, transparent 50%);
+  }
+  .cover-title { background: linear-gradient(135deg, #2dd4bf 0%, #34d399 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .cover-divider { background: linear-gradient(135deg, #2dd4bf 0%, #34d399 100%); }
+  .cover-meta-item .number { background: linear-gradient(135deg, #2dd4bf 0%, #34d399 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .section-divider h2 { background: linear-gradient(135deg, #2dd4bf 0%, #34d399 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .q-number { background: linear-gradient(135deg, #2dd4bf 0%, #34d399 100%); }
+  .q-section-title { color: var(--accent-cyan); }
+  .q-section-title::before { background: var(--accent-cyan); }
+  .q-section-title.green { color: var(--accent-emerald); }
+  .q-section-title.orange { color: var(--accent-amber); }
+  .q-section-title.red { color: var(--accent-red); }
+
+  /* Code Examples Section */
+  .code-example-title { background: linear-gradient(135deg, #a78bfa 0%, #8b5cf6 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .code-example-divider { background: linear-gradient(135deg, #a78bfa 0%, #8b5cf6 100%); }
+  .code-example-card { background: linear-gradient(135deg, rgba(167,139,250,0.03) 0%, rgba(139,92,246,0.05) 100%); border: 1px solid rgba(167,139,250,0.12); }
+  .code-example-card.q-number { background: linear-gradient(135deg, #a78bfa 0%, #8b5cf6 100%); }
+  .code-example-card .q-text { color: var(--accent-purple); }
+  .code-example-desc { font-size: 14px; color: var(--text-secondary); margin-bottom: 16px; }
+</style>
+</head>
+<body>
+
+<div class="cover-page">
+  <div class="cover-badge">SDET Master Study Kit</div>
+  <h1 class="cover-title">Playwright Interview Mastery</h1>
+  <div class="cover-divider"></div>
+  <p class="cover-subtitle">58 In-Depth Questions for 4+ Years Experienced SDET Professionals — #1 Most Tested Topic</p>
+  <div class="cover-meta">
+    <div class="cover-meta-item"><span class="number">25</span><span class="label">P1 — Must Know</span></div>
+    <div class="cover-meta-item"><span class="number">17</span><span class="label">P2 — Commonly Asked</span></div>
+    <div class="cover-meta-item"><span class="number">16</span><span class="label">P3 — Expert</span></div>
+  </div>
+  <p class="cover-description" style="margin-top: 30px; max-width: 650px; color: var(--text-secondary); position: relative; z-index: 1;">
+    Designed for 4+ years experienced SDETs. Covers architecture (CDP/WebSocket), framework design with fixtures,
+    parallel execution at scale, CI/CD integration, debugging with Trace Viewer, API testing patterns,
+    visual testing, component testing, AI integration, and real-world problem-solving scenarios.
+  </p>
+</div>
+
+<div class="container">
+  <h2 style="font-size: 24px; margin-bottom: 24px; color: var(--accent-blue);">Why Playwright Dominates SDET Interviews</h2>
+  <p style="color: var(--text-secondary); margin-bottom: 30px;">Playwright is the industry standard for 2025–2026. Interviewers focus on architectural understanding, framework design skills, and problem-solving with real-world automation challenges.</p>
+</div>
+
+<div class="section-divider"><h2>P1 — Frequently Asked Questions</h2><p>Must-know for every Playwright SDET interview.</p></div>
+<div class="container">
+
+<div class="question-card">
+  <div class="q-header"><span class="q-number">1</span><div><span class="q-text">How does Playwright architecture work? Explain CDP, WebSocket communication, and browser context model.</span><span class="q-badge badge-advanced">Advanced</span><span class="priority-p1">P1</span></div></div>
+  <div class="q-section"><div class="q-section-title">Basic Answer</div>      <p>Playwright uses CDP (Chrome DevTools Protocol) for Chromium and custom protocols for Firefox/WebKit. It talks to the browser through one WebSocket connection per context. Each Browser Context is a separate session with its own cookies, storage, and permissions. This lets tests run in parallel without starting a new browser for each test. Creating a new context takes ~50ms vs ~500ms for a new browser.</p></div>
+  <div class="q-section"><div class="q-section-title green">Detailed Answer</div>
+  <div class="diagram-box">
+    <span style="color: var(--accent-blue);">Test Script</span> (Playwright API)<br>↓<br><span style="color: var(--accent-cyan);">Playwright Driver</span> (Node.js)<br>↓<br><span style="color: var(--accent-orange);">WebSocket / CDP</span><br>↓<br><span style="color: var(--accent-green);">Browser Process</span><br>&nbsp;&nbsp;↓<br><span style="color: #8b949e;">Context 1 &nbsp; Context 2 &nbsp; Context N</span><br><span style="color: #666;">(isolated sessions, shared process)</span>
+  </div>
+  </div>
+  <div class="q-section"><div class="q-section-title orange">Real Interview Answer</div>      <p>"Playwright uses one WebSocket per context — unlike Selenium which creates a new HTTP connection for each command. This persistent connection makes Playwright faster. Browser Contexts are the main innovation: lightweight, isolated sessions that share the same browser process but have separate storage. This means true parallel execution without the cost of multiple browsers."</p></div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-number">2</span><div><span class="q-text">How does Playwright compare to Selenium and Cypress?</span><span class="q-badge badge-intermediate">Intermediate</span><span class="priority-p1">P1</span></div></div>
+  <div class="q-section"><div class="q-section-title">Basic Answer</div>      <p><strong>Playwright:</strong> Cross-browser, auto-waiting, network interception, mobile emulation. <strong>Selenium:</strong> Supports more languages, older tools, slower. <strong>Cypress:</strong> Great developer experience, Chrome only, limited cross-browser. Pick Playwright for new projects. Pick Selenium for existing enterprise frameworks. Pick Cypress for Chrome-only component testing.</p></div>
+  <div class="q-section"><div class="q-section-title green">Code Example</div>
+  <div class="code-block">
+<span class="comment">// Playwright — cross-browser with auto-waiting and network interception</span>
+<span class="keyword">import</span> { test, expect, devices } from <span class="string">'@playwright/test'</span>;
+
+test(<span class="string">'cross-browser login test'</span>, <span class="keyword">async</span> ({ page, browserName }) => {
+  <span class="keyword">await</span> page.goto(<span class="string">'https://example.com/login'</span>);
+  <span class="keyword">await</span> page.getByLabel(<span class="string">'Username'</span>).fill(<span class="string">'admin'</span>);
+
+  <span class="comment">// Auto-waiting built in — no explicit WebDriverWait needed</span>
+  <span class="keyword">await</span> page.getByRole(<span class="string">'button'</span>, { name: <span class="string">'Sign In'</span> }).click();
+  <span class="keyword">await</span> expect(page.getByText(<span class="string">'Dashboard'</span>)).toBeVisible();
+
+  <span class="comment">// Runs on Chromium, Firefox, WebKit, and mobile emulation</span>
+  console.log(<span class="string">`Running on <span class="keyword">${</span>browserName<span class="keyword">}</span>`</span>);
+});
+
+<span class="comment">// Selenium equivalent would need: WebDriverWait, BrowserStack/Grid config</span>
+<span class="comment">// Cypress equivalent would be: Chrome-only, no cross-browser out of box</span>
+  </div>
+  </div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-number">3</span><div><span class="q-text">What are Browser Contexts and why are they efficient?</span><span class="q-badge badge-intermediate">Intermediate</span><span class="priority-p1">P1</span></div></div>
+  <div class="q-section"><div class="q-section-title">Basic Answer</div>      <p>Browser Contexts are isolated sessions inside one browser instance. They take ~50ms to create (vs ~500ms+ for a new browser). They share the browser process but have separate cookies, storage, and permissions. This lets you run tests in parallel with full isolation while using much less memory.</p></div>
+  <div class="q-section"><div class="q-section-title green">Code Example</div>
+  <div class="code-block">
+<span class="keyword">import</span> { chromium } from <span class="string">'playwright'</span>;
+
+<span class="keyword">async function</span> contextDemo() {
+  <span class="keyword">const</span> browser = <span class="keyword">await</span> chromium.launch();
+
+  <span class="comment">// Context 1 — logged in as admin (takes ~50ms to create)</span>
+  <span class="keyword">const</span> adminContext = <span class="keyword">await</span> browser.newContext();
+  <span class="keyword">const</span> adminPage = <span class="keyword">await</span> adminContext.newPage();
+  <span class="keyword">await</span> adminPage.goto(<span class="string">'https://example.com'</span>);
+  <span class="comment">// adminContext has its own cookies, localStorage, session</span>
+
+  <span class="comment">// Context 2 — logged in as regular user, fully isolated</span>
+  <span class="keyword">const</span> userContext = <span class="keyword">await</span> browser.newContext();
+  <span class="keyword">const</span> userPage = <span class="keyword">await</span> userContext.newPage();
+  <span class="keyword">await</span> userPage.goto(<span class="string">'https://example.com'</span>);
+  <span class="comment">// No cookies shared with adminContext — complete isolation!</span>
+
+  <span class="comment">// Both contexts share the same browser process (saves ~500ms each)</span>
+  <span class="keyword">await</span> browser.close();
+}
+  </div>
+  </div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-number">4</span><div><span class="q-text">How does auto-waiting work in Playwright vs Selenium's explicit waits?</span><span class="q-badge badge-advanced">Advanced</span><span class="priority-p1">P1</span></div></div>
+  <div class="q-section"><div class="q-section-title">Basic Answer</div>      <p>Playwright automatically waits before doing anything — it checks that elements are visible, stable, enabled, and not blocked by other elements. This is built into every action and assertion. Selenium makes you write <code>WebDriverWait</code> manually. NEVER use <code>page.waitForTimeout()</code> — it's a bad practice. Use web-first assertions instead.</p></div>
+  <div class="q-section"><div class="q-section-title green">Code Example</div>
+  <div class="code-block">
+<span class="comment">// Playwright — auto-waiting built into every action</span>
+<span class="keyword">await</span> page.getByRole(<span class="string">'button'</span>, { name: <span class="string">'Submit'</span> }).click();
+<span class="comment">// Playwright auto-waits for: visible, stable, enabled, not obscured</span>
+
+<span class="comment">// Web-first assertion — auto-retries until condition is met</span>
+<span class="keyword">await</span> expect(page.getByText(<span class="string">'Success'</span>)).toBeVisible();
+
+<span class="comment">// ❌ NEVER do this — defeats auto-waiting</span>
+<span class="keyword">await</span> page.waitForTimeout(<span class="number">3000</span>); <span class="comment">// BAD PRACTICE</span>
+
+<span class="comment">// ✅ Instead, use web-first assertions or explicit waits</span>
+<span class="keyword">await</span> page.waitForSelector(<span class="string">'.result'</span>, { state: <span class="string">'visible'</span>, timeout: <span class="number">5000</span> });
+
+<span class="comment">// Selenium equivalent (manual explicit wait)</span>
+<span class="comment">// WebDriverWait(driver, 10).until(</span>
+<span class="comment">//   ExpectedConditions.elementToBeClickable(By.id("submit"))</span>
+<span class="comment">// );</span>
+  </div>
+  </div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-number">5</span><div><span class="q-text">Explain locator strategies and priority order.</span><span class="q-badge badge-intermediate">Intermediate</span><span class="priority-p1">P1</span></div></div>
+  <div class="q-section"><div class="q-section-title">Basic Answer</div>      <p>Best to worst: (1) <code>getByRole</code> — based on accessibility, most reliable. (2) <code>getByTestId</code> — stable, but needs developers to add test IDs. (3) <code>getByLabel</code> — for form fields. (4) <code>getByPlaceholder</code> — for input hints. (5) <code>getByText</code> — by visible text. (6) <code>locator(CSS/XPath)</code> — only when nothing else works.</p></div>
+  <div class="q-section"><div class="q-section-title green">Code Example</div>
+  <div class="code-block">
+<span class="comment">// Priority order (best to worst):</span>
+
+<span class="comment">// 1. Accessibility-based (✅ most reliable, user-centric)</span>
+page.getByRole(<span class="string">'button'</span>, { name: <span class="string">'Submit'</span> });
+page.getByRole(<span class="string">'heading'</span>, { level: <span class="number">1</span> });
+
+<span class="comment">// 2. Test ID (✅ stable, requires dev collaboration)</span>
+page.getByTestId(<span class="string">'submit-button'</span>);
+
+<span class="comment">// 3. Label (✅ best for form fields)</span>
+page.getByLabel(<span class="string">'Email Address'</span>);
+
+<span class="comment">// 4. Placeholder</span>
+page.getByPlaceholder(<span class="string">'Enter your email'</span>);
+
+<span class="comment">// 5. Visible text</span>
+page.getByText(<span class="string">'Welcome back!'</span>);
+
+<span class="comment">// 6. CSS/XPath (⚠️ last resort — fragile)</span>
+page.locator(<span class="string">'.btn-primary'</span>);
+page.locator(<span class="string">'//button[@id="submit"]'</span>);
+  </div>
+  </div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-number">6</span><div><span class="q-text">How do web-first assertions work and how are they different from standard assertions?</span><span class="q-badge badge-intermediate">Intermediate</span><span class="priority-p1">P1</span></div></div>
+  <div class="q-section"><div class="q-section-title">Basic Answer</div>      <p>Web-first assertions (<code>toBeVisible</code>, <code>toHaveText</code>) keep trying until the condition is met or time runs out. Standard assertions (<code>expect(value).toBe()</code>) check once and fail immediately. Use <code>expect.poll()</code> or <code>expect.toPass()</code> for custom retry logic.</p></div>
+  <div class="q-section"><div class="q-section-title green">Code Example</div>
+  <div class="code-block">
+<span class="comment">// Web-first assertions — auto-retry up to 5 seconds (default timeout)</span>
+<span class="keyword">await</span> expect(page.getByRole(<span class="string">'heading'</span>)).toBeVisible();
+<span class="keyword">await</span> expect(page.getByTestId(<span class="string">'status'</span>)).toHaveText(<span class="string">'Active'</span>);
+<span class="keyword">await</span> expect(page.getByRole(<span class="string">'button'</span>)).toBeEnabled();
+
+<span class="comment">// Standard (non-web) assertion — checks once, no retry</span>
+<span class="keyword">const</span> url = page.url();
+expect(url).toContain(<span class="string">'/dashboard'</span>);
+
+<span class="comment">// Custom retry with expect.toPass (great for flaky operations)</span>
+<span class="keyword">await</span> expect(<span class="keyword">async</span> () => {
+  <span class="keyword">const</span> response = <span class="keyword">await</span> request.get(<span class="string">'/api/status'</span>);
+  expect((<span class="keyword">await</span> response.json()).state).toBe(<span class="string">'COMPLETED'</span>);
+}).toPass({ timeout: <span class="number">10000</span> });
+  </div>
+  </div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-number">7</span><div><span class="q-text">Explain Playwright fixtures — how they differ from <code>beforeEach</code>/<code>afterEach</code>.</span><span class="q-badge badge-advanced">Advanced</span><span class="priority-p1">P1</span></div></div>
+  <div class="q-section"><div class="q-section-title">Basic Answer</div>      <p>Fixtures are a type-safe way to inject dependencies into tests. They combine setup AND cleanup in one place. They have different scopes (per-test or per-worker). Fixtures can depend on other fixtures. They're created only when needed (lazy). This removes the need for <code>beforeEach</code>/<code>afterEach</code> hooks.</p></div>
+  <div class="q-section"><div class="q-section-title green">Code Example</div>
+  <div class="code-block">
+<span class="comment">// BAD — beforeEach/afterEach pattern (manual, error-prone)</span>
+<span class="keyword">let</span> db;
+
+test.beforeEach(<span class="keyword">async</span> () => {
+  db = <span class="keyword">await</span> Database.connect();
+  <span class="keyword">await</span> db.seed();
+});
+
+test.afterEach(<span class="keyword">async</span> () => {
+  <span class="keyword">await</span> db.cleanup(); <span class="comment">// Easy to forget!</span>
+});
+
+test(<span class="string">'user count'</span>, <span class="keyword">async</span> () => {
+  console.log(<span class="keyword">await</span> db.countUsers());
+});
+
+<span class="comment">// GOOD — Fixture pattern (setup + cleanup in one place, type-safe)</span>
+<span class="keyword">const</span> test = base.extend({
+  db: [<span class="keyword">async</span> ({}, use) => {
+    <span class="keyword">const</span> db = <span class="keyword">await</span> Database.connect();
+    <span class="keyword">await</span> db.seed();
+    <span class="keyword">await</span> use(db); <span class="comment">// Give to test</span>
+    <span class="keyword">await</span> db.cleanup(); <span class="comment">// Auto-cleanup runs even if test fails!</span>
+  }, { scope: <span class="string">'worker'</span> }], <span class="comment">// Created once per worker</span>
+});
+
+test(<span class="string">'user count'</span>, <span class="keyword">async</span> ({ db }) => {
+  console.log(<span class="keyword">await</span> db.countUsers());
+});
+  </div>
+  </div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-number">8</span><div><span class="q-text">How do you handle authentication across tests using storageState?</span><span class="q-badge badge-advanced">Advanced</span><span class="priority-p1">P1</span></div></div>
+  <div class="q-section"><div class="q-section-title">Basic Answer</div>      <p>Login once in global setup, save cookies/localStorage to <code>storageState.json</code>. Set up in <code>playwright.config.ts</code> for each project. This cuts login time from ~3s to ~50ms per test. Use separate state files for different user roles (admin, user, etc.).</p></div>
+  <div class="q-section"><div class="q-section-title green">Code Example</div>
+  <div class="code-block">
+<span class="comment">// global-setup.ts — login once, save state</span>
+<span class="keyword">async function</span> globalSetup() {
+  <span class="keyword">const</span> browser = <span class="keyword">await</span> chromium.launch();
+  <span class="keyword">const</span> page = <span class="keyword">await</span> browser.newPage();
+  <span class="keyword">await</span> page.goto(<span class="string">'https://app.com/login'</span>);
+  <span class="keyword">await</span> page.getByLabel(<span class="string">'Username'</span>).fill(<span class="string">'admin'</span>);
+  <span class="keyword">await</span> page.getByLabel(<span class="string">'Password'</span>).fill(<span class="string">'password'</span>);
+  <span class="keyword">await</span> page.getByRole(<span class="string">'button'</span>, { name: <span class="string">'Sign In'</span> }).click();
+  <span class="keyword">await</span> page.waitForURL(<span class="string">'**/dashboard'</span>);
+
+  <span class="comment">// Save cookies + localStorage to a file (~50ms per test to reuse)</span>
+  <span class="keyword">await</span> page.context().storageState({ path: <span class="string">'state/admin-auth.json'</span> });
+  <span class="keyword">await</span> browser.close();
+}
+
+<span class="comment">// playwright.config.ts — reuse saved state</span>
+projects: [
+  { name: <span class="string">'admin'</span>, use: { storageState: <span class="string">'state/admin-auth.json'</span> } },
+  { name: <span class="string">'user'</span>, use: { storageState: <span class="string">'state/user-auth.json'</span> } },
+]
+
+<span class="comment">// Test file — no login code needed!</span>
+test(<span class="string">'dashboard loads'</span>, <span class="keyword">async</span> ({ page }) => {
+  <span class="keyword">await</span> page.goto(<span class="string">'/dashboard'</span>); <span class="comment">// Already authenticated</span>
+  <span class="keyword">await</span> expect(page.getByRole(<span class="string">'heading'</span>)).toBeVisible();
+});
+  </div>
+  </div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-number">9</span><div><span class="q-text">How does network interception work using <code>page.route()</code>?</span><span class="q-badge badge-advanced">Advanced</span><span class="priority-p1">P1</span></div></div>
+  <div class="q-section"><div class="q-section-title">Basic Answer</div>      <p><code>page.route(pattern, handler)</code> lets you intercept network requests. The handler can: <strong>fulfill</strong> (return mock data), <strong>continue</strong> (let it through, maybe modified), <strong>abort</strong> (block the request), or replay from a HAR file. This enables API mocking, modifying requests/responses, network throttling, and offline testing.</p></div>
+  <div class="q-section"><div class="q-section-title green">Code Example</div>
+  <div class="code-block">
+<span class="comment">// Mock an API response (fulfill)</span>
+<span class="keyword">await</span> page.route(<span class="string">'**/api/users'</span>, <span class="keyword">async</span> route => {
+  <span class="keyword">await</span> route.fulfill({
+    status: <span class="number">200</span>,
+    body: JSON.stringify([{ id: <span class="number">1</span>, name: <span class="string">'Mock User'</span> }]),
+  });
+});
+
+<span class="comment">// Block analytics scripts (abort)</span>
+<span class="keyword">await</span> page.route(<span class="string">'**/analytics.js'</span>, <span class="keyword">async</span> route => route.abort());
+
+<span class="comment">// Modify request headers (continue with modifications)</span>
+<span class="keyword">await</span> page.route(<span class="string">'**/api/**'</span>, <span class="keyword">async</span> route => {
+  <span class="keyword">const</span> headers = { ...route.request().headers(), authorization: <span class="string">'Bearer token'</span> };
+  <span class="keyword">await</span> route.continue({ headers });
+});
+
+<span class="comment">// Simulate slow network (delay the response)</span>
+<span class="keyword">await</span> page.route(<span class="string">'**/api/data'</span>, <span class="keyword">async</span> route => {
+  <span class="keyword">await</span> <span class="keyword">new</span> Promise(r =&gt; setTimeout(r, <span class="number">5000</span>)); <span class="comment">// 5 second delay</span>
+  <span class="keyword">await</span> route.continue();
+});
+  </div>
+  </div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-number">10</span><div><span class="q-text">How do you test APIs using <code>APIRequestContext</code>?</span><span class="q-badge badge-advanced">Advanced</span><span class="priority-p1">P1</span></div></div>
+  <div class="q-section"><div class="q-section-title">Basic Answer</div>      <p>Playwright has built-in API methods: <code>get</code>, <code>post</code>, <code>put</code>, <code>patch</code>, <code>delete</code>. Create a typed API client wrapper with auth, base URL, and validation. Use fixtures to inject it into tests. This lets you test both UI and APIs in the same framework.</p></div>
+  <div class="q-section"><div class="q-section-title green">Code Example</div>
+  <div class="code-block">
+<span class="comment">// API testing with Playwright's built-in request context</span>
+<span class="keyword">import</span> { test, expect } from <span class="string">'@playwright/test'</span>;
+
+test(<span class="string">'CRUD operations via API'</span>, <span class="keyword">async</span> ({ request }) => {
+  <span class="comment">// CREATE</span>
+  <span class="keyword">const</span> createRes = <span class="keyword">await</span> request.post(<span class="string">'/api/users'</span>, {
+    data: { name: <span class="string">'John'</span>, email: <span class="string">'john@test.com'</span> },
+  });
+  expect(createRes.status()).toBe(<span class="number">201</span>);
+  <span class="keyword">const</span> { id } = <span class="keyword">await</span> createRes.json();
+
+  <span class="comment">// READ</span>
+  <span class="keyword">const</span> getRes = <span class="keyword">await</span> request.get(<span class="string">`/api/users/<span class="keyword">${</span>id<span class="keyword">}</span>`</span>);
+  expect((<span class="keyword">await</span> getRes.json()).name).toBe(<span class="string">'John'</span>);
+
+  <span class="comment">// UPDATE</span>
+  <span class="keyword">const</span> updateRes = <span class="keyword">await</span> request.put(<span class="string">`/api/users/<span class="keyword">${</span>id<span class="keyword">}</span>`</span>, {
+    data: { name: <span class="string">'John Updated'</span> },
+  });
+  expect(updateRes.ok()).toBeTruthy();
+
+  <span class="comment">// DELETE</span>
+  <span class="keyword">const</span> deleteRes = <span class="keyword">await</span> request.delete(<span class="string">`/api/users/<span class="keyword">${</span>id<span class="keyword">}</span>`</span>);
+  expect(deleteRes.status()).toBe(<span class="number">204</span>);
+});
+  </div>
+  </div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-number">11</span><div><span class="q-text">How do you handle parallel execution, workers, and sharding?</span><span class="q-badge badge-intermediate">Intermediate</span><span class="priority-p1">P1</span></div></div>
+  <div class="q-section"><div class="q-section-title">Basic Answer</div>      <p>Workers run different test files in parallel. Configure with <code>workers</code> in config or CLI. <code>--shard=1/4</code> splits tests across multiple CI machines. <code>fullyParallel: true</code> runs tests within the same file in parallel too. Use worker fixtures for shared resources (like database connections).</p></div>
+  <div class="q-section"><div class="q-section-title green">Code Example</div>
+  <div class="code-block">
+<span class="comment">// playwright.config.ts — three levels of parallelism</span>
+<span class="keyword">export default</span> defineConfig({
+  <span class="comment">// Level 1: Workers — parallel test files (match CPU cores)</span>
+  workers: process.env.CI ? <span class="number">4</span> : <span class="number">6</span>,
+
+  <span class="comment">// Level 2: Within-file parallel (tests in same file run concurrently)</span>
+  fullyParallel: <span class="keyword">true</span>,
+
+  <span class="comment">// Level 3: Sharding — split across CI machines</span>
+  <span class="comment">// CLI: npx playwright test --shard=1/4</span>
+
+  projects: [
+    { name: <span class="string">'chromium'</span>, use: { ...devices[<span class="string">'Desktop Chrome'</span>] } },
+    { name: <span class="string">'firefox'</span>, use: { ...devices[<span class="string">'Desktop Firefox'</span>] } },
+  ],
+});
+
+<span class="comment">// Worker fixture — shared DB connection across tests in same worker</span>
+<span class="keyword">const</span> test = base.extend({
+  db: [<span class="keyword">async</span> ({}, use) => {
+    <span class="keyword">const</span> conn = <span class="keyword">await</span> Database.connect();
+    <span class="keyword">await</span> use(conn);
+    <span class="keyword">await</span> conn.disconnect();
+  }, { scope: <span class="string">'worker'</span> }], <span class="comment">// Created once, shared across all tests in worker</span>
+});
+  </div>
+  </div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-number">12</span><div><span class="q-text">How do you debug failing tests in CI/CD? Explain Trace Viewer and artifacts.</span><span class="q-badge badge-intermediate">Intermediate</span><span class="priority-p1">P1</span></div></div>
+  <div class="q-section"><div class="q-section-title">Basic Answer</div>      <p><strong>Trace:</strong> Full execution timeline with DOM snapshots, network, console logs, and source maps. <strong>Video:</strong> Recorded playback of the test. <strong>Screenshots:</strong> Quick visual check. Best config: <code>trace: 'on-first-retry'</code>, <code>video: 'on-first-retry'</code>, <code>screenshot: 'only-on-failure'</code>. This saves storage while giving you what you need for debugging.</p></div>
+  <div class="q-section"><div class="q-section-title green">Code Example</div>
+  <div class="code-block">
+<span class="comment">// playwright.config.ts — optimal artifact configuration</span>
+<span class="keyword">export default</span> defineConfig({
+  use: {
+    trace: <span class="string">'on-first-retry'</span>,   <span class="comment">// Capture trace only on retries</span>
+    video: <span class="string">'on-first-retry'</span>,   <span class="comment">// Record video on retries</span>
+    screenshot: <span class="string">'only-on-failure'</span>, <span class="comment">// Screenshot when test fails</span>
+  },
+});
+
+<span class="comment">// Programmatic trace capture for specific tests</span>
+test(<span class="string">'debug flaky login'</span>, <span class="keyword">async</span> ({ page, context }) => {
+  <span class="keyword">await</span> context.tracing.start({ screenshots: <span class="keyword">true</span>, snapshots: <span class="keyword">true</span>, sources: <span class="keyword">true</span> });
+  <span class="keyword">try</span> {
+    <span class="keyword">await</span> page.goto(<span class="string">'/login'</span>);
+    <span class="keyword">await</span> page.getByLabel(<span class="string">'Username'</span>).fill(<span class="string">'admin'</span>);
+    <span class="keyword">await</span> page.getByRole(<span class="string">'button'</span>, { name: <span class="string">'Sign In'</span> }).click();
+    <span class="keyword">await</span> page.waitForURL(<span class="string">'**/dashboard'</span>);
+  } <span class="keyword">finally</span> {
+    <span class="keyword">await</span> context.tracing.stop({ path: <span class="string">'trace.zip'</span> });
+  }
+});
+
+<span class="comment">// View trace: npx playwright show-trace trace.zip</span>
+  </div>
+  </div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-number">13</span><div><span class="q-text">How do you design POM in Playwright with components and service layer?</span><span class="q-badge badge-advanced">Advanced</span><span class="priority-p1">P1</span></div></div>
+  <div class="q-section"><div class="q-section-title">Basic Answer</div>      <p>Layers: <strong>Base Page</strong> (shared methods), <strong>Page Objects</strong> (interactions), <strong>Component Objects</strong> (reusable UI pieces), <strong>Service Layer</strong> (API setup), <strong>Fixtures</strong> (dependency injection). This keeps the framework maintainable and reusable.</p></div>
+  <div class="q-section"><div class="q-section-title green">Code Example</div>
+  <div class="code-block">
+<span class="comment">// Layer 1: Base Page — shared methods for all pages</span>
+<span class="keyword">export abstract class</span> BasePage {
+  <span class="keyword">constructor</span>(<span class="keyword">protected</span> page: Page) {}
+  <span class="keyword">async</span> navigate(path: string) { <span class="keyword">await</span> <span class="keyword">this</span>.page.goto(path); }
+}
+
+<span class="comment">// Layer 2: Page Object — typed interactions for a specific page</span>
+<span class="keyword">export class</span> LoginPage <span class="keyword">extends</span> BasePage {
+  <span class="keyword">readonly</span> usernameInput = <span class="keyword">this</span>.page.getByLabel(<span class="string">'Username'</span>);
+  <span class="keyword">readonly</span> loginButton = <span class="keyword">this</span>.page.getByRole(<span class="string">'button'</span>, { name: <span class="string">'Sign In'</span> });
+
+  <span class="keyword">async</span> loginAs(username: string, password: string) {
+    <span class="keyword">await</span> <span class="keyword">this</span>.usernameInput.fill(username);
+    <span class="keyword">await</span> <span class="keyword">this</span>.page.getByLabel(<span class="string">'Password'</span>).fill(password);
+    <span class="keyword">await</span> <span class="keyword">this</span>.loginButton.click();
+  }
+}
+
+<span class="comment">// Layer 3: Component Object — reusable UI piece</span>
+<span class="keyword">export class</span> NavBar {
+  <span class="keyword">constructor</span>(<span class="keyword">private</span> page: Page) {}
+  <span class="keyword">get</span> userAvatar() { <span class="keyword">return</span> <span class="keyword">this</span>.page.getByTestId(<span class="string">'user-avatar'</span>); }
+  <span class="keyword">async</span> logout() { <span class="keyword">await</span> <span class="keyword">this</span>.page.getByRole(<span class="string">'button'</span>, { name: <span class="string">'Logout'</span> }).click(); }
+}
+
+<span class="comment">// Layer 4: Fixture — inject page objects into tests</span>
+<span class="keyword">const</span> test = base.extend&lt;{ loginPage: LoginPage }&gt;({
+  loginPage: [<span class="keyword">async</span> ({ page }, use) => <span class="keyword">await</span> use(<span class="keyword">new</span> LoginPage(page)), { scope: <span class="string">'test'</span> }],
+});
+  </div>
+  </div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-number">14</span><div><span class="q-text">How do you handle file uploads and downloads?</span><span class="q-badge badge-intermediate">Intermediate</span><span class="priority-p1">P1</span></div></div>
+  <div class="q-section"><div class="q-section-title">Basic Answer</div>      <p><strong>Upload:</strong> <code>locator.setInputFiles()</code>. <strong>Download:</strong> <code>page.waitForEvent('download')</code> then <code>download.saveAs()</code>. Always validate file size, MIME type, and content integrity.</p></div>
+  <div class="q-section"><div class="q-section-title green">Code Example</div>
+  <div class="code-block">
+<span class="keyword">import</span> path from <span class="string">'path'</span>;
+
+<span class="comment">// FILE UPLOAD — using setInputFiles</span>
+test(<span class="string">'upload single file'</span>, <span class="keyword">async</span> ({ page }) => {
+  <span class="keyword">await</span> page.goto(<span class="string">'/upload'</span>);
+  <span class="keyword">await</span> page.getByTestId(<span class="string">'file-input'</span>).setInputFiles(
+    path.resolve(<span class="string">'test-data/invoice.pdf'</span>)
+  );
+  <span class="keyword">await</span> page.getByRole(<span class="string">'button'</span>, { name: <span class="string">'Upload'</span> }).click();
+  <span class="keyword">await</span> expect(page.getByText(<span class="string">'Upload successful'</span>)).toBeVisible();
+});
+
+<span class="comment">// FILE DOWNLOAD — capture and verify</span>
+test(<span class="string">'download report'</span>, <span class="keyword">async</span> ({ page }) => {
+  <span class="keyword">const</span> downloadPromise = page.waitForEvent(<span class="string">'download'</span>);
+  <span class="keyword">await</span> page.getByRole(<span class="string">'button'</span>, { name: <span class="string">'Export'</span> }).click();
+
+  <span class="keyword">const</span> download = <span class="keyword">await</span> downloadPromise;
+  expect(download.suggestedFilename()).toMatch(<span class="string">/.*\.pdf/</span>);
+  <span class="keyword">await</span> download.saveAs(<span class="string">'./downloads/report.pdf'</span>);
+});
+  </div>
+  </div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-number">15</span><div><span class="q-text">How do you work with iFrames (same-origin and cross-origin)?</span><span class="q-badge badge-intermediate">Intermediate</span><span class="priority-p1">P1</span></div></div>
+  <div class="q-section"><div class="q-section-title">Basic Answer</div>      <p>Use <code>frameLocator()</code> to work with elements inside iframes. It handles cross-origin iframes automatically. Chain for nested iframes: <code>frameLocator('iframe').frameLocator('nested')</code>.</p></div>
+  <div class="q-section"><div class="q-section-title green">Code Example</div>
+  <div class="code-block">
+<span class="comment">// Interact with elements inside an iframe</span>
+test(<span class="string">'fill form inside iframe'</span>, <span class="keyword">async</span> ({ page }) => {
+  <span class="keyword">await</span> page.goto(<span class="string">'/page-with-iframe'</span>);
+
+  <span class="comment">// frameLocator handles same-origin AND cross-origin automatically</span>
+  <span class="keyword">const</span> frame = page.frameLocator(<span class="string">'#payment-iframe'</span>);
+  <span class="keyword">await</span> frame.getByPlaceholder(<span class="string">'Card number'</span>).fill(<span class="string">'4242 4242 4242 4242'</span>);
+  <span class="keyword">await</span> frame.getByPlaceholder(<span class="string">'MM/YY'</span>).fill(<span class="string">'12/28'</span>);
+  <span class="keyword">await</span> frame.getByRole(<span class="string">'button'</span>, { name: <span class="string">'Pay'</span> }).click();
+});
+
+<span class="comment">// Nested iframes — chain frameLocator calls</span>
+test(<span class="string">'nested iframe'</span>, <span class="keyword">async</span> ({ page }) => {
+  <span class="keyword">const</span> nestedFrame = page
+    .frameLocator(<span class="string">'#outer-iframe'</span>)
+    .frameLocator(<span class="string">'#inner-iframe'</span>);
+
+  <span class="keyword">await</span> expect(nestedFrame.getByRole(<span class="string">'heading'</span>)).toHaveText(<span class="string">'Nested Content'</span>);
+});
+  </div>
+  </div>
+</div>
+
+  <!-- Q16 - NEW Senior P1 -->
+  <div class="question-card">
+    <div class="q-header"><span class="q-number">16</span><div><span class="q-text">Deep dive: How does the Chrome DevTools Protocol (CDP) work in Playwright? How does Playwright handle non-Chromium browsers?</span><span class="q-badge badge-expert">Expert</span><span class="priority-p1">P1</span></div></div>
+    <div class="q-section"><div class="q-section-title">Basic Answer</div>      <p>Playwright uses CDP (Chrome DevTools Protocol) for Chromium. For Firefox and WebKit, it has custom protocol adapters. CDP has different sections (domains) for DOM, Network, Page, Runtime, and Performance — giving Playwright much deeper control than Selenium's WebDriver. Playwright wraps all these browser differences into one simple API.</p></div>
+    <div class="q-section"><div class="q-section-title green">Detailed Answer</div>      <p><strong>CDP Architecture:</strong> Each CDP domain controls a different part of the browser. The <code>Network</code> domain handles requests, responses, and throttling. The <code>Page</code> domain handles navigation and page lifecycle. The <code>Runtime</code> domain runs JavaScript and captures console output. Playwright opens one WebSocket per context to talk to the browser's CDP endpoint.</p>
+    <div class="diagram-box">
+      <span style="color: var(--accent-blue);">Playwright API</span><br>↓<br><span style="color: var(--accent-cyan);">Protocol Dispatcher</span><br>↓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↓<br><span style="color: var(--accent-orange);">CDP</span>&nbsp;&nbsp;&nbsp;<span style="color: var(--accent-orange);">Firefox Protocol</span>&nbsp;&nbsp;&nbsp;<span style="color: var(--accent-orange);">WebKit Protocol</span><br>↓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↓<br><span style="color: var(--accent-green);">Chromium&nbsp;&nbsp;Firefox&nbsp;&nbsp;Safari</span>
+    </div>
+    <div class="code-block">
+<span class="comment">// Direct CDP session access — advanced debugging</span>
+<span class="keyword">const</span> cdpSession = <span class="keyword">await</span> context.newCDPSession(page);
+<span class="keyword">await</span> cdpSession.send(<span class="string">'Network.enable'</span>);
+cdpSession.on(<span class="string">'Network.requestWillBeSent'</span>, request => {
+  console.log(<span class="string">`Request: <span class="keyword">${</span>request.request.url<span class="keyword">}</span>`</span>);
+});
+<span class="comment">// CDP for performance metrics</span>
+<span class="keyword">const</span> metrics = <span class="keyword">await</span> cdpSession.send(<span class="string">'Performance.getMetrics'</span>);
+    </div>      <div class="callout callout-tip"><strong>💡 4-Years Exp Insight</strong> Interviewers want to know WHY Playwright is faster. The single WebSocket connection removes the HTTP handshake that Selenium needs for every command. CDP gives you access to performance metrics, code coverage, and console logs that Playwright's regular API doesn't expose.</div>
+    </div>
+    <div class="q-section"><div class="q-section-title orange">Real Interview Answer</div><p>"Playwright uses CDP for Chromium with a persistent WebSocket connection — unlike Selenium's HTTP REST calls which create overhead per command. For Firefox and WebKit, Playwright implements custom protocol adapters that normalize browser-specific capabilities behind a unified API. The CDP session is also directly accessible for advanced use cases like performance profiling, code coverage, and custom network throttling. This architecture is why Playwright is 2-3x faster than Selenium for complex interactions."</p></div>
+    <div class="q-section"><div class="q-section-title red">Follow-Up Questions</div><div class="follow-ups"><span class="follow-up-item">What CDP domains are most useful for test automation?</span><span class="follow-up-item">How does Playwright's Firefox integration differ from CDP?</span><span class="follow-up-item">Can you intercept WebSocket traffic via CDP?</span></div></div>
+  </div>
+
+  <!-- Q17 - NEW Senior P1 -->
+  <div class="question-card">
+    <div class="q-header"><span class="q-number">17</span><div><span class="q-text">How does Playwright's fixture system enable dependency injection? Design a multi-layer fixture chain for enterprise testing.</span><span class="q-badge badge-expert">Expert</span><span class="priority-p1">P1</span></div></div>
+    <div class="q-section"><div class="q-section-title">Basic Answer</div><p>Fixtures in Playwright are a dependency injection system. Each fixture can depend on other fixtures, and Playwright resolves the dependency graph automatically. A multi-layer chain: <code>config → auth → db → apiClient → page → authenticatedPage</code>. Fixtures have <code>scope: 'test'</code> (per test) or <code>scope: 'worker'</code> (per worker). The <code>use()</code> callback provides setup AND teardown in one construct.</p></div>
+    <div class="q-section"><div class="q-section-title green">Detailed Answer</div><div class="code-block">
+<span class="keyword">import</span> { test as base } from <span class="string">'@playwright/test'</span>;
+
+<span class="comment">// Layer 1: Config fixture (worker-scoped, loaded once)</span>
+<span class="keyword">const</span> test = base.extend&lt;{ config: TestConfig; db: Database; api: ApiClient; authPage: Page }&gt;({
+  config: [<span class="keyword">async</span> ({}, use) => {
+    <span class="keyword">const</span> config = <span class="keyword">await</span> loadConfig();
+    <span class="keyword">await</span> use(config);
+  }, { scope: <span class="string">'worker'</span> }],
+
+  <span class="comment">// Layer 2: DB fixture depends on config</span>
+  db: [<span class="keyword">async</span> ({ config }, use) => {
+    <span class="keyword">const</span> db = <span class="keyword">await</span> Database.connect(config.dbUrl);
+    <span class="keyword">await</span> db.seedTestData();
+    <span class="keyword">await</span> use(db);
+    <span class="keyword">await</span> db.cleanup();
+    <span class="comment">// Auto-teardown</span>
+  }, { scope: <span class="string">'worker'</span> }],
+
+  <span class="comment">// Layer 3: API client depends on config</span>
+  api: [<span class="keyword">async</span> ({ config }, use) => {
+    <span class="keyword">const</span> api = <span class="keyword">new</span> ApiClient(config.baseUrl);
+    <span class="keyword">await</span> api.login(config.adminUser);
+    <span class="keyword">await</span> use(api);
+  }, { scope: <span class="string">'worker'</span> }],
+
+  <span class="comment">// Layer 4: Authenticated page — depends on page + api</span>
+  authPage: [<span class="keyword">async</span> ({ page, api }, use) => {
+    <span class="keyword">const</span> token = <span class="keyword">await</span> api.getToken();
+    <span class="keyword">await</span> page.goto(<span class="string">'/login'</span>);
+    <span class="keyword">await</span> page.evaluate(<span class="string">`localStorage.setItem('token', '<span class="keyword">${</span>token<span class="keyword">}</span>')`</span>);
+    <span class="keyword">await</span> page.goto(<span class="string">'/dashboard'</span>);
+    <span class="keyword">await</span> use(page);
+  }, { scope: <span class="string">'test'</span> }]
+});
+
+<span class="comment">// Test uses only the fixtures it needs</span>
+test(<span class="string">'user dashboard loads'</span>, <span class="keyword">async</span> ({ authPage, db }) => {
+  <span class="keyword">await</span> expect(authPage.locator(<span class="string">'h1'</span>)).toHaveText(<span class="string">'Dashboard'</span>);
+});
+    </div>
+    <div class="callout callout-warning"><strong>⚠️ Optimization</strong> Worker-scoped fixtures reduce setup overhead. A DB connection per worker (~5-10s) vs per test (~5-10ms context creation). Use <code>scope: 'worker'</code> for expensive setup, <code>scope: 'test'</code> for test-specific state.</div>
+    </div>
+    <div class="q-section"><div class="q-section-title orange">Real Interview Answer</div><p>"I design fixture chains based on scope and dependency. Worker-scoped fixtures handle expensive setup like DB connections, API tokens, and config loading — once per worker. Test-scoped fixtures handle per-test state like authenticated pages with unique user credentials. The key insight is that fixtures auto-resolve dependencies, provide built-in teardown, and eliminate the need for <code>beforeEach</code>/<code>afterEach</code> hooks. In an enterprise framework with 30+ microservices, this pattern reduced our test setup time by 60%."</p></div>
+    <div class="q-section"><div class="q-section-title red">Follow-Up Questions</div><div class="follow-ups"><span class="follow-up-item">How do you override a fixture in a specific test file?</span><span class="follow-up-item">What happens if two fixtures have circular dependencies?</span><span class="follow-up-item">How do you pass parameters to fixtures?</span></div></div>
+  </div>
+
+  <!-- Q18 - NEW Senior P1 -->
+  <div class="question-card">
+    <div class="q-header"><span class="q-number">18</span><div><span class="q-text">Design a custom Playwright reporter. How would you stream real-time results to a custom dashboard?</span><span class="q-badge badge-expert">Expert</span><span class="priority-p1">P1</span></div></div>
+    <div class="q-section"><div class="q-section-title">Basic Answer</div><p>Implement the <code>Reporter</code> interface from <code>@playwright/test/reporter</code>. Key methods: <code>onBegin()</code>, <code>onTestBegin()</code>, <code>onTestEnd()</code>, <code>onEnd()</code>, <code>onStepBegin()</code>, <code>onStepEnd()</code>, <code>onError()</code>. Each receives detailed test result objects with status, duration, errors, attachments, and annotations. Stream results via WebSocket, HTTP POST, or write to a message queue.</p></div>
+    <div class="q-section"><div class="q-section-title green">Detailed Answer</div><div class="code-block">
+<span class="keyword">import</span> { Reporter, TestCase, TestResult, FullConfig, Suite } from <span class="string">'@playwright/test/reporter'</span>;
+
+<span class="keyword">class</span> CustomDashboardReporter <span class="keyword">implements</span> Reporter {
+  <span class="keyword">private</span> apiUrl: string;
+  <span class="keyword">private</span> results: TestResult[] = [];
+
+  onBegin(config: FullConfig, suite: Suite) {
+    <span class="keyword">this</span>.apiUrl = process.env.DASHBOARD_URL || <span class="string">'http://localhost:3000/api/results'</span>;
+    console.log(<span class="string">`Starting suite: <span class="keyword">${</span>suite.title<span class="keyword">}</span>`</span>);
+  }
+
+  onTestEnd(test: TestCase, result: TestResult) {
+    <span class="keyword">const</span> payload = {
+      title: test.title,
+      status: result.status,
+      duration: result.duration,
+      errors: result.errors.map(e => e.message),
+      retry: result.retry,
+      project: test.parent.project()?.name,
+      tags: test.tags,
+      timestamp: <span class="keyword">new</span> Date().toISOString()
+    };
+    <span class="comment">// Non-blocking fire-and-forget POST</span>
+    fetch(<span class="keyword">this</span>.apiUrl, {
+      method: <span class="string">'POST'</span>,
+      body: JSON.stringify(payload),
+      headers: { <span class="string">'Content-Type'</span>: <span class="string">'application/json'</span> }
+    }).catch(() => {});
+    <span class="comment">// Don't let reporting failure affect tests</span>
+  }
+
+  onEnd() {
+    <span class="keyword">const</span> summary = {
+      total: <span class="keyword">this</span>.results.length,
+      passed: <span class="keyword">this</span>.results.filter(r => r.status === <span class="string">'passed'</span>).length,
+      failed: <span class="keyword">this</span>.results.filter(r => r.status === <span class="string">'failed'</span>).length,
+      duration: <span class="keyword">this</span>.results.reduce((sum, r) => sum + r.duration, <span class="number">0</span>)
+    };
+    console.log(<span class="string">`Suite complete: <span class="keyword">${</span>JSON.stringify(summary)<span class="keyword">}</span>`</span>);
+  }
+}
+
+<span class="keyword">export default</span> CustomDashboardReporter;
+    </div>
+    <p><strong>Config in playwright.config.ts:</strong> <code>reporter: [['html'], ['./CustomDashboardReporter.ts']]</code>. Multiple reporters run simultaneously.</p>
+    </div>
+  </div>
+
+  <!-- Q19 - NEW Senior P1 -->
+  <div class="question-card">
+    <div class="q-header"><span class="q-number">19</span><div><span class="q-text">How do you architect parallel execution for 2000+ tests across multiple CI machines? Explain sharding strategy.</span><span class="q-badge badge-expert">Expert</span><span class="priority-p1">P1</span></div></div>
+    <div class="q-section"><div class="q-section-title">Basic Answer</div><p>Three levels of parallelism: (1) <strong>Worker-level:</strong> multiple workers per machine via <code>workers: 4</code>. (2) <strong>Shard-level:</strong> <code>--shard=1/4</code> across machines. (3) <strong>Project-level:</strong> browser projects run in parallel. Optimal strategy: match shards to CI machines, workers to CPU cores. Use <code>fullyParallel: true</code> for within-file parallelism. Balance test distribution using <code>testPathIgnorePatterns</code> or custom sharding based on test duration history.</p></div>
+    <div class="q-section"><div class="q-section-title green">Detailed Answer</div>
+    <p><strong>Sharding architecture for 2000 tests:</strong></p>
+    <div class="diagram-box">
+      <span style="color: var(--accent-orange);">CI Pipeline Trigger</span><br>↓<br>
+      <span style="color: var(--accent-blue);">GitHub Actions Matrix</span><br>
+      <span style="color: #8b949e;">machine-1: --shard=1/5&nbsp;&nbsp;machine-2: --shard=2/5&nbsp;&nbsp;...&nbsp;&nbsp;machine-5: --shard=5/5</span><br>↓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;...&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↓<br>
+      <span style="color: var(--accent-cyan);">Worker 1&nbsp;&nbsp;Worker 2&nbsp;&nbsp;Worker 3&nbsp;&nbsp;Worker 4</span><br>
+      <span style="color: #666;">(each worker: isolated browser context per test)</span>
+    </div>
+    <div class="code-block">
+<span class="comment">// playwright.config.ts — optimized for sharding</span>
+<span class="keyword">export default</span> defineConfig({
+  workers: process.env.CI ? <span class="number">4</span> : <span class="number">6</span>,
+  <span class="comment">// Match CPU cores</span>
+  fullyParallel: <span class="keyword">true</span>,
+  retries: <span class="number">2</span>,
+  globalSetup: <span class="string">'./global-setup'</span>,
+  projects: [
+    { name: <span class="string">'chromium'</span>, use: { ...devices[<span class="string">'Desktop Chrome'</span>] } },
+    { name: <span class="string">'firefox'</span>, use: { ...devices[<span class="string">'Desktop Firefox'</span>] } },
+  ]
+});
+
+<span class="comment">// GitHub Actions workflow</span>
+<span class="comment"># matrix: { shardIndex: [1,2,3,4,5], shardTotal: [5] }</span>
+<span class="comment"># npx playwright test --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }}</span>
+    </div>
+    <div class="callout callout-tip"><strong>💡 Pro Tip</strong> For unbalanced test distribution (some test files take 10x longer), implement custom sharding: compute historical test durations and distribute files evenly. A 5-shard setup with balanced distribution can complete 2000 tests in ~8-10 minutes vs 30+ minutes with naive distribution.</div>
+    </div>
+  </div>
+
+  <!-- Q20 - NEW Senior P1 -->
+  <div class="question-card">
+    <div class="q-header"><span class="q-number">20</span><div><span class="q-text">How do you implement enterprise-grade authentication patterns with Playwright? Compare storageState, API injection, and cookie manipulation.</span><span class="q-badge badge-advanced">Advanced</span><span class="priority-p1">P1</span></div></div>
+    <div class="q-section"><div class="q-section-title">Basic Answer</div><p>Three patterns: (1) <strong>storageState:</strong> Login once via UI in globalSetup, save cookies/localStorage, reuse across tests. Fastest (~50ms per test). (2) <strong>API token injection:</strong> Get token via API call, set in localStorage or cookies via <code>page.evaluate()</code>. No UI login needed. (3) <strong>Cookie manipulation:</strong> Direct cookie setting via <code>context.addCookies()</code>. StorageState is preferred for most scenarios; API injection for stateless/SPA apps; cookie manipulation for legacy apps.</p></div>
+    <div class="q-section"><div class="q-section-title green">Detailed Answer</div>
+    <p><strong>Enterprise auth — multi-role strategy:</strong></p>
+    <div class="code-block">
+<span class="comment">// global-setup.ts — authenticate multiple roles once</span>
+<span class="keyword">async function</span> globalSetup(config: FullConfig) {
+  <span class="keyword">const</span> { browser } = <span class="keyword">await</span> chromium.launch();
+  <span class="keyword">const</span> roles = [<span class="string">'admin'</span>, <span class="string">'user'</span>, <span class="string">'readonly'</span>];
+
+  <span class="keyword">for</span> (<span class="keyword">const</span> role <span class="keyword">of</span> roles) {
+    <span class="keyword">const</span> page = <span class="keyword">await</span> browser.newPage();
+    <span class="keyword">await</span> page.goto(process.env.BASE_URL!);
+    <span class="keyword">await</span> page.fill(<span class="string">'#username'</span>, process.env[<span class="string">`<span class="keyword">${</span>role.toUpperCase()<span class="keyword">}</span>_USER`</span>]!);
+    <span class="keyword">await</span> page.fill(<span class="string">'#password'</span>, process.env[<span class="string">`<span class="keyword">${</span>role.toUpperCase()<span class="keyword">}</span>_PASS`</span>]!);
+    <span class="keyword">await</span> page.click(<span class="string">'#login'</span>);
+    <span class="keyword">await</span> page.waitForURL(<span class="string">'/dashboard'</span>);
+    <span class="keyword">await</span> page.context().storageState({ path: <span class="string">`<span class="keyword">${</span>role<span class="keyword">}</span>-auth.json`</span> });
+    <span class="keyword">await</span> page.close();
+  }
+  <span class="keyword">await</span> browser.close();
+}
+
+<span class="comment">// playwright.config.ts — per-role projects</span>
+projects: [
+  { name: <span class="string">'admin-chrome'</span>, use: { storageState: <span class="string">'admin-auth.json'</span> } },
+  { name: <span class="string">'user-chrome'</span>, use: { storageState: <span class="string">'user-auth.json'</span> } },
+]
+    </div>
+    <div class="callout callout-warning"><strong>⚠️ Security Note</strong> Never commit auth JSON files. Generate them in CI via globalSetup with secrets from environment variables. Use <code>.gitignore</code> patterns and ephemeral test credentials that expire after each CI run.</div>
+    </div>
+  </div>
+
+  <!-- Q21 - NEW Senior P1 -->
+  <div class="question-card">
+    <div class="q-header"><span class="q-number">21</span><div><span class="q-text">How do you debug flaky tests in CI using Trace Viewer? Walk through a real debugging scenario.</span><span class="q-badge badge-advanced">Advanced</span><span class="priority-p1">P1</span></div></div>
+    <div class="q-section"><div class="q-section-title">Basic Answer</div><p>Enable <code>trace: 'on-first-retry'</code> to capture traces only on retries (saves storage). When a test fails, download the <code>trace.zip</code> from CI artifacts. Open with <code>npx playwright show-trace trace.zip</code>. Inspect: Action timeline (which actions and their duration), DOM snapshots (before/after each action), Network tab (slow API calls, 4xx/5xx), Console (uncaught errors), Source map (step-by-step code execution). Common findings: timing race conditions, network failures, stale element references.</p></div>
+    <div class="q-section"><div class="q-section-title green">Detailed Answer</div>
+    <p><strong>Real debugging scenario — flaky login test:</strong></p>
+    <div class="diagram-box">
+      <span style="color: var(--accent-red);">Step 1</span> fill username ✅<br>
+      <span style="color: var(--accent-red);">Step 2</span> fill password ✅<br>
+      <span style="color: var(--accent-red);">Step 3</span> click login button 🔄 (500ms vs 200ms timeout)<br>
+      <span style="color: var(--accent-orange);">❌ Timed out waiting for navigation to '/dashboard'</span><br>
+      <span style="color: var(--accent-green);">→ Root cause: API response for MFA validation took 2.2s on slow days</span><br>
+      <span style="color: var(--accent-green);">→ Fix: Increase navigation timeout or await specific element instead</span>
+    </div>
+    <div class="callout callout-tip"><strong>💡 Senior Debugging Strategy</strong> Trace Viewer's DOM snapshots let you see the exact state of the page at each action step. The Network tab shows request/response timing. Common fix patterns: increase selective timeouts, use <code>expect.toPass()</code> for DOM-dependent waits, or mock the slow API with <code>page.route()</code>.</div>
+    </div>
+  </div>
+
+  <!-- Q22 - NEW Senior P1 -->
+  <div class="question-card">
+    <div class="q-header"><span class="q-number">22</span><div><span class="q-text">How do you implement visual regression testing at scale? Handle dynamic content, animations, and cross-browser differences.</span><span class="q-badge badge-expert">Expert</span><span class="priority-p1">P1</span></div></div>
+    <div class="q-section"><div class="q-section-title">Basic Answer</div><p>Use <code>expect(page).toHaveScreenshot()</code>. Configure: <code>animations: 'disabled'</code> to freeze GIFs/transitions, <code>mask: [page.locator('.dynamic-banner')]</code> to exclude dynamic elements, <code>maxDiffPixelRatio: 0.01</code> for tolerance, <code>threshold: 0.2</code> per-pixel tolerance. Store baselines in version control. Update via <code>--update-snapshots</code> in CI with manual PR approval. For cross-browser: maintain per-browser baseline directories.</p></div>
+    <div class="q-section"><div class="q-section-title green">Detailed Answer</div>
+    <div class="code-block">
+<span class="comment">// playwright.config.ts — visual testing configuration</span>
+<span class="keyword">export default</span> defineConfig({
+  expect: {
+    toHaveScreenshot: {
+      maxDiffPixels: <span class="number">100</span>,
+      threshold: <span class="number">0.2</span>,
+      animations: <span class="string">'disabled'</span>,
+      caret: <span class="string">'hide'</span>,
+    }
+  },
+  projects: [
+    {
+      name: <span class="string">'chromium-visual'</span>,
+      use: { ...devices[<span class="string">'Desktop Chrome'</span>], deviceScaleFactor: <span class="number">2</span> },
+      snapshotPathTemplate: <span class="string">'{testFileDir}/__screenshots__/{testFileName}/{arg}{ext}'</span>,
+    }
+  ]
+});
+
+<span class="comment">// Mask dynamic content</span>
+<span class="keyword">await</span> expect(page).toHaveScreenshot({
+  mask: [page.locator(<span class="string">'[data-testid="current-time"]'</span>)],
+  maskColor: <span class="string">'#ff0000'</span> <span class="comment">// Red mask for masked areas</span>
+});
+    </div>
+    <div class="callout callout-warning"><strong>⚠️ Scale Concern</strong> With 1000+ visual tests, baseline storage can reach 2-5GB. Use CI caching, clean up unused baselines, and run visual tests only on affected pages. Consider per-PR snapshot review workflows.</div>
+    </div>
+  </div>
+
+  <!-- Q23 - NEW Senior P1 -->
+  <div class="question-card">
+    <div class="q-header"><span class="q-number">23</span><div><span class="q-text">How does Playwright component testing work? How is it different from E2E testing?</span><span class="q-badge badge-advanced">Advanced</span><span class="priority-p1">P1</span></div></div>
+    <div class="q-section"><div class="q-section-title">Basic Answer</div><p>Component testing mounts individual components in an isolated environment (no full page needed). <code>test.mount(Component, { props, slots })</code>. Uses Vite for fast dev-server startup. Tests run in real browser — same auto-waiting, locators, and assertions as E2E. Key difference: component tests are faster (~500ms vs ~5s for E2E), test in isolation, can mock child components, but don't catch integration issues. Use for: presentational components, form validation, accessibility.</p></div>
+    <div class="q-section"><div class="q-section-title green">Detailed Answer</div><div class="code-block">
+<span class="comment">// Component test (React example)</span>
+<span class="keyword">import</span> { test, expect } from <span class="string">'@playwright/experimental-ct-react'</span>;
+<span class="keyword">import</span> LoginForm from <span class="string">'./LoginForm'</span>;
+
+test(<span class="string">'shows validation error on empty email'</span>, <span class="keyword">async</span> ({ mount }) => {
+  <span class="keyword">const</span> component = <span class="keyword">await</span> mount(<LoginForm />, {
+    hooksConfig: { <span class="comment">/* router, store context */</span> }
+  });
+  <span class="keyword">await</span> component.getByRole(<span class="string">'button'</span>, { name: <span class="string">'Submit'</span> }).click();
+  <span class="keyword">await</span> expect(component.getByText(<span class="string">'Email is required'</span>)).toBeVisible();
+});
+    </div>
+    </div>
+  </div>
+
+  <!-- Q24 - NEW Senior P1 -->
+  <div class="question-card">
+    <div class="q-header"><span class="q-number">24</span><div><span class="q-text">How do you implement self-healing locators in Playwright? What strategies work at enterprise scale?</span><span class="q-badge badge-expert">Expert</span><span class="priority-p1">P1</span></div></div>
+    <div class="q-section"><div class="q-section-title">Basic Answer</div><p>Self-healing locators automatically fall back to alternative selectors when the primary locator fails. Strategies: (1) <strong>Multi-locator:</strong> Chain multiple locators using <code>.or()</code>: <code>page.locator('button').or(page.locator('[role=button]'))</code>. (2) <strong>Custom fixture:</strong> Wrap Playwright locator with fallback logic. (3) <strong>AI-powered:</strong> Use Playwright's Codegen/Inspector to regenerate locators. (4) <strong>Attribute hierarchy:</strong> data-testid → role → label → text → CSS. Best practice: prefer resilient locators (getByRole) over self-healing — prevention > cure.</p></div>
+    <div class="q-section"><div class="q-section-title green">Detailed Answer</div><div class="code-block">
+<span class="comment">// Custom resilient locator with fallback chain</span>
+<span class="keyword">async function</span> resilientLocator(page: Page, selectors: string[]) {
+  <span class="keyword">for</span> (<span class="keyword">const</span> selector <span class="keyword">of</span> selectors) {
+    <span class="keyword">const</span> locator = page.locator(selector);
+    <span class="keyword">try</span> {
+      <span class="keyword">await</span> locator.waitFor({ state: <span class="string">'visible'</span>, timeout: <span class="number">2000</span> });
+      <span class="keyword">return</span> locator;
+    } <span class="keyword">catch</span> {
+      console.warn(<span class="string">`Selector '<span class="keyword">${</span>selector<span class="keyword">}</span>' not found, trying next...`</span>);
+    }
+  }
+  <span class="keyword">throw new</span> Error(<span class="string">`None of the selectors found: <span class="keyword">${</span>selectors.join(', ')<span class="keyword">}</span>`</span>);
+}
+
+<span class="comment">// Usage</span>
+<span class="keyword">const</span> submitBtn = <span class="keyword">await</span> resilientLocator(page, [
+  <span class="string">'[data-testid="submit-btn"]'</span>,
+  <span class="string">'button:has-text("Submit")'</span>,
+  <span class="string">'[role="button"]:has-text("Submit")'</span>,
+  <span class="string">'//button[contains(text(),"Submit")]'</span>
+]);
+    </div>
+    <div class="callout callout-warning"><strong>⚠️ Tradeoff</strong> Self-healing increases test execution time (each fallback adds a timeout). Use only for known volatile selectors. Prefer <code>getByRole</code> and <code>getByTestId</code> which rarely need healing.</div>
+    </div>
+  </div>
+
+  <!-- Q25 - NEW Senior P1 -->
+  <div class="question-card">
+    <div class="q-header"><span class="q-number">25</span><div><span class="q-text">How do you integrate Playwright with Docker and Kubernetes for enterprise CI/CD? Design the deployment architecture.</span><span class="q-badge badge-advanced">Advanced</span><span class="priority-p1">P1</span></div></div>
+    <div class="q-section"><div class="q-section-title">Basic Answer</div><p>Use official Docker image <code>mcr.microsoft.com/playwright</code> which includes all browser dependencies. Multi-stage Dockerfile: builder (install deps) → runner (copy dist, run tests). In K8s: Run as Kubernetes Job with <code>parallelism: N</code>. Each pod runs a shard. Mount PVC for reports and artifacts. Use resource limits (CPU/memory) for consistent performance. Store traces in S3-compatible storage (MinIO, AWS S3).</p></div>
+    <div class="q-section"><div class="q-section-title green">Detailed Answer</div><div class="code-block">
+<span class="comment"># Dockerfile</span>
+FROM mcr.microsoft.com/playwright:v1.50.0-focal
+WORKDIR /app
+COPY package.json package-lock.json ./
+RUN npm ci
+COPY . .
+RUN npx playwright install --with-deps chromium
+CMD ["npx", "playwright", "test", "--shard=1/4"]
+
+<span class="comment"># K8s Job with parallel shards</span>
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: playwright-tests
+spec:
+  parallelism: 4  <span class="comment"># 4 pods running in parallel</span>
+  completions: 4
+  <span class="comment"># All 4 must complete</span>
+  template:
+    spec:
+      containers:
+      - name: playwright
+        image: my-registry/playwright-tests:latest
+        env:
+        - name: CI
+          value: "true"
+        command: ["npx", "playwright", "test", "--shard=$(POD_INDEX)/4"]
+        resources:
+          limits:
+            cpu: "2"
+            memory: "4Gi"
+            ephemeral-storage: "10Gi"
+      restartPolicy: Never
+    </div>
+    <div class="callout callout-tip"><strong>💡 Senior Insight</strong> Containerized Playwright execution requires careful resource planning. Headless Chromium uses ~500MB RAM per context. With 4 workers per pod and 4 parallel pods = 16 contexts = ~8GB RAM. Set resource limits to prevent OOM kills. Use <code>--forbid-only</code> and <code>--reporter=json</code> in CI for machine-readable output.</div>
+    </div>
+  </div>
+
+</div>
+
+<div class="section-divider"><h2>P2 — Commonly Asked Questions</h2><p>4+ years experience level — real-world scenarios and intermediate-depth concepts for senior SDET roles.</p></div>
+<div class="container">
+
+<div class="question-card">
+  <div class="q-header"><span class="q-number">26</span><div><span class="q-text">What is the difference between Playwright Test Runner and the standalone library?</span><span class="q-badge badge-beginner">Beginner</span><span class="priority-p2">P2</span></div></div>
+  <div class="q-section"><div class="q-section-title">Basic Answer</div><p><code>@playwright/test</code> provides a complete test runner with fixtures, web-first assertions, parallel execution, reporters, and config. The standalone <code>playwright</code> library is just the browser automation engine. Use <code>@playwright/test</code> for new projects.</p></div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-number">27</span><div><span class="q-text">How do you take screenshots in Playwright? Full-page, element-level, failure screenshots?</span><span class="q-badge badge-beginner">Beginner</span><span class="priority-p2">P2</span></div></div>
+  <div class="q-section"><div class="q-section-title">Basic Answer</div><p><code>page.screenshot({ fullPage: true })</code> for full-page. <code>locator.screenshot()</code> for elements. Configure <code>screenshot: 'only-on-failure'</code> for auto-capture. Disable animations before snapshots for stable baselines.</p></div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-number">28</span><div><span class="q-text">How do you handle multiple tabs and windows in Playwright?</span><span class="q-badge badge-intermediate">Intermediate</span><span class="priority-p2">P2</span></div></div>
+  <div class="q-section"><div class="q-section-title">Basic Answer</div><p>Use <code>context.waitForEvent('page')</code> to capture new tabs. Each tab gets a <code>page</code> object in the same context (shared cookies/storage). Example: <code>const [newPage] = await Promise.all([context.waitForEvent('page'), page.click('[target=_blank]')])</code>.</p></div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-number">29</span><div><span class="q-text">How does Playwright handle mobile device emulation and geolocation?</span><span class="q-badge badge-intermediate">Intermediate</span><span class="priority-p2">P2</span></div></div>
+  <div class="q-section"><div class="q-section-title">Basic Answer</div><p>Use <code>devices['iPhone 15 Pro']</code> from Playwright. Apply via context: <code>browser.newContext({ ...iPhone })</code>. For geolocation: <code>context.grantPermissions(['geolocation'])</code> + <code>context.setGeolocation({ lat, lng })</code>. Test at multiple breakpoints via project configurations.</p></div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-number">30</span><div><span class="q-text">How does Playwright handle Shadow DOM?</span><span class="q-badge badge-advanced">Advanced</span><span class="priority-p2">P2</span></div></div>
+  <div class="q-section"><div class="q-section-title">Basic Answer</div><p>Playwright pierces open Shadow DOM automatically — <code>getByRole</code> and <code>getByText</code> work through shadow boundaries. For closed Shadow DOM: <code>page.locator('custom-element').shadowRoot().locator(...)</code>.</p></div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-number">31</span><div><span class="q-text">How do you implement visual testing in Playwright?</span><span class="q-badge badge-advanced">Advanced</span><span class="priority-p2">P2</span></div></div>
+  <div class="q-section"><div class="q-section-title">Basic Answer</div><p><code>expect(page).toHaveScreenshot()</code> for visual comparisons. Handle differences with <code>maxDiffPixels</code> and <code>maxDiffPixelRatio</code>. Use <code>animations: 'disabled'</code> for flaky animations. Generate diff reports with HTML reporter.</p></div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-number">32</span><div><span class="q-text">How do you manage test data in Playwright for data-driven testing?</span><span class="q-badge badge-intermediate">Intermediate</span><span class="priority-p2">P2</span></div></div>
+  <div class="q-section"><div class="q-section-title">Basic Answer</div><p>Use <code>test.each()</code> for inline data. Load from JSON/CSV for larger datasets. Generate via Faker for randomized data. API-based setup in fixtures for realistic data. Unique data per test for parallel isolation.</p></div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-number">33</span><div><span class="q-text">How do you set up cross-browser testing (Chromium, Firefox, WebKit)?</span><span class="q-badge badge-intermediate">Intermediate</span><span class="priority-p2">P2</span></div></div>
+  <div class="q-section"><div class="q-section-title">Basic Answer</div><p>Configure projects in <code>playwright.config.ts</code>. Each project defines browser, viewport, storage state. Playwright runs projects in parallel. Common: three projects (Chromium, Firefox, WebKit) with shared test files. Use <code>testProject</code> dependencies for shared setup.</p></div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-number">34</span><div><span class="q-text">What are soft assertions and when would you use them?</span><span class="q-badge badge-intermediate">Intermediate</span><span class="priority-p2">P2</span></div></div>
+  <div class="q-section"><div class="q-section-title">Basic Answer</div><p><code>expect.soft()</code> continues test execution after failure, collecting all failures. Use for validating multiple independent properties (page title, header, footer). Hard assertions when subsequent steps depend on the assertion passing.</p></div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-number">35</span><div><span class="q-text">How do you implement retry logic for flaky operations?</span><span class="q-badge badge-advanced">Advanced</span><span class="priority-p2">P2</span></div></div>
+  <div class="q-section"><div class="q-section-title">Basic Answer</div><p>Test-level: <code>retries: 2</code> in config. Operation-level: <code>expect.toPass()</code> retries callback. Conditional: <code>expect.poll()</code>. Avoid <code>try/catch</code> retry loops.</p></div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-number">36</span><div><span class="q-text">How do you handle OTP, MFA, and CAPTCHA flows?</span><span class="q-badge badge-advanced">Advanced</span><span class="priority-p2">P2</span></div></div>
+  <div class="q-section"><div class="q-section-title">Basic Answer</div><p>OTP: API bypass, email/SMS APIs, or known test OTP. TOTP: generate with <code>otplib</code>. CAPTCHA: disable in lower envs or API bypass. Combine with <code>storageState</code> to authenticate once.</p></div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-number">37</span><div><span class="q-text">How do you organize tests with tags, annotations, and categorization?</span><span class="q-badge badge-intermediate">Intermediate</span><span class="priority-p2">P2</span></div></div>
+  <div class="q-section"><div class="q-section-title">Basic Answer</div><p>Use <code>test.describe()</code> for grouping. Annotations: <code>test.skip</code>, <code>test.fixme</code>, <code>test.fail</code>. Tag filtering: <code>--grep</code> and <code>--grep-invert</code>. Combine with env vars for CI/CD-aware execution.</p></div>
+</div>
+
+<div class="question-card">
+  <div class="q-header"><span class="q-number">38</span><div><span class="q-text">How do you integrate Playwright with Docker for CI/CD execution?</span><span class="q-badge badge-intermediate">Intermediate</span><span class="priority-p2">P2</span></div></div>
+  <div class="q-section"><div class="q-section-title">Basic Answer</div><p>Official Playwright Docker image: <code>mcr.microsoft.com/playwright</code>. Use multi-stage Dockerfile. <code>--shard</code> for parallel CI execution across containers. Mount volumes for reports.</p></div>
+</div>
+
+  <!-- Q39 - NEW Senior P2 -->
+  <div class="question-card">
+    <div class="q-header"><span class="q-number">39</span><div><span class="q-text">How do you test GraphQL APIs with Playwright? Compare with REST API testing patterns.</span><span class="q-badge badge-advanced">Advanced</span><span class="priority-p2">P2</span></div></div>
+    <div class="q-section"><div class="q-section-title">Basic Answer</div><p>Use <code>request.post()</code> with GraphQL queries in the body. Intercept GraphQL responses via <code>page.route('**/graphql')</code> and parse JSON. Mock specific GraphQL operations by matching query/mutation names. For type safety, generate TypeScript types from GraphQL schema using <code>graphql-codegen</code>. GraphQL testing requires understanding of operations (queries vs mutations), variables, and fragments.</p></div>
+    <div class="q-section"><div class="q-section-title green">Detailed Answer</div><div class="code-block">
+<span class="comment">// Mock a specific GraphQL mutation</span>
+<span class="keyword">await</span> page.route(<span class="string">'**/graphql'</span>, <span class="keyword">async</span> route => {
+  <span class="keyword">const</span> request = route.request();
+  <span class="keyword">const</span> { query, variables } = JSON.parse(request.postData() || <span class="string">'{}'</span>);
+
+  <span class="keyword">if</span> (query.includes(<span class="string">'createUser'</span>)) {
+    <span class="keyword">return</span> route.fulfill({
+      status: <span class="number">200</span>,
+      body: JSON.stringify({ data: { createUser: { id: <span class="number">123</span>, name: variables.name } } })
+    });
+  }
+  <span class="keyword">return</span> route.continue(); <span class="comment">// Pass through other operations</span>
+});
+
+<span class="comment">// Direct API call with typed response</span>
+<span class="keyword">const</span> response = <span class="keyword">await</span> request.post(<span class="string">'/graphql'</span>, {
+  data: { query: <span class="string">`query Users { users { id name email } }`</span> }
+});
+<span class="keyword">const</span> users = <span class="keyword">await</span> response.json();
+    </div>
+    </div>
+  </div>
+
+  <!-- Q40 - NEW Senior P2 -->
+  <div class="question-card">
+    <div class="q-header"><span class="q-number">40</span><div><span class="q-text">How do you test micro-frontends and module federation architectures with Playwright?</span><span class="q-badge badge-expert">Expert</span><span class="priority-p2">P2</span></div></div>
+    <div class="q-section"><div class="q-section-title">Basic Answer</div><p>Micro-frontends present challenges: cross-app navigation, shared state, and federated modules. Test strategies: (1) Test each micro-frontend independently via URL routing to its entry point. (2) Use shared mocks for cross-app communication (events, postMessage). (3) For module federation, test the shell/host app with all remotes loaded. (4) Use <code>page.route()</code> to mock remote module scripts. (5) Test communication boundaries — localStorage events, custom events, URL state.</p></div>
+    <div class="q-section"><div class="q-section-title green">Detailed Answer</div><p><strong>Architecture:</strong> When testing a micro-frontend shell that loads remote apps via Webpack Module Federation, intercept the remote entry points to inject test versions or mock responses. Test key integration points: navigation between apps, shared auth state, cross-app data passing, and error boundaries when a remote fails to load.</p>
+    <div class="callout callout-tip"><strong>💡 4-Years Exp Insight</strong> Micro-frontend testing is a hot topic in 2025-2026 interviews. Demonstrate understanding of Module Federation, single-spa, or iframe-based integration patterns. Show how you'd test the shell app's error handling when a remote micro-frontend fails to load.</div>
+    </div>
+  </div>
+
+  <!-- Q41 - NEW Senior P2 -->
+  <div class="question-card">
+    <div class="q-header"><span class="q-number">41</span><div><span class="q-text">How do you handle feature flags and A/B testing in Playwright tests?</span><span class="q-badge badge-advanced">Advanced</span><span class="priority-p2">P2</span></div></div>
+    <div class="q-section"><div class="q-section-title">Basic Answer</div><p>Strategies: (1) API override — set feature flags via API calls in <code>beforeEach</code> or fixtures. (2) URL params — many apps pass flags via query params or cookies. (3) Network interception — mock the feature flag service response. (4) Project configuration — create separate projects for each flag combination. Best practice: combine flag state with test title/annotations for clear reporting. Avoid testing every flag combination exhaustively — test flags that users actually encounter.</p></div>
+    <div class="code-block">
+<span class="comment">// Network interception approach</span>
+<span class="keyword">await</span> page.route(<span class="string">'**/flags'</span>, <span class="keyword">async</span> route => {
+  <span class="keyword">await</span> route.fulfill({
+    body: JSON.stringify({ newCheckout: <span class="keyword">true</span>, darkMode: <span class="keyword">false</span> })
+  });
+});
+    </div>
+  </div>
+
+  <!-- Q42 - NEW Senior P2 -->
+  <div class="question-card">
+    <div class="q-header"><span class="q-number">42</span><div><span class="q-text">How do you test WebSocket connections and real-time features in Playwright?</span><span class="q-badge badge-expert">Expert</span><span class="priority-p2">P2</span></div></div>
+    <div class="q-section"><div class="q-section-title">Basic Answer</div><p>Playwright cannot intercept WebSocket traffic via <code>page.route()</code> directly (only HTTP). Use CDP session: <code>context.newCDPSession(page)</code> and listen to <code>Network.webSocketCreated</code>, <code>Network.webSocketFrameReceived</code>, <code>Network.webSocketFrameSent</code>. For mocking WebSocket servers, use a real WebSocket server in test fixtures and point the app to it. For chat/live features, simulate incoming messages by evaluating <code>page.evaluate()</code> to trigger the app's event handlers.</p></div>
+    <div class="code-block">
+<span class="comment">// Monitor WebSocket traffic via CDP</span>
+<span class="keyword">const</span> cdpSession = <span class="keyword">await</span> context.newCDPSession(page);
+<span class="keyword">await</span> cdpSession.send(<span class="string">'Network.enable'</span>);
+
+cdpSession.on(<span class="string">'Network.webSocketFrameReceived'</span>, <span class="keyword">async</span> ({ requestId, timestamp, response }) => {
+  console.log(<span class="string">'WebSocket message:'</span>, response.payloadText);
+});
+    </div>
+  </div>
+
+</div>
+
+<div class="section-divider"><h2>P3 — Expert Level (Architect / Lead)</h2><p>For Staff SDET, Test Architect, and Lead roles. Questions that separate senior engineers from architects.</p></div>
+<div class="container">
+
+<div class="question-card"><div class="q-header"><span class="q-number">43</span><div><span class="q-text">How do you test canvas elements and charts?</span><span class="q-badge badge-expert">Expert</span><span class="priority-p3">P3</span></div></div><div class="q-section"><div class="q-section-title">Basic Answer</div><p>Canvas is non-DOM — use visual snapshot testing. For programmatic validation: <code>page.evaluate()</code> to access canvas context and read pixel data. Validate underlying data that feeds the chart rather than rendered pixels.</p></div></div>
+
+<div class="question-card"><div class="q-header"><span class="q-number">44</span><div><span class="q-text">How do you implement accessibility testing with Playwright?</span><span class="q-badge badge-advanced">Advanced</span><span class="priority-p3">P3</span></div></div><div class="q-section"><div class="q-section-title">Basic Answer</div><p>Use <code>@axe-core/playwright</code> for automated audits: <code>await new AxeBuilder({ page }).analyze()</code>. Assert no violations. Set up as separate CI check. Combine with <code>getByRole</code> locators for accessible elements.</p></div></div>
+
+<div class="question-card"><div class="q-header"><span class="q-number">45</span><div><span class="q-text">How do you test localization and internationalization?</span><span class="q-badge badge-advanced">Advanced</span><span class="priority-p3">P3</span></div></div><div class="q-section"><div class="q-section-title">Basic Answer</div><p>Use context locale/timezone: <code>browser.newContext({ locale: 'de-DE' })</code>. Test date/number formatting, translated text, layout changes (German text ~30% longer), RTL direction. Locale-specific snapshot baselines.</p></div></div>
+
+<div class="question-card"><div class="q-header"><span class="q-number">46</span><div><span class="q-text">How do you simulate network conditions (slow, offline) in Playwright?</span><span class="q-badge badge-intermediate">Intermediate</span><span class="priority-p3">P3</span></div></div><div class="q-section"><div class="q-section-title">Basic Answer</div><p><code>page.route()</code> with delays for slow networks. <code>context.setOffline(true)</code> for offline. CPU throttling via device emulation for performance testing.</p></div></div>
+
+<div class="question-card"><div class="q-header"><span class="q-number">47</span><div><span class="q-text">Explain the Playwright Tracing API and programmatic trace analysis.</span><span class="q-badge badge-expert">Expert</span><span class="priority-p3">P3</span></div></div><div class="q-section"><div class="q-section-title">Basic Answer</div><p>Tracing captures DOM snapshots, network, console, source maps, and timing. <code>browserContext.tracing.start()</code> and <code>tracing.stop()</code>. Trace Viewer provides GUI replay. Programmatic: parse traces for performance metrics (time to first paint, slow API calls).</p></div></div>
+
+<!-- Q48 - Expert -->
+<div class="question-card">
+  <div class="q-header"><span class="q-number">48</span><div><span class="q-text">How do you integrate AI/LLM tools with Playwright? Explain MCP, Skills, and AI-assisted testing.</span><span class="q-badge badge-expert">Expert</span><span class="priority-p3">P3</span></div></div>
+  <div class="q-section"><div class="q-section-title">Basic Answer</div><p>Playwright's AI ecosystem has four layers: (1) <strong>MCP (Model Context Protocol)</strong> — standardized interface for AI agents to control Playwright. (2) <strong>Skills</strong> — Markdown files that train AI agents on team-specific conventions (locator strategy, POM structure, naming). (3) <strong>CLI Agents</strong> — <code>npx playwright init-agents</code> scaffolds AI agent configurations. (4) <strong>Self-healing</strong> — AI-powered locator regeneration when selectors break. Skills are the most impactful — they encode team standards for AI code generation.</p></div>
+  <div class="q-section"><div class="q-section-title green">Detailed Answer</div>
+  <p><strong>MCP integration:</strong> The Playwright MCP server lets AI agents (Claude, Cursor, Copilot) control browsers directly. The agent can navigate, click, type, and extract page content through natural language commands. This enables AI-assisted test creation: describe what to test, the AI generates the test code.</p>
+  <div class="code-block">
+<span class="comment">// Example Skill file content (.cursorrules or CLAUDE.md)</span>
+<span class="comment">## Locator Strategy</span>
+<span class="comment">- Always use getByRole(), getByLabel(), or getByTestId()</span>
+<span class="comment">- Never use CSS selectors or XPath</span>
+<span class="comment">- Prefer data-testid as last resort</span>
+
+<span class="comment">## Test Structure</span>
+<span class="comment">- Follow Page Object Model (POM)</span>
+<span class="comment">- Use fixtures for auth and shared setup</span>
+<span class="comment">- Use web-first assertions only</span>
+
+<span class="comment">## Naming</span>
+<span class="comment">- Test files: feature-name.spec.ts</span>
+<span class="comment">- Page objects: FeatureNamePage.ts</span>
+  </div>
+  <div class="callout callout-tip"><strong>💡 Senior Insight</strong> AI integration is the hottest Playwright topic in 2025-2026 interviews. Show that you understand Skills are NOT test code — they are the knowledge layer that makes AI-generated test code production-ready. Without Skills, AI writes generic tests. With Skills, AI writes tests matching your team's architecture.</div>
+  </div>
+</div>
+
+<!-- Q49 - Expert -->
+<div class="question-card">
+  <div class="q-header"><span class="q-number">49</span><div><span class="q-text">How do you implement custom selector engines in Playwright? Give a real use case.</span><span class="q-badge badge-expert">Expert</span><span class="priority-p3">P3</span></div></div>
+  <div class="q-section"><div class="q-section-title">Basic Answer</div><p>Use <code>selectors.register()</code> to create custom selector engines. A selector engine is a class with <code>query(root, selector)</code> and optionally <code>queryAll(root, selector)</code> methods. Use cases: (1) AngularJS selectors (<code>ng-model</code>, <code>ng-click</code>). (2) React component selectors by display name. (3) Shadow DOM piercing engines. (4) Data attribute shorthand: <code>data-testid="submit"</code> → <code>testid=submit</code>.</p></div>
+  <div class="q-section"><div class="q-section-title green">Detailed Answer</div><div class="code-block">
+<span class="comment">// Custom selector engine for data-testid shorthand</span>
+<span class="keyword">await</span> selectors.register(<span class="string">'testid'</span>, {
+  <span class="function">query</span>(root, selector) {
+    <span class="keyword">return</span> root.querySelector(<span class="string">`[data-testid="<span class="keyword">${</span>selector<span class="keyword">}</span>"]`</span>);
+  },
+  <span class="function">queryAll</span>(root, selector) {
+    <span class="keyword">return</span> [...root.querySelectorAll(<span class="string">`[data-testid="<span class="keyword">${</span>selector<span class="keyword">}</span>"]`</span>)];
+  }
+});
+
+<span class="comment">// Usage</span>
+<span class="keyword">await</span> page.locator(<span class="string">'testid=submit-button'</span>).click();
+    </div>
+    </div>
+</div>
+
+<!-- Q50 - Expert -->
+<div class="question-card">
+  <div class="q-header"><span class="q-number">50</span><div><span class="q-text">How do you collect and analyze performance metrics using Playwright? (LCP, CLS, FID, TTFB)</span><span class="q-badge badge-expert">Expert</span><span class="priority-p3">P3</span></div></div>
+  <div class="q-section"><div class="q-section-title">Basic Answer</div><p>Use Performance API via CDP or <code>page.evaluate()</code>. Collect <code>performance.timing</code> for navigation metrics, <code>performance.getEntriesByType('paint')</code> for FP/FCP, and <code>new PerformanceObserver()</code> for LCP/CLS. Use CDP's <code>Performance.getMetrics()</code> for low-level metrics. Assert against performance budgets in CI: <code>expect(lcp).toBeLessThan(2500)</code>. Store historical metrics for trend analysis.</p></div>
+  <div class="code-block">
+<span class="comment">// Core Web Vitals collection</span>
+<span class="keyword">const</span> metrics = <span class="keyword">await</span> page.evaluate(() => JSON.stringify({
+  lcp: <span class="keyword">performance</span>.getEntriesByType(<span class="string">'largest-contentful-paint'</span>).pop()?.startTime,
+  cls: <span class="keyword">performance</span>.getEntriesByType(<span class="string">'layout-shift'</span>).reduce((sum, e) => sum + e.value, <span class="number">0</span>),
+  fcp: <span class="keyword">performance</span>.getEntriesByName(<span class="string">'first-contentful-paint'</span>)[0]?.startTime,
+  ttfB: <span class="keyword">performance</span>.timing.responseStart - <span class="keyword">performance</span>.timing.navigationStart
+}));
+    </div>
+</div>
+
+<!-- Q51 - Expert -->
+<div class="question-card">
+  <div class="q-header"><span class="q-number">51</span><div><span class="q-text">How do you test Service Workers, PWAs, and background sync with Playwright?</span><span class="q-badge badge-expert">Expert</span><span class="priority-p3">P3</span></div></div>
+  <div class="q-section"><div class="q-section-title">Basic Answer</div><p>Use <code>context.newCDPSession()</code> to interact with the Service Worker CDP domain. Register/unregister SWs via <code>page.evaluate()</code>. Test offline capabilities by going offline with <code>context.setOffline(true)</code>. Test push notifications via CDP's <code>PushMessaging</code>. For cache API testing: evaluate <code>caches.open()</code> and verify cached assets. PWA manifest testing: verify <code>manifest.json</code> properties via <code>page.evaluate()</code>.</p></div>
+  <div class="code-block">
+<span class="comment">// Test Service Worker registration and caching</span>
+<span class="keyword">await</span> page.goto(<span class="string">'/'</span>);
+<span class="keyword">const</span> swRegistered = <span class="keyword">await</span> page.evaluate(<span class="keyword">async</span> () => {
+  <span class="keyword">const</span> registration = <span class="keyword">await</span> navigator.serviceWorker.ready;
+  <span class="keyword">return</span> !!registration.active;
+});
+expect(swRegistered).toBe(<span class="keyword">true</span>);
+
+<span class="comment">// Test offline page fallback</span>
+<span class="keyword">await</span> context.setOffline(<span class="keyword">true</span>);
+<span class="keyword">await</span> page.goto(<span class="string">'/'</span>);
+<span class="keyword">await</span> expect(page.locator(<span class="string">'.offline-message'</span>)).toBeVisible();
+    </div>
+</div>
+
+<!-- Q52 - Expert -->
+<div class="question-card">
+  <div class="q-header"><span class="q-number">52</span><div><span class="q-text">How do you test third-party iframe integrations, payment gateways, and SSO flows?</span><span class="q-badge badge-expert">Expert</span><span class="priority-p3">P3</span></div></div>
+  <div class="q-section"><div class="q-section-title">Basic Answer</div><p>Strategies: (1) <strong>Sandbox mode</strong> — mock the third-party iframe response via route interception. (2) <strong>Test mode</strong> — use sandbox/demo environments (Stripe test keys, PayPal sandbox). (3) <strong>API bypass</strong> — test the integration logic by mocking the postMessage communication. (4) <strong>Cross-origin iframe</strong> — Playwright can interact with cross-origin frames via <code>frameLocator()</code>. For SSO: use <code>storageState</code> after authenticating once via the SSO provider's test environment.</p></div>
+  <div class="q-section"><div class="q-section-title green">Detailed Answer</div><div class="code-block">
+<span class="comment">// Mock Stripe payment iframe</span>
+<span class="keyword">await</span> page.route(<span class="string">'**/stripe.com/**'</span>, <span class="keyword">async</span> route => {
+  <span class="comment">// Simulate successful payment</span>
+  <span class="keyword">await</span> route.fulfill({
+    body: `<html><body><div id="payment-success">Payment Complete</div></body></html>`
+  });
+});
+
+<span class="comment">// Interact with sandbox payment iframe</span>
+<span class="keyword">const</span> paymentFrame = page.frameLocator(<span class="string">'iframe[src*="stripe"]'</span>);
+<span class="keyword">await</span> paymentFrame.getByPlaceholder(<span class="string">'Card number'</span>).fill(<span class="string">'4242 4242 4242 4242'</span>);
+    </div>
+    </div>
+</div>
+
+<!-- Q53 - Expert -->
+<div class="question-card">
+  <div class="q-header"><span class="q-number">53</span><div><span class="q-text">How do you design a code coverage strategy with Playwright? Measure both frontend and API coverage.</span><span class="q-badge badge-expert">Expert</span><span class="priority-p3">P3</span></div></div>
+  <div class="q-section"><div class="q-section-title">Basic Answer</div><p>Frontend coverage: Use CDP's <code>Profiler.startPreciseCoverage()</code> and <code>stopPreciseCoverage()</code> to collect JS/CSS coverage data. Expose <code>window.__coverage__</code> for Babel/Istanbul integration. API coverage: Log all API routes called during test execution via <code>page.route('**/api/**')</code> tracking. Compare against the API contract's endpoint list. Set coverage thresholds in CI and block PRs below thresholds. Use <code>v8-to-istanbul</code> for converting V8 coverage to Istanbul reports.</p></div>
+  <div class="code-block">
+<span class="comment">// Frontend JS coverage via CDP</span>
+<span class="keyword">await</span> cdpSession.send(<span class="string">'Profiler.enable'</span>);
+<span class="keyword">await</span> cdpSession.send(<span class="string">'Profiler.startPreciseCoverage'</span>, {
+  callCount: <span class="keyword">true</span>,
+  detailed: <span class="keyword">true</span>
+});
+
+<span class="comment">// Run test actions...</span>
+
+<span class="keyword">const</span> { result } = <span class="keyword">await</span> cdpSession.send(<span class="string">'Profiler.takePreciseCoverage'</span>);
+console.log(<span class="string">`Coverage collected: <span class="keyword">${</span>result.length<span class="keyword">}</span> ranges`</span>);
+    </div>
+</div>
+
+<!-- Q54 - Expert -->
+<div class="question-card">
+  <div class="q-header"><span class="q-number">54</span><div><span class="q-text">How do you handle browser extension testing with Playwright?</span><span class="q-badge badge-expert">Expert</span><span class="priority-p3">P3</span></div></div>
+  <div class="q-section"><div class="q-section-title">Basic Answer</div><p>Launch Chromium with extension via <code>chromium.launchPersistentContext()</code> using the extension path. Access extension pages via <code>chrome-extension://[id]/popup.html</code>. Test extension popup, content scripts, background scripts, and storage. Use <code>context.backgroundPages()</code> to access background/service worker pages. For content script testing: verify DOM modifications made by the extension. Test extension installation flow, permission prompts, and disable/re-enable behavior.</p></div>
+  <div class="code-block">
+<span class="comment">// Launch with extension</span>
+<span class="keyword">const</span> extensionPath = path.resolve(<span class="string">'./my-extension'</span>);
+<span class="keyword">const</span> context = <span class="keyword">await</span> chromium.launchPersistentContext(
+  <span class="string">'/tmp/test-user-data'</span>,
+  { args: [`--disable-extensions-except=<span class="keyword">${</span>extensionPath<span class="keyword">}</span>`, `--load-extension=<span class="keyword">${</span>extensionPath<span class="keyword">}</span>`] }
+);
+
+<span class="comment">// Test extension popup</span>
+<span class="keyword">const</span> [popup] = <span class="keyword">await</span> context.waitForEvent(<span class="string">'page'</span>);
+<span class="keyword">await</span> popup.goto(<span class="string">'chrome-extension://abc123/popup.html'</span>);
+    </div>
+</div>
+
+<!-- Q55 - Expert -->
+<div class="question-card">
+  <div class="q-header"><span class="q-number">55</span><div><span class="q-text">How do you test multi-domain applications and cross-origin scenarios? (SSO, OAuth, CDN)</span><span class="q-badge badge-expert">Expert</span><span class="priority-p3">P3</span></div></div>
+  <div class="q-section"><div class="q-section-title">Basic Answer</div><p>Multi-domain testing patterns: (1) <strong>Context per domain</strong> — use multiple pages in the same context (cookies shared). (2) <strong>Separate contexts</strong> — completely isolated sessions for different domains. (3) <strong>StorageState across domains</strong> — capture and transfer auth state between domains. For OAuth flows: automate the third-party auth page, capture the redirect, and inject the resulting token into your app. For CDN testing: modify <code>hosts</code> file or use CDP to redirect DNS. Test CORS errors by monitoring console for cross-origin failures.</p></div>
+  <div class="code-block">
+<span class="comment">// OAuth flow automation</span>
+<span class="keyword">const</span> [authPage] = <span class="keyword">await</span> Promise.all([
+  context.waitForEvent(<span class="string">'page'</span>), <span class="comment">// OAuth provider popup</span>
+  page.getByRole(<span class="string">'link'</span>, { name: <span class="string">'Sign in with Google'</span> }).click()
+]);
+
+<span class="comment">// Wait for the auth popup to be ready and log in</span>
+<span class="keyword">await</span> authPage.waitForLoadState();
+<span class="keyword">await</span> authPage.getByLabel(<span class="string">'Email'</span>).fill(testCredentials.email);
+<span class="keyword">await</span> authPage.getByLabel(<span class="string">'Password'</span>).fill(testCredentials.password);
+<span class="keyword">await</span> authPage.getByRole(<span class="string">'button'</span>, { name: <span class="string">'Sign in'</span> }).click();
+
+<span class="comment">// Wait for redirect back to the main app</span>
+<span class="keyword">await</span> authPage.waitForEvent(<span class="string">'close'</span>);
+    </div>
+</div>
+
+</div>
+
+<!-- Q56 - Expert (Bonus for Senior Architects) -->
+<div class="question-card">
+  <div class="q-header"><span class="q-number">56</span><div><span class="q-text">Design a zero-flaky-test strategy for a 5000+ Playwright test suite. How would you implement a quarantine mechanism for flaky tests?</span><span class="q-badge badge-expert">Expert</span><span class="priority-p3">P3</span></div></div>
+  <div class="q-section"><div class="q-section-title">Basic Answer</div><p>A zero-flaky strategy has layers: (1) <strong>Prevention</strong> — web-first assertions, proper locators, auto-waiting, no hard waits. (2) <strong>Detection</strong> — Track test pass/fail history per test, flag tests that fail intermittently. (3) <strong>Quarantine</strong> — Automatically move flaky tests to a separate suite using <code>test.fixme()</code> or tagging with <code>@flaky</code>. (4) <strong>Auto-repair</strong> — Run quarantined tests with higher retries in a parallel pipeline; if they pass consistently, auto-promote back. (5) <strong>Root cause analysis</strong> — Use Trace Viewer to analyze each flaky failure.</p></div>
+  <div class="q-section"><div class="q-section-title green">Detailed Answer</div>
+  <p><strong>Quarantine implementation:</strong></p>
+  <div class="code-block">
+<span class="comment">// playwright.config.ts — flaky test management</span>
+<span class="keyword">export default</span> defineConfig({
+  retries: process.env.CI ? <span class="number">2</span> : <span class="number">0</span>,
+  projects: [
+    {
+      name: <span class="string">'critical'</span>,
+      testDir: <span class="string">'./tests/critical'</span>,
+      retries: <span class="number">1</span>,
+      grepInvert: /@flaky/,
+    },
+    {
+      name: <span class="string">'quarantine'</span>,
+      testDir: <span class="string">'./tests'</span>,
+      retries: <span class="number">5</span>,
+      grep: /@flaky/,
+    }
+  ]
+});
+
+<span class="comment">// Mark a flaky test automatically</span>
+test(<span class="string">'user login'</span>, <span class="keyword">async</span> ({ page }) => {
+  test.info().annotations.push({ type: <span class="string">'flaky'</span>, description: <span class="string">'Known issue: slow MFA on prod'</span> });
+  <span class="comment">// ... test logic</span>
+});
+  </div>
+  <div class="callout callout-tip"><strong>💡 Staff SDET Insight</strong> At enterprise scale, flaky tests are the #1 reason teams lose confidence in automation. Build a flaky test dashboard that tracks pass rate over 100 runs. Quarantine any test dropping below 95% pass rate. This creates trust in the test suite — green means truly green.</div>
+  </div>
+</div>
+
+<!-- Q57 - Expert: Security Testing -->
+<div class="question-card">
+  <div class="q-header"><span class="q-number">57</span><div><span class="q-text">How do you integrate OWASP ZAP DAST scanning with Playwright for automated security testing in CI/CD?</span><span class="q-badge badge-expert">Expert</span><span class="priority-p3">P3</span></div></div>
+  <div class="q-section"><div class="q-section-title">Basic Answer</div><p>OWASP ZAP is the industry-standard DAST (Dynamic Application Security Testing) tool. Integration pattern: (1) Configure Playwright to route traffic through ZAP proxy (<code>--proxy-server=http://localhost:8080</code>). (2) Perform authenticated UI flows using Playwright — ZAP passively spiders all pages visited. (3) Inject Playwright's auth state into ZAP so the active scan stays authenticated. (4) Trigger ZAP's Active Scan API (<code>http://zap-api/json/ascan/action/scan/</code>). (5) Poll scan progress and retrieve alerts. (6) Assert against alert severity thresholds in CI — fail build on High/Critical alerts.</p></div>
+  <div class="q-section"><div class="q-section-title green">Detailed Answer</div>
+  <p><strong>End-to-end security testing pipeline:</strong></p>
+  <div class="code-block">
+<span class="comment">// playwright.config.ts — proxy configuration</span>
+<span class="keyword">export default</span> defineConfig({
+  use: {
+    proxy: { server: <span class="string">'http://localhost:8080'</span> }, <span class="comment">// ZAP proxy</span>
+    storageState: <span class="string">'auth.json'</span>,
+  },
+  globalSetup: <span class="string">'./security.setup.ts'</span>,
+});
+
+<span class="comment">// security.setup.ts — launch ZAP and authenticate</span>
+<span class="keyword">import</span> { chromium } from <span class="string">'@playwright/test'</span>;
+<span class="keyword">import</span> ZAPClient from <span class="string">'zaproxy'</span>;
+
+<span class="keyword">async function</span> securityGlobalSetup() {
+  <span class="comment">// Start ZAP daemon</span>
+  <span class="keyword">const</span> zap = <span class="keyword">new</span> ZAPClient({ apiKey: <span class="string">'your-api-key'</span>, proxy: { host: <span class="string">'localhost'</span>, port: <span class="number">8080</span> } });
+
+  <span class="comment">// Use Playwright to authenticate and let ZAP spider</span>
+  <span class="keyword">const</span> browser = <span class="keyword">await</span> chromium.launch();
+  <span class="keyword">const</span> context = <span class="keyword">await</span> browser.newContext();
+  <span class="keyword">const</span> page = <span class="keyword">await</span> context.newPage();
+  <span class="keyword">await</span> page.goto(process.env.BASE_URL!);
+  <span class="keyword">await</span> page.fill(<span class="string">'#username'</span>, process.env.AUTH_USER!);
+  <span class="keyword">await</span> page.fill(<span class="string">'#password'</span>, process.env.AUTH_PASS!);
+  <span class="keyword">await</span> page.click(<span class="string">'#login'</span>);
+  <span class="keyword">await</span> page.waitForURL(<span class="string">'**/dashboard'</span>);
+
+  <span class="comment">// Navigate through key pages for ZAP to spider</span>
+  <span class="keyword">const</span> pagesToScan = [<span class="string">'/users'</span>, <span class="string">'/settings'</span>, <span class="string">'/api/docs'</span>, <span class="string">'/profile'</span>];
+  <span class="keyword">for</span> (<span class="keyword">const</span> path <span class="keyword">of</span> pagesToScan) {
+    <span class="keyword">await</span> page.goto(path);
+    <span class="keyword">await</span> page.waitForLoadState(<span class="string">'networkidle'</span>);
+  }
+
+  <span class="comment">// Trigger ZAP Active Scan asynchronously</span>
+  <span class="keyword">const</span> scanId = <span class="keyword">await</span> zap.ascan.scan(
+    process.env.BASE_URL!,
+    <span class="keyword">true</span>, <span class="comment">// recurse</span>
+    <span class="keyword">false</span>, <span class="comment">// inScopeOnly</span>
+    <span class="string">''</span>, <span class="comment">// scanPolicyName</span>
+    <span class="string">''</span>, <span class="comment">// method</span>
+    <span class="string">'POST,GET,PUT,DELETE,PATCH'</span> <span class="comment">// httpMethods</span>
+  );
+
+  <span class="comment">// Poll until scan completes</span>
+  <span class="keyword">let</span> progress = <span class="number">0</span>;
+  <span class="keyword">while</span> (progress &lt; <span class="number">100</span>) {
+    progress = <span class="keyword">await</span> zap.ascan.status(scanId);
+    <span class="keyword">await</span> <span class="keyword">new</span> Promise(r =&gt; setTimeout(r, <span class="number">2000</span>));
+  }
+
+  <span class="comment">// Get alerts and assert</span>
+  <span class="keyword">const</span> alerts = <span class="keyword">await</span> zap.core.alerts(process.env.BASE_URL!);
+  <span class="keyword">const</span> highRisk = alerts.filter(a =&gt; a.risk === <span class="string">'High'</span>);
+  <span class="keyword">const</span> mediumRisk = alerts.filter(a =&gt; a.risk === <span class="string">'Medium'</span>);
+
+  console.log(<span class="string">`Security scan complete: <span class="keyword">${</span>highRisk.length<span class="keyword">}</span> High, <span class="keyword">${</span>mediumRisk.length<span class="keyword">}</span> Medium`</span>);
+
+  <span class="comment">// Fail build on High/Critical — never deploy with known vulns</span>
+  <span class="keyword">if</span> (highRisk.length &gt; <span class="number">0</span>) {
+    console.error(<span class="string">'❌ BUILD BLOCKED: High-risk vulnerabilities found!'</span>);
+    process.exit(<span class="number">1</span>);
+  }
+
+  <span class="keyword">await</span> browser.close();
+  <span class="keyword">await</span> zap.core.shutdown();
+}
+
+<span class="keyword">export default</span> securityGlobalSetup;
+  </div>
+  <div class="callout callout-warning"><strong>⚠️ CI/CD Integration</strong> Run ZAP in a Docker container alongside Playwright. Use <code>docker-compose</code> with ZAP's <code>zap2docker-stable</code> image. For speed, run passive scanning during test execution and only trigger active scans on critical pages/APIs. Expected active scan duration: 5-15 minutes per 100 endpoints.</div>
+  <div class="callout callout-tip"><strong>💡 4-Years Exp Insight</strong> Security testing is the #1 gap for Playwright SDETs at top tech companies. Interviewers want to see that you think beyond functional correctness — you prevent security regressions in the CI pipeline. Demonstrate you understand the difference between SAST (static code analysis), DAST (dynamic scanning via ZAP), and SCA (dependency scanning). Playwright + ZAP gives you DAST coverage in your existing test framework.</div>
+  <div class="q-section"><div class="q-section-title red">Follow-Up Questions</div><div class="follow-ups"><span class="follow-up-item">How do you handle CSRF tokens when proxying through ZAP?</span><span class="follow-up-item">How do you test authorization bypass scenarios with Playwright + ZAP?</span><span class="follow-up-item">How would you integrate SAST tools (SonarQube) results with DAST findings?</span></div></div>
+</div>
+
+<!-- Q58 - Expert: Load Testing -->
+<div class="question-card">
+  <div class="q-header"><span class="q-number">58</span><div><span class="q-text">How do you design a hybrid performance testing strategy combining Playwright with k6 or Artillery for browser-in-the-loop load testing?</span><span class="q-badge badge-expert">Expert</span><span class="priority-p3">P3</span></div></div>
+  <div class="q-section"><div class="q-section-title">Basic Answer</div><p>Don't run 1000s of Playwright instances — resource-prohibitive (each context ~500MB RAM). Instead, use a hybrid approach: (1) <strong>Protocol-level (95%)</strong> — k6/Artillery for high-scale API load testing (thousands of VUs). (2) <strong>Browser-level (5%)</strong> — Artillery's Playwright engine for controlled browser instances capturing Core Web Vitals (LCP, CLS, TBT) under specific load conditions. (3) Use k6's <code>browser</code> module for scripting browser scenarios within k6's ecosystem. The key insight: protocol tests find backend bottlenecks; browser tests validate the user experience under those bottlenecks.</p></div>
+  <div class="q-section"><div class="q-section-title green">Detailed Answer</div>
+  <p><strong>Architecture — Artillery with Playwright engine:</strong></p>
+  <div class="code-block">
+<span class="comment">// artillery.config.yml — hybrid performance suite</span>
+config:
+  target: <span class="string">'http://myapp.com'</span>
+  engines:
+    playwright: {} <span class="comment"># Browser engine</span>
+    socketio: {}  <span class="comment"># Protocol engine for API calls</span>
+  phases:
+    - duration: <span class="number">120</span>
+      arrivalRate: <span class="number">50</span>
+      rampTo: <span class="number">200</span>
+      name: <span class="string">'Ramp up load'</span>
+    - duration: <span class="number">60</span>
+      arrivalRate: <span class="number">200</span>
+      name: <span class="string">'Peak load'</span>
+
+scenarios:
+  - name: <span class="string">'Browser login flow'</span>
+    engine: playwright
+    testFunction: <span class="string">'browser-login.artillery.js'</span>
+    <span class="comment"># Runs 5 concurrent browser instances max</span>
+    weight: <span class="number">5</span>
+
+  - name: <span class="string">'API search flow'</span>
+    engine: socketio
+    flow:
+      - get:
+          url: <span class="string">'/api/search?q=test'</span>
+    <span class="comment"># Runs 200 concurrent virtual users</span>
+    weight: <span class="number">95</span>
+  </div>
+  <div class="code-block">
+<span class="comment">// browser-login.artillery.js — Playwright scenario for load testing</span>
+<span class="keyword">module.exports</span> = {
+  <span class="function">loginFlow</span>: <span class="keyword">async</span> (page, context) => {
+    <span class="keyword">const</span> metrics = { lcp: <span class="number">0</span>, cls: <span class="number">0</span>, fcp: <span class="number">0</span> };
+
+    <span class="comment">// Capture Core Web Vitals via Performance API</span>
+    <span class="keyword">await</span> page.addInitScript(() => {
+      <span class="keyword">new</span> PerformanceObserver(list => {
+        <span class="keyword">const</span> entry = list.getEntries().pop();
+        <span class="keyword">if</span> (entry.entryType === <span class="string">'largest-contentful-paint'</span>) {
+          window.__lcp = entry.startTime;
+        }
+      }).observe({ type: <span class="string">'largest-contentful-paint'</span>, buffered: <span class="keyword">true</span> });
+    });
+
+    <span class="keyword">await</span> page.goto(process.env.BASE_URL! + <span class="string">'/login'</span>);
+    <span class="keyword">await</span> page.fill(<span class="string">'#username'</span>, <span class="string">'loadtest_user'</span>);
+    <span class="keyword">await</span> page.fill(<span class="string">'#password'</span>, <span class="string">'testpass123'</span>);
+
+    <span class="keyword">const</span> start = Date.now();
+    <span class="keyword">await</span> page.click(<span class="string">'#login'</span>);
+    <span class="keyword">await</span> page.waitForURL(<span class="string">'**/dashboard'</span>);
+
+    <span class="comment">// Collect Web Vitals</span>
+    metrics.lcp = <span class="keyword">await</span> page.evaluate(() => window.__lcp || <span class="number">-1</span>);
+    metrics.fcp = Date.now() - start;
+
+    <span class="keyword">return</span> metrics; <span class="comment">// Artillery reports these as custom metrics</span>
+  }
+};
+  </div>
+  <div class="callout callout-tip"><strong>💡 Staff SDET Insight</strong> The 95/5 split is critical. Running 200 Playwright instances simultaneously needs ~100GB RAM. Running 2000 k6 VUs needs ~2GB RAM. Use Playwright in load tests only for scenarios that MUST be measured in a real browser (Core Web Vitals, visual regressions under load). Everything else is protocol-level. This hybrid approach gives you production-grade performance data without bankrupting your CI infrastructure.</div>
+  <div class="q-section"><div class="q-section-title red">Follow-Up Questions</div><div class="follow-ups"><span class="follow-up-item">How do you measure TBT (Total Blocking Time) under load using Playwright?</span><span class="follow-up-item">How would you correlate slow API responses with UI rendering delays?</span><span class="follow-up-item">What's the max realistic browser concurrency for a 16GB CI machine?</span></div></div>
+</div>
+
+<div class="section-divider code-example-divider"><h2 class="code-example-title">Code Examples With Practice</h2><p>Ready-to-use Playwright code snippets for interview prep — POM, Fixtures, API Testing, Network Interception, Authentication, File Handling, Multiple Tabs, Assertions, Parallel Execution &amp; Debugging.</p></div>
+
+<div class="container">
+
+<!-- === Code Example 1: Page Object Model === -->
+<div class="question-card code-example-card">
+  <div class="q-header"><span class="q-number code-example-card">C1</span><div><span class="q-text">Page Object Model (POM) with Base Page</span><span class="q-badge badge-advanced">POM</span></div></div>
+  <p class="code-example-desc">The #1 most asked framework design question. Demonstrates abstract BasePage, typed Locator fields, and LoginPage/DashboardPage inheritance.</p>
+  <div class="code-block">
+<span class="comment">// === base-page.ts ===</span>
+<span class="keyword">import</span> { Page, Locator } from <span class="string">'@playwright/test'</span>;
+
+<span class="keyword">export abstract class</span> BasePage {
+  <span class="keyword">constructor</span>(<span class="keyword">protected readonly</span> page: Page) {}
+
+  <span class="keyword">async</span> navigate(path: <span class="keyword">string</span>): <span class="keyword">Promise&lt;void&gt;</span> {
+    <span class="keyword">await</span> <span class="keyword">this</span>.page.goto(path);
+  }
+
+  <span class="keyword">async</span> waitForPageLoad(): <span class="keyword">Promise&lt;void&gt;</span> {
+    <span class="keyword">await</span> <span class="keyword">this</span>.page.waitForLoadState(<span class="string">'networkidle'</span>);
+  }
+
+  <span class="keyword">protected async</span> clickAndWait(locator: Locator): <span class="keyword">Promise&lt;void&gt;</span> {
+    <span class="keyword">await</span> locator.click();
+    <span class="keyword">await</span> <span class="keyword">this</span>.page.waitForLoadState(<span class="string">'domcontentloaded'</span>);
+  }
+}
+
+<span class="comment">// === login-page.ts ===</span>
+<span class="keyword">import</span> { Page, Locator } from <span class="string">'@playwright/test'</span>;
+<span class="keyword">import</span> { BasePage } from <span class="string">'./base-page'</span>;
+
+<span class="keyword">export class</span> LoginPage <span class="keyword">extends</span> BasePage {
+  <span class="keyword">private readonly</span> usernameInput: Locator;
+  <span class="keyword">private readonly</span> passwordInput: Locator;
+  <span class="keyword">private readonly</span> loginButton: Locator;
+  <span class="keyword">private readonly</span> errorMessage: Locator;
+
+  <span class="keyword">constructor</span>(page: Page) {
+    <span class="keyword">super</span>(page);
+    <span class="keyword">this</span>.usernameInput = page.getByLabel(<span class="string">'Username'</span>);
+    <span class="keyword">this</span>.passwordInput = page.getByLabel(<span class="string">'Password'</span>);
+    <span class="keyword">this</span>.loginButton = page.getByRole(<span class="string">'button'</span>, { name: <span class="string">'Sign In'</span> });
+    <span class="keyword">this</span>.errorMessage = page.getByTestId(<span class="string">'error-message'</span>);
+  }
+
+  <span class="keyword">async</span> login(username: <span class="keyword">string</span>, password: <span class="keyword">string</span>): <span class="keyword">Promise&lt;void&gt;</span> {
+    <span class="keyword">await</span> <span class="keyword">this</span>.usernameInput.fill(username);
+    <span class="keyword">await</span> <span class="keyword">this</span>.passwordInput.fill(password);
+    <span class="keyword">await</span> <span class="keyword">this</span>.clickAndWait(<span class="keyword">this</span>.loginButton);
+  }
+
+  <span class="keyword">async</span> getErrorMessage(): <span class="keyword">Promise&lt;string&gt;</span> {
+    <span class="keyword">return</span> <span class="keyword">this</span>.errorMessage.textContent() ?? <span class="string">''</span>;
+  }
+}
+
+<span class="comment">// === login.spec.ts ===</span>
+<span class="keyword">import</span> { test, expect } from <span class="string">'@playwright/test'</span>;
+<span class="keyword">import</span> { LoginPage } from <span class="string">'./login-page'</span>;
+
+test(<span class="string">'successful login navigates to dashboard'</span>, <span class="keyword">async</span> ({ page }) => {
+  <span class="keyword">const</span> loginPage = <span class="keyword">new</span> LoginPage(page);
+  <span class="keyword">await</span> loginPage.navigate(<span class="string">'/login'</span>);
+  <span class="keyword">await</span> loginPage.login(<span class="string">'admin'</span>, <span class="string">'admin123'</span>);
+  <span class="keyword">await</span> expect(page).toHaveURL(<span class="string">/\/dashboard/</span>);
+});
+
+test(<span class="string">'shows error on invalid credentials'</span>, <span class="keyword">async</span> ({ page }) => {
+  <span class="keyword">const</span> loginPage = <span class="keyword">new</span> LoginPage(page);
+  <span class="keyword">await</span> loginPage.navigate(<span class="string">'/login'</span>);
+  <span class="keyword">await</span> loginPage.login(<span class="string">'wrong'</span>, <span class="string">'credentials'</span>);
+  <span class="keyword">const</span> error = <span class="keyword">await</span> loginPage.getErrorMessage();
+  expect(error).toContain(<span class="string">'Invalid'</span>);
+});
+  </div>
+</div>
+
+<!-- === Code Example 2: Fixtures === -->
+<div class="question-card code-example-card">
+  <div class="q-header"><span class="q-number code-example-card">C2</span><div><span class="q-text">Custom Fixtures with Dependency Injection</span><span class="q-badge badge-advanced">Fixtures</span></div></div>
+  <p class="code-example-desc">Fixtures replace beforeEach/afterEach. Multi-layer chain with typed dependencies, auto-cleanup, and scope control.</p>
+  <div class="code-block">
+<span class="comment">// === fixtures.ts ===</span>
+<span class="keyword">import</span> { test <span class="keyword">as</span> base, Page } from <span class="string">'@playwright/test'</span>;
+<span class="keyword">import</span> { LoginPage } from <span class="string">'./login-page'</span>;
+<span class="keyword">import</span> { DashboardPage } from <span class="string">'./dashboard-page'</span>;
+
+<span class="keyword">type</span> MyFixtures = {
+  loginPage: LoginPage;
+  dashboardPage: DashboardPage;
+  authenticatedPage: Page;
+  testUser: { username: <span class="keyword">string</span>; password: <span class="keyword">string</span> };
+};
+
+<span class="keyword">export const</span> test = base.extend&lt;MyFixtures&gt;({
+  <span class="comment">// Unique user per test (parallel-safe)</span>
+  testUser: [<span class="keyword">async</span> ({}, use) => {
+    <span class="keyword">const</span> user = {
+      username: <span class="string">`user_<span class="keyword">${</span>Date.now()<span class="keyword">}</span>_<span class="keyword">${</span>Math.random().toString(<span class="number">36</span>).slice(<span class="number">2</span>, <span class="number">7</span>)<span class="keyword">}</span>`</span>,
+      password: <span class="string">'Test@123456'</span>,
+    };
+    <span class="keyword">await</span> use(user);
+  }, { scope: <span class="string">'test'</span> }],
+
+  <span class="comment">// Page Objects</span>
+  loginPage: [<span class="keyword">async</span> ({ page }, use) => {
+    <span class="keyword">await</span> use(<span class="keyword">new</span> LoginPage(page));
+  }, { scope: <span class="string">'test'</span> }],
+
+  dashboardPage: [<span class="keyword">async</span> ({ page }, use) => {
+    <span class="keyword">await</span> use(<span class="keyword">new</span> DashboardPage(page));
+  }, { scope: <span class="string">'test'</span> }],
+
+  <span class="comment">// Login via API injection (faster than UI login)</span>
+  authenticatedPage: [<span class="keyword">async</span> ({ page }, use) => {
+    <span class="keyword">await</span> page.goto(<span class="string">'/login'</span>);
+    <span class="keyword">await</span> page.evaluate(<span class="string">() => {
+      localStorage.setItem(<span class="string">'auth_token'</span>, <span class="string">'test-token-123'</span>);
+    }</span>);
+    <span class="keyword">await</span> page.goto(<span class="string">'/dashboard'</span>);
+    <span class="keyword">await</span> use(page);
+  }, { scope: <span class="string">'test'</span> }],
+});
+
+<span class="keyword">export const</span> { expect } = test;
+
+<span class="comment">// === login.spec.ts ===</span>
+<span class="keyword">import</span> { test, expect } from <span class="string">'./fixtures'</span>;
+
+test(<span class="string">'successful login'</span>, <span class="keyword">async</span> ({ loginPage }) => {
+  <span class="keyword">await</span> loginPage.navigate(<span class="string">'/login'</span>);
+  <span class="keyword">await</span> loginPage.login(<span class="string">'admin'</span>, <span class="string">'admin123'</span>);
+  <span class="keyword">await</span> expect(loginPage.page).toHaveURL(<span class="string">/\/dashboard/</span>);
+});
+
+test(<span class="string">'dashboard loads for authenticated user'</span>, <span class="keyword">async</span> ({ authenticatedPage }) => {
+  <span class="keyword">await</span> expect(authenticatedPage.getByRole(<span class="string">'heading'</span>, { name: <span class="string">/dashboard/i</span> })).toBeVisible();
+});
+  </div>
+</div>
+
+<!-- === Code Example 3: Network Interception === -->
+<div class="question-card code-example-card">
+  <div class="q-header"><span class="q-number code-example-card">C3</span><div><span class="q-text">Network Interception &amp; API Mocking</span><span class="q-badge badge-advanced">Mocking</span></div></div>
+  <p class="code-example-desc">Intercept, mock, throttle, block, or modify network requests using page.route().</p>
+  <div class="code-block">
+<span class="keyword">import</span> { test, expect } from <span class="string">'@playwright/test'</span>;
+
+test(<span class="string">'mock API response'</span>, <span class="keyword">async</span> ({ page }) => {
+  <span class="keyword">await</span> page.route(<span class="string">'**/api/users'</span>, <span class="keyword">async</span> route => {
+    <span class="keyword">await</span> route.fulfill({
+      status: <span class="number">200</span>,
+      contentType: <span class="string">'application/json'</span>,
+      body: JSON.stringify({
+        users: [
+          { id: <span class="number">1</span>, name: <span class="string">'Mock User 1'</span>, email: <span class="string">'mock1@test.com'</span> },
+          { id: <span class="number">2</span>, name: <span class="string">'Mock User 2'</span>, email: <span class="string">'mock2@test.com'</span> },
+        ],
+      }),
+    });
+  });
+
+  <span class="keyword">await</span> page.goto(<span class="string">'/users'</span>);
+  <span class="keyword">await</span> expect(page.getByTestId(<span class="string">'user-card'</span>)).toHaveCount(<span class="number">2</span>);
+});
+
+test(<span class="string">'simulate server error'</span>, <span class="keyword">async</span> ({ page }) => {
+  <span class="keyword">await</span> page.route(<span class="string">'**/api/users'</span>, <span class="keyword">async</span> route => {
+    <span class="keyword">await</span> route.fulfill({ status: <span class="number">500</span>, body: <span class="string">'Internal Server Error'</span> });
+  });
+
+  <span class="keyword">await</span> page.goto(<span class="string">'/users'</span>);
+  <span class="keyword">await</span> expect(page.getByTestId(<span class="string">'error-banner'</span>)).toBeVisible();
+});
+
+test(<span class="string">'simulate slow network'</span>, <span class="keyword">async</span> ({ page }) => {
+  <span class="keyword">await</span> page.route(<span class="string">'**/api/users'</span>, <span class="keyword">async</span> route => {
+    <span class="keyword">await</span> <span class="keyword">new</span> Promise(r =&gt; setTimeout(r, <span class="number">5000</span>));
+    <span class="keyword">await</span> route.continue();
+  });
+
+  <span class="keyword">await</span> page.goto(<span class="string">'/users'</span>);
+  <span class="keyword">await</span> expect(page.getByTestId(<span class="string">'loading-spinner'</span>)).toBeVisible();
+});
+
+test(<span class="string">'block analytics scripts'</span>, <span class="keyword">async</span> ({ page }) => {
+  <span class="keyword">await</span> page.route(<span class="string">'**/analytics.js'</span>, <span class="keyword">async</span> route => {
+    <span class="keyword">await</span> route.abort();
+  });
+  <span class="keyword">await</span> page.goto(<span class="string">'/'</span>);
+  <span class="comment">// Analytics script will be blocked</span>
+});
+  </div>
+</div>
+
+<!-- === Code Example 4: API Testing === -->
+<div class="question-card code-example-card">
+  <div class="q-header"><span class="q-number code-example-card">C4</span><div><span class="q-text">API Testing with APIRequestContext</span><span class="q-badge badge-advanced">API</span></div></div>
+  <p class="code-example-desc">Playwright has built-in API testing — no extra libraries! Tests CRUD operations, validation, and response headers.</p>
+  <div class="code-block">
+<span class="keyword">import</span> { test, expect } from <span class="string">'@playwright/test'</span>;
+
+test(<span class="string">'POST /api/users — create user'</span>, <span class="keyword">async</span> ({ request }) => {
+  <span class="keyword">const</span> response = <span class="keyword">await</span> request.post(<span class="string">'/api/users'</span>, {
+    data: { name: <span class="string">'John Doe'</span>, email: <span class="string">`john_<span class="keyword">${</span>Date.now()<span class="keyword">}</span>@example.com`</span>, role: <span class="string">'admin'</span> },
+  });
+
+  expect(response.status()).toBe(<span class="number">201</span>);
+  <span class="keyword">const</span> body = <span class="keyword">await</span> response.json();
+  expect(body).toHaveProperty(<span class="string">'id'</span>);
+  expect(body.name).toBe(<span class="string">'John Doe'</span>);
+});
+
+test(<span class="string">'GET /api/users/:id — get user'</span>, <span class="keyword">async</span> ({ request }) => {
+  <span class="keyword">const</span> response = <span class="keyword">await</span> request.get(<span class="string">'/api/users/1'</span>, {
+    headers: { Authorization: <span class="string">'Bearer test-token'</span> },
+  });
+
+  expect(response.status()).toBe(<span class="number">200</span>);
+  <span class="keyword">const</span> body = <span class="keyword">await</span> response.json();
+  expect(body).toMatchObject({ id: <span class="number">1</span>, email: expect.any(String) });
+});
+
+test(<span class="string">'PUT /api/users/:id — update user'</span>, <span class="keyword">async</span> ({ request }) => {
+  <span class="keyword">const</span> response = <span class="keyword">await</span> request.put(<span class="string">'/api/users/1'</span>, {
+    data: { name: <span class="string">'John Updated'</span> },
+  });
+  expect(response.status()).toBe(<span class="number">200</span>);
+  expect((<span class="keyword">await</span> response.json()).name).toBe(<span class="string">'John Updated'</span>);
+});
+
+test(<span class="string">'POST /api/users — validation error'</span>, <span class="keyword">async</span> ({ request }) => {
+  <span class="keyword">const</span> response = <span class="keyword">await</span> request.post(<span class="string">'/api/users'</span>, {
+    data: { name: <span class="string">''</span> }, <span class="comment">// Missing required fields</span>
+  });
+
+  expect(response.status()).toBe(<span class="number">422</span>);
+  <span class="keyword">const</span> body = <span class="keyword">await</span> response.json();
+  expect(body.errors).toEqual(
+    expect.arrayContaining([expect.objectContaining({ field: <span class="string">'email'</span> })])
+  );
+});
+
+test(<span class="string">'verify response headers'</span>, <span class="keyword">async</span> ({ request }) => {
+  <span class="keyword">const</span> response = <span class="keyword">await</span> request.get(<span class="string">'/api/health'</span>);
+  expect(response.headers()[<span class="string">'content-type'</span>]).toContain(<span class="string">'application/json'</span>);
+  expect(response.headers()[<span class="string">'x-request-id'</span>]).toBeDefined();
+});
+  </div>
+</div>
+
+<!-- === Code Example 5: Authentication === -->
+<div class="question-card code-example-card">
+  <div class="q-header"><span class="q-number code-example-card">C5</span><div><span class="q-text">Authentication &amp; StorageState (Enterprise Pattern)</span><span class="q-badge badge-advanced">Auth</span></div></div>
+  <p class="code-example-desc">Login once in globalSetup, save storage state, reuse across all tests. Multi-role support (admin, user, readonly).</p>
+  <div class="code-block">
+<span class="comment">// === global-setup.ts ===</span>
+<span class="keyword">import</span> { chromium, FullConfig } from <span class="string">'@playwright/test'</span>;
+
+<span class="keyword">async function</span> globalSetup(config: FullConfig) {
+  <span class="keyword">const</span> browser = <span class="keyword">await</span> chromium.launch();
+  <span class="keyword">const</span> roles = [<span class="string">'admin'</span>, <span class="string">'user'</span>, <span class="string">'readonly'</span>];
+
+  <span class="keyword">for</span> (<span class="keyword">const</span> role <span class="keyword">of</span> roles) {
+    <span class="keyword">const</span> page = <span class="keyword">await</span> browser.newPage();
+    <span class="keyword">await</span> page.goto(process.env.BASE_URL!);
+    <span class="keyword">await</span> page.fill(<span class="string">'#username'</span>, process.env[<span class="string">`<span class="keyword">${</span>role.toUpperCase()<span class="keyword">}</span>_USER`</span>]!);
+    <span class="keyword">await</span> page.fill(<span class="string">'#password'</span>, process.env[<span class="string">`<span class="keyword">${</span>role.toUpperCase()<span class="keyword">}</span>_PASS`</span>]!);
+    <span class="keyword">await</span> page.click(<span class="string">'#login'</span>);
+    <span class="keyword">await</span> page.waitForURL(<span class="string">'**/dashboard'</span>);
+    <span class="keyword">await</span> page.context().storageState({ path: <span class="string">`state/<span class="keyword">${</span>role<span class="keyword">}</span>-auth.json`</span> });
+    <span class="keyword">await</span> page.close();
+  }
+  <span class="keyword">await</span> browser.close();
+}
+
+<span class="keyword">export default</span> globalSetup;
+
+<span class="comment">// === playwright.config.ts ===</span>
+projects: [
+  { name: <span class="string">'admin-chrome'</span>, use: { storageState: <span class="string">'state/admin-auth.json'</span> } },
+  { name: <span class="string">'user-chrome'</span>, use: { storageState: <span class="string">'state/user-auth.json'</span> } },
+]
+
+<span class="comment">// === test.spec.ts (no login code needed!) ===</span>
+test(<span class="string">'admin can access settings'</span>, <span class="keyword">async</span> ({ page }) => {
+  <span class="keyword">await</span> page.goto(<span class="string">'/settings'</span>);
+  <span class="keyword">await</span> expect(page.getByRole(<span class="string">'heading'</span>, { name: /settings/i })).toBeVisible();
+});
+  </div>
+</div>
+
+<!-- === Code Example 6: File Upload & Download === -->
+<div class="question-card code-example-card">
+  <div class="q-header"><span class="q-number code-example-card">C6</span><div><span class="q-text">File Upload &amp; Download</span><span class="q-badge badge-advanced">Files</span></div></div>
+  <p class="code-example-desc">Handle single/multiple file uploads, downloads with content verification, drag-and-drop, and file chooser events.</p>
+  <div class="code-block">
+<span class="keyword">import</span> { test, expect } from <span class="string">'@playwright/test'</span>;
+<span class="keyword">import</span> path from <span class="string">'path'</span>;
+
+test(<span class="string">'upload single file'</span>, <span class="keyword">async</span> ({ page }) => {
+  <span class="keyword">await</span> page.goto(<span class="string">'/upload'</span>);
+  <span class="keyword">await</span> page.getByTestId(<span class="string">'file-input'</span>).setInputFiles(
+    path.resolve(__dirname, <span class="string">'fixtures/test-document.pdf'</span>)
+  );
+  <span class="keyword">await</span> page.getByRole(<span class="string">'button'</span>, { name: <span class="string">'Upload'</span> }).click();
+  <span class="keyword">await</span> expect(page.getByText(<span class="string">'Upload successful'</span>)).toBeVisible();
+});
+
+test(<span class="string">'upload multiple files'</span>, <span class="keyword">async</span> ({ page }) => {
+  <span class="keyword">await</span> page.goto(<span class="string">'/upload'</span>);
+  <span class="keyword">await</span> page.getByTestId(<span class="string">'file-input'</span>).setInputFiles([
+    path.resolve(__dirname, <span class="string">'fixtures/image1.png'</span>),
+    path.resolve(__dirname, <span class="string">'fixtures/image2.png'</span>),
+  ]);
+  <span class="keyword">await</span> expect(page.getByTestId(<span class="string">'file-count'</span>)).toHaveText(<span class="string">'2 files selected'</span>);
+});
+
+test(<span class="string">'download and verify file'</span>, <span class="keyword">async</span> ({ page }) => {
+  <span class="keyword">await</span> page.goto(<span class="string">'/documents'</span>);
+
+  <span class="keyword">const</span> downloadPromise = page.waitForEvent(<span class="string">'download'</span>);
+  <span class="keyword">await</span> page.getByRole(<span class="string">'button'</span>, { name: <span class="string">'Download Report'</span> }).click();
+  <span class="keyword">const</span> download = <span class="keyword">await</span> downloadPromise;
+
+  expect(download.suggestedFilename()).toBe(<span class="string">'monthly-report.pdf'</span>);
+  <span class="keyword">const</span> fs = require(<span class="string">'fs'</span>);
+  expect(fs.statSync(download.path()).size).toBeGreaterThan(<span class="number">0</span>);
+});
+
+test(<span class="string">'file chooser event'</span>, <span class="keyword">async</span> ({ page }) => {
+  <span class="keyword">await</span> page.goto(<span class="string">'/upload'</span>);
+  <span class="keyword">const</span> fileChooserPromise = page.waitForEvent(<span class="string">'filechooser'</span>);
+  <span class="keyword">await</span> page.getByRole(<span class="string">'button'</span>, { name: <span class="string">'Choose Files'</span> }).click();
+  <span class="keyword">await</span> (<span class="keyword">await</span> fileChooserPromise).setFiles([path.resolve(__dirname, <span class="string">'fixtures/test.csv'</span>)]);
+});
+  </div>
+</div>
+
+<!-- === Code Example 7: Multiple Tabs & Windows === -->
+<div class="question-card code-example-card">
+  <div class="q-header"><span class="q-number code-example-card">C7</span><div><span class="q-text">Multiple Tabs &amp; Windows</span><span class="q-badge badge-advanced">Tabs</span></div></div>
+  <p class="code-example-desc">Handle new tabs, popups, and shared auth state across pages within the same browser context.</p>
+  <div class="code-block">
+<span class="keyword">import</span> { test, expect } from <span class="string">'@playwright/test'</span>;
+
+test(<span class="string">'handle new tab via target=_blank'</span>, <span class="keyword">async</span> ({ context, page }) => {
+  <span class="keyword">await</span> page.goto(<span class="string">'/'</span>);
+
+  <span class="keyword">const</span> [newPage] = <span class="keyword">await</span> Promise.all([
+    context.waitForEvent(<span class="string">'page'</span>), <span class="comment">// Wait for new tab</span>
+    page.getByRole(<span class="string">'link'</span>, { name: <span class="string">'Open in new tab'</span> }).click(),
+  ]);
+
+  <span class="keyword">await</span> newPage.waitForLoadState();
+  <span class="keyword">await</span> expect(newPage).toHaveURL(<span class="string">/\/new-page/</span>);
+  <span class="keyword">await</span> expect(page).toHaveURL(<span class="string">'/'</span>); <span class="comment">// Original page untouched</span>
+});
+
+test(<span class="string">'share auth state across tabs'</span>, <span class="keyword">async</span> ({ context, page }) => {
+  <span class="keyword">await</span> page.goto(<span class="string">'/login'</span>);
+  <span class="keyword">await</span> page.getByLabel(<span class="string">'Username'</span>).fill(<span class="string">'testuser'</span>);
+  <span class="keyword">await</span> page.getByLabel(<span class="string">'Password'</span>).fill(<span class="string">'password123'</span>);
+  <span class="keyword">await</span> page.getByRole(<span class="string">'button'</span>, { name: <span class="string">'Sign In'</span> }).click();
+  <span class="keyword">await</span> page.waitForURL(<span class="string">'**/dashboard'</span>);
+
+  <span class="keyword">const</span> newPage = <span class="keyword">await</span> context.newPage();
+  <span class="keyword">await</span> newPage.goto(<span class="string">'/settings'</span>);
+  <span class="keyword">await</span> expect(newPage.getByRole(<span class="string">'heading'</span>, { name: /settings/i })).toBeVisible();
+  <span class="comment">// No redirect to login — cookies shared!</span>
+});
+
+test(<span class="string">'handle popup window'</span>, <span class="keyword">async</span> ({ context, page }) => {
+  <span class="keyword">const</span> [popup] = <span class="keyword">await</span> Promise.all([
+    context.waitForEvent(<span class="string">'page'</span>),
+    page.getByRole(<span class="string">'button'</span>, { name: <span class="string">'Open Popup'</span> }).click(),
+  ]);
+
+  <span class="keyword">await</span> popup.waitForLoadState();
+  <span class="keyword">await</span> popup.getByRole(<span class="string">'button'</span>, { name: <span class="string">'Close'</span> }).click();
+  <span class="keyword">await</span> popup.waitForEvent(<span class="string">'close'</span>);
+});
+  </div>
+</div>
+
+<!-- === Code Example 8: Web-First Assertions === -->
+<div class="question-card code-example-card">
+  <div class="q-header"><span class="q-number code-example-card">C8</span><div><span class="q-text">Web-First Assertions (Auto-Retrying)</span><span class="q-badge badge-advanced">Assertions</span></div></div>
+  <p class="code-example-desc">Auto-retrying assertions, soft assertions, expect.toPass for custom retry logic — the backbone of flake-free tests.</p>
+  <div class="code-block">
+<span class="keyword">import</span> { test, expect } from <span class="string">'@playwright/test'</span>;
+
+test(<span class="string">'visibility and state'</span>, <span class="keyword">async</span> ({ page }) => {
+  <span class="keyword">await</span> page.goto(<span class="string">'/form'</span>);
+  <span class="keyword">const</span> btn = page.getByRole(<span class="string">'button'</span>, { name: <span class="string">'Submit'</span> });
+
+  <span class="keyword">await</span> expect(btn).toBeVisible();
+  <span class="keyword">await</span> expect(btn).toBeEnabled();
+  <span class="keyword">await</span> expect(btn).toHaveAttribute(<span class="string">'type'</span>, <span class="string">'submit'</span>);
+});
+
+test(<span class="string">'text content'</span>, <span class="keyword">async</span> ({ page }) => {
+  <span class="keyword">await</span> page.goto(<span class="string">'/dashboard'</span>);
+  <span class="keyword">const</span> title = page.getByRole(<span class="string">'heading'</span>, { name: /dashboard/i });
+
+  <span class="keyword">await</span> expect(title).toHaveText(<span class="string">'Dashboard'</span>); <span class="comment">// Exact</span>
+  <span class="keyword">await</span> expect(title).toContainText(<span class="string">'Dash'</span>);   <span class="comment">// Partial</span>
+  <span class="keyword">await</span> expect(title).not.toContainText(<span class="string">'Login'</span>); <span class="comment">// Negative</span>
+});
+
+test(<span class="string">'count and order'</span>, <span class="keyword">async</span> ({ page }) => {
+  <span class="keyword">await</span> page.goto(<span class="string">'/users'</span>);
+  <span class="keyword">const</span> rows = page.getByRole(<span class="string">'row'</span>);
+
+  <span class="keyword">await</span> expect(rows).toHaveCount(<span class="number">10</span>);
+  <span class="keyword">await</span> expect(rows.first()).toContainText(<span class="string">'Admin'</span>);
+  <span class="keyword">await</span> expect(rows.last()).toContainText(<span class="string">'Guest'</span>);
+});
+
+test(<span class="string">'soft assertions — collect all failures'</span>, <span class="keyword">async</span> ({ page }) => {
+  <span class="keyword">await</span> page.goto(<span class="string">'/profile'</span>);
+
+  <span class="keyword">await</span> expect.soft(page.getByTestId(<span class="string">'user-name'</span>)).toHaveText(<span class="string">'John Doe'</span>);
+  <span class="keyword">await</span> expect.soft(page.getByTestId(<span class="string">'user-email'</span>)).toHaveText(<span class="string">'john@example.com'</span>);
+  <span class="keyword">await</span> expect.soft(page.getByTestId(<span class="string">'user-status'</span>)).toBeVisible();
+  <span class="comment">// Test fails here if any soft assertion failed</span>
+});
+
+test(<span class="string">'expect.toPass for custom retry'</span>, <span class="keyword">async</span> ({ page }) => {
+  <span class="keyword">await</span> page.goto(<span class="string">'/status'</span>);
+
+  <span class="keyword">await</span> expect(<span class="keyword">async</span> () => {
+    <span class="keyword">const</span> status = <span class="keyword">await</span> page.getByTestId(<span class="string">'status'</span>).textContent();
+    expect(status).toBe(<span class="string">'COMPLETED'</span>);
+  }).toPass({ timeout: <span class="number">10_000</span>, intervals: [<span class="number">1000</span>, <span class="number">2000</span>, <span class="number">3000</span>, <span class="number">4000</span>] });
+});
+  </div>
+</div>
+
+<!-- === Code Example 9: Parallel Execution & Config === -->
+<div class="question-card code-example-card">
+  <div class="q-header"><span class="q-number code-example-card">C9</span><div><span class="q-text">Parallel Execution &amp; Sharding Configuration</span><span class="q-badge badge-advanced">Config</span></div></div>
+  <p class="code-example-desc">Three levels of parallelism: workers, shards (multi-machine), projects (cross-browser). Optimized for CI.</p>
+  <div class="code-block">
+<span class="comment">// playwright.config.ts</span>
+<span class="keyword">import</span> { defineConfig, devices } from <span class="string">'@playwright/test'</span>;
+
+<span class="keyword">export default</span> defineConfig({
+  <span class="comment">// Workers: parallel test files</span>
+  workers: process.env.CI ? <span class="number">4</span> : <span class="number">6</span>,
+
+  <span class="comment">// Within-file parallelism</span>
+  fullyParallel: <span class="keyword">true</span>,
+
+  <span class="comment">// Stop early in CI</span>
+  maxFailures: process.env.CI ? <span class="number">10</span> : <span class="number">0</span>,
+
+  <span class="comment">// Retry in CI only</span>
+  retries: process.env.CI ? <span class="number">2</span> : <span class="number">0</span>,
+
+  timeout: <span class="number">30_000</span>,
+  expect: { timeout: <span class="number">10_000</span> },
+
+  reporter: [
+    [<span class="string">'html'</span>, { open: <span class="string">'never'</span> }],
+    [<span class="string">'json'</span>, { outputFile: <span class="string">'test-results.json'</span> }],
+    [<span class="string">'list'</span>],
+  ],
+
+  projects: [
+    { name: <span class="string">'chromium'</span>, use: { ...devices[<span class="string">'Desktop Chrome'</span>] } },
+    { name: <span class="string">'firefox'</span>, use: { ...devices[<span class="string">'Desktop Firefox'</span>] } },
+    { name: <span class="string">'webkit'</span>, use: { ...devices[<span class="string">'Desktop Safari'</span>] } },
+    { name: <span class="string">'mobile-chrome'</span>, use: { ...devices[<span class="string">'Pixel 5'</span>] } },
+  ],
+
+  use: {
+    trace: <span class="string">'on-first-retry'</span>,
+    video: <span class="string">'on-first-retry'</span>,
+    screenshot: <span class="string">'only-on-failure'</span>,
+  },
+});
+
+<span class="comment">// CLI: npx playwright test --shard=1/4</span>
+  </div>
+</div>
+
+<!-- === Code Example 10: Debugging === -->
+<div class="question-card code-example-card">
+  <div class="q-header"><span class="q-number code-example-card">C10</span><div><span class="q-text">Debugging with Trace Viewer</span><span class="q-badge badge-advanced">Debug</span></div></div>
+  <p class="code-example-desc">Programmatic trace capture with screenshots, snapshots, and source maps. Trace Viewer — the most powerful debugging tool in Playwright.</p>
+  <div class="code-block">
+<span class="keyword">import</span> { test, expect } from <span class="string">'@playwright/test'</span>;
+
+test(<span class="string">'debug flaky test with trace'</span>, <span class="keyword">async</span> ({ page, context }) => {
+  <span class="comment">// Start tracing with full capture</span>
+  <span class="keyword">await</span> context.tracing.start({
+    screenshots: <span class="keyword">true</span>,
+    snapshots: <span class="keyword">true</span>,
+    sources: <span class="keyword">true</span>,
+  });
+
+  <span class="keyword">try</span> {
+    <span class="keyword">await</span> page.goto(<span class="string">'/login'</span>);
+    <span class="keyword">await</span> page.getByLabel(<span class="string">'Username'</span>).fill(<span class="string">'admin'</span>);
+    <span class="keyword">await</span> page.getByLabel(<span class="string">'Password'</span>).fill(<span class="string">'password123'</span>);
+    <span class="keyword">await</span> page.getByRole(<span class="string">'button'</span>, { name: <span class="string">'Sign In'</span> }).click();
+    <span class="keyword">await</span> page.waitForURL(<span class="string">'**/dashboard'</span>, { timeout: <span class="number">5000</span> });
+  } <span class="keyword">finally</span> {
+    <span class="comment">// Always save trace, even on failure</span>
+    <span class="keyword">await</span> context.tracing.stop({
+      path: <span class="string">`traces/login-test-<span class="keyword">${</span>Date.now()<span class="keyword">}</span>.zip`</span>,
+    });
+  }
+});
+
+<span class="comment">// View trace: npx playwright show-trace trace.zip</span>
+<span class="comment">// Interactive debug: PWDEBUG=1 npx playwright test</span>
+  </div>
+</div>
+
+</div>
+
+<div class="container">
+<div class="cheat-sheet">
+  <h3>Playwright — One-Page Revision Cheat Sheet</h3>
+  <div class="cheat-grid">
+    <div class="cheat-item"><h4>Locator Priority</h4><p>getByRole > getByTestId > getByLabel > getByPlaceholder > getByText > locator(CSS/XPath)</p></div>
+    <div class="cheat-item"><h4>Auth Strategy</h4><p>Global setup → storageState.json → projects with storageState → no login per test</p></div>
+    <div class="cheat-item"><h4>Fixture Pattern</h4><p><code>test.extend({ fixture: async ({dep}, use) => { setup; use(val); cleanup; } })</code></p></div>
+    <div class="cheat-item"><h4>Parallel Execution</h4><p>Workers (file-level), fullyParallel (within-file), Sharding (multi-machine)</p></div>
+    <div class="cheat-item"><h4>Debugging</h4><p>PWDEBUG=1, trace: 'on-first-retry', video: 'on-first-retry', screenshot: 'only-on-failure'</p></div>
+    <div class="cheat-item"><h4>Anti-Patterns</h4><p>No waitForTimeout, no raw XPath, no sleep(), no global variables across tests</p></div>
+  </div>
+</div>
+
+<div class="end-section">
+  <h2>🎯 Most Asked Playwright Topics</h2>
+  <p style="color: var(--text-secondary);line-height:2">
+    <strong>1.</strong> Architecture & Browser Context Model<br>
+    <strong>2.</strong> Auto-waiting vs Selenium explicit waits<br>
+    <strong>3.</strong> Fixtures & Dependency Injection<br>
+    <strong>4.</strong> Storage State Authentication<br>
+    <strong>5.</strong> Network Interception & API Mocking<br>
+    <strong>6.</strong> Parallel Execution & Sharding<br>
+    <strong>7.</strong> Debugging with Trace Viewer<br>
+    <strong>8.</strong> Cross-Browser & Mobile Configuration
+  </p>
+</div>
+
+<div class="container">
+<div class="end-section" style="margin-top: 60px;">
+  <h2>🎓 Recommended Certifications — Free & Paid</h2>
+  <p style="color: var(--text-secondary); margin-bottom: 30px;">Certifications that maximize your SDET career growth and interview credibility. Prioritize cloud + DevOps certs as they're harder to prove via experience alone.</p>
+
+  <h3 style="color: var(--accent-cyan); margin-bottom: 16px; font-size: 20px;">🆓 Free Certifications</h3>
+  <table class="cert-table">
+    <thead>
+      <tr><th>Certification</th><th>Provider</th><th>Why It Matters</th><th>Link</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Playwright 101</strong></td>
+        <td>TestMu (LambdaTest)</td>
+        <td>Foundational Playwright cert with hands-on coding assignment. Quick resume booster.</td>
+        <td><a href="https://www.testmuai.com/certifications/playwright-101/" target="_blank" style="color: var(--accent-cyan);">testmuai.com</a></td>
+      </tr>
+      <tr>
+        <td><strong>GitHub Actions CI/CD</strong></td>
+        <td>GitHub / Microsoft Learn</td>
+        <td>Official learning paths for GitHub Actions — essential for Playwright CI integration.</td>
+        <td><a href="https://docs.github.com/en/actions" target="_blank" style="color: var(--accent-cyan);">docs.github.com</a></td>
+      </tr>
+      <tr>
+        <td><strong>Docker Fundamentals</strong></td>
+        <td>Docker / Coursera</td>
+        <td>Free intro course. Containerized Playwright execution is a must-have skill.</td>
+        <td><a href="https://www.docker.com/101-tutorial/" target="_blank" style="color: var(--accent-cyan);">docker.com</a></td>
+      </tr>
+      <tr>
+        <td><strong>AWS Skill Builder — Testing</strong></td>
+        <td>AWS</td>
+        <td>Free digital training on cloud testing patterns and AWS Device Farm integration.</td>
+        <td><a href="https://aws.amazon.com/training/" target="_blank" style="color: var(--accent-cyan);">aws.amazon.com/training</a></td>
+      </tr>
+      <tr>
+        <td><strong>Meta Front-End Developer</strong></td>
+        <td>Coursera / Meta</td>
+        <td>Free to audit. Covers JS, React, and UI stack at employer-recognized level.</td>
+        <td><a href="https://www.coursera.org/professional-certificates/meta-front-end-developer" target="_blank" style="color: var(--accent-cyan);">coursera.org</a></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3 style="color: var(--accent-purple); margin-bottom: 16px; margin-top: 40px; font-size: 20px;">💳 Paid Certifications (High ROI)</h3>
+  <table class="cert-table">
+    <thead>
+      <tr><th>Certification</th><th>Provider</th><th>Cost</th><th>Why It Matters</th><th>Link</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>AWS Certified DevOps Engineer — Professional</strong></td>
+        <td>AWS</td>
+        <td>~$300</td>
+        <td>Gold standard for cloud testing infrastructure. Tests CI/CD, monitoring, and IaC skills.</td>
+        <td><a href="https://aws.amazon.com/certification/" target="_blank" style="color: var(--accent-purple);">aws.amazon.com</a></td>
+      </tr>
+      <tr>
+        <td><strong>Microsoft Certified: Azure Fundamentals (AZ-900)</strong></td>
+        <td>Microsoft</td>
+        <td>~$99</td>
+        <td>Essential for MS enterprise environments. Covers cloud testing and DevOps pipelines.</td>
+        <td><a href="https://learn.microsoft.com/en-us/credentials/certifications/azure-fundamentals/" target="_blank" style="color: var(--accent-purple);">learn.microsoft.com</a></td>
+      </tr>
+      <tr>
+        <td><strong>Certified Kubernetes Application Developer (CKAD)</strong></td>
+        <td>CNCF</td>
+        <td>~$395</td>
+        <td>Hands-on exam. Kubernetes test pod orchestration is a top 2025-2026 skill for senior SDETs.</td>
+        <td><a href="https://www.cncf.io/certification/ckad/" target="_blank" style="color: var(--accent-purple);">cncf.io</a></td>
+      </tr>
+      <tr>
+        <td><strong>ISTQB CT-TAE (Test Automation Engineer)</strong></td>
+        <td>ISTQB</td>
+        <td>$200–$400</td>
+        <td>Vendor-neutral automation design cert. Still widely recognized in enterprise hiring.</td>
+        <td><a href="https://istqb.org/certifications/test-automation-engineer/" target="_blank" style="color: var(--accent-purple);">istqb.org</a></td>
+      </tr>
+      <tr>
+        <td><strong>ISTQB CT-AI (AI Testing)</strong></td>
+        <td>ISTQB</td>
+        <td>$200–$400</td>
+        <td>Most reputable vendor-neutral cert for testing AI/ML systems and GenAI applications.</td>
+        <td><a href="https://istqb.org/certifications/certified-tester-ai-testing-ct-ai/" target="_blank" style="color: var(--accent-purple);">istqb.org</a></td>
+      </tr>
+      <tr>
+        <td><strong>Certified AI Testing Professional (CAITP)</strong></td>
+        <td>GSDC</td>
+        <td>Check site</td>
+        <td>Covers AI testing methods, ML validation, and ethical AI assurance.</td>
+        <td><a href="https://www.gsdcouncil.org/certified-ai-testing-professional" target="_blank" style="color: var(--accent-purple);">gsdcouncil.org</a></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="callout callout-tip" style="margin-top: 30px;"><strong>💡 Certification Strategy for 4-Years Exp SDET</strong> Don't collect certs — collect capabilities. Prioritize <strong>1 Cloud (AWS/Azure) + 1 DevOps (CKAD/GitHub Actions) + 1 Testing (ISTQB CT-AI)</strong>. That combination proves you can deploy, orchestrate, and validate modern software systems. Free certs (Playwright 101) are great for resume keywords; paid certs (AWS DevOps Pro, CKAD) move the salary needle. Source: 2025-2026 hiring trends across FAANG and top product companies.</div>
+</div>
+</div>
+
+</body>
+</html>

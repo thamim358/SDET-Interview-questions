@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SDET Master Roadmap — Study Kit</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/nebula.css">
+<style>
+  .cover-page::before {
+    background:
+      radial-gradient(circle at 30% 50%, rgba(96, 165, 250, 0.06) 0%, transparent 50%),
+      radial-gradient(circle at 70% 50%, rgba(167, 139, 250, 0.05) 0%, transparent 50%);
+  }
+  .cover-title { background: linear-gradient(135deg, #60a5fa 0%, #a78bfa 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .cover-badge { background: linear-gradient(135deg, #60a5fa 0%, #a78bfa 100%); }
+  .section-divider h2 { background: linear-gradient(135deg, #60a5fa 0%, #a78bfa 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .end-section h2 { background: linear-gradient(135deg, #60a5fa 0%, #a78bfa 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+
+  /* Phase Cards */
+  .phase-card {
+    background: var(--bg-card);
+    border: var(--border-default);
+    border-radius: var(--radius-lg);
+    padding: 32px;
+    margin-bottom: 24px;
+    position: relative;
+    overflow: hidden;
+    transition: all var(--transition-base);
+  }
+  .phase-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    border-radius: var(--radius-lg) 0 0 var(--radius-lg);
+  }
+  .phase-card:hover { border-color: rgba(45, 212, 191, 0.15); box-shadow: var(--shadow-glow-cyan); transform: translateY(-1px); }
+  .phase-1::before { background: var(--accent-blue); }
+  .phase-2::before { background: var(--accent-emerald); }
+  .phase-3::before { background: var(--accent-amber); }
+  .phase-4::before { background: var(--accent-indigo); }
+  .phase-5::before { background: var(--accent-violet); }
+  .phase-6::before { background: var(--accent-cyan); }
+  .phase-7::before { background: var(--accent-rose); }
+  .phase-8::before { background: var(--accent-blue); }
+  .phase-9::before { background: var(--accent-emerald); }
+  .phase-10::before { background: var(--accent-red); }
+  .phase-11::before { background: var(--accent-violet); }
+  .phase-header { display: flex; align-items: center; gap: 16px; margin-bottom: 16px; }
+  .phase-number {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 48px; height: 48px; border-radius: 50%;
+    font-size: 20px; font-weight: 700; color: #fff; flex-shrink: 0;
+  }
+  .phase-1 .phase-number { background: var(--accent-blue); }
+  .phase-2 .phase-number { background: var(--accent-emerald); }
+  .phase-3 .phase-number { background: var(--accent-amber); }
+  .phase-4 .phase-number { background: var(--accent-indigo); }
+  .phase-5 .phase-number { background: var(--accent-violet); }
+  .phase-6 .phase-number { background: var(--accent-cyan); }
+  .phase-7 .phase-number { background: var(--accent-rose); }
+  .phase-8 .phase-number { background: var(--accent-blue); }
+  .phase-9 .phase-number { background: var(--accent-emerald); }
+  .phase-10 .phase-number { background: var(--accent-red); }
+  .phase-11 .phase-number { background: var(--accent-violet); }
+  .phase-title { font-size: 22px; font-weight: 700; flex: 1; }
+  .phase-1 .phase-title { color: var(--accent-blue); }
+  .phase-2 .phase-title { color: var(--accent-emerald); }
+  .phase-3 .phase-title { color: var(--accent-amber); }
+  .phase-4 .phase-title { color: var(--accent-indigo); }
+  .phase-5 .phase-title { color: var(--accent-violet); }
+  .phase-6 .phase-title { color: var(--accent-cyan); }
+  .phase-7 .phase-title { color: var(--accent-rose); }
+  .phase-8 .phase-title { color: var(--accent-blue); }
+  .phase-9 .phase-title { color: var(--accent-emerald); }
+  .phase-10 .phase-title { color: var(--accent-red); }
+  .phase-11 .phase-title { color: var(--accent-violet); }
+  .phase-time { font-size: 13px; color: var(--text-muted); padding: 4px 12px; background: var(--bg-surface); border: var(--border-default); border-radius: 50px; white-space: nowrap; }
+  .phase-content { color: var(--text-secondary); font-size: 15px; line-height: 1.8; }
+  .phase-content ul { list-style: none; padding: 0; }
+  .phase-content li { padding: 4px 0; padding-left: 24px; position: relative; }
+  .phase-1 .phase-content li::before { content: '→'; position: absolute; left: 0; color: var(--accent-blue); font-weight: 700; }
+  .phase-2 .phase-content li::before { content: '→'; position: absolute; left: 0; color: var(--accent-emerald); font-weight: 700; }
+  .phase-3 .phase-content li::before { content: '→'; position: absolute; left: 0; color: var(--accent-amber); font-weight: 700; }
+  .phase-4 .phase-content li::before { content: '→'; position: absolute; left: 0; color: var(--accent-indigo); font-weight: 700; }
+  .phase-5 .phase-content li::before { content: '→'; position: absolute; left: 0; color: var(--accent-violet); font-weight: 700; }
+  .phase-6 .phase-content li::before { content: '→'; position: absolute; left: 0; color: var(--accent-cyan); font-weight: 700; }
+  .phase-7 .phase-content li::before { content: '→'; position: absolute; left: 0; color: var(--accent-rose); font-weight: 700; }
+  .phase-8 .phase-content li::before { content: '→'; position: absolute; left: 0; color: var(--accent-blue); font-weight: 700; }
+  .phase-9 .phase-content li::before { content: '→'; position: absolute; left: 0; color: var(--accent-emerald); font-weight: 700; }
+  .phase-10 .phase-content li::before { content: '→'; position: absolute; left: 0; color: var(--accent-red); font-weight: 700; }
+  .phase-11 .phase-content li::before { content: '→'; position: absolute; left: 0; color: var(--accent-violet); font-weight: 700; }
+
+  /* Salary Grid */
+  .salary-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin: 20px 0; }
+  .salary-card { background: var(--bg-card); border: var(--border-default); border-radius: var(--radius-md); padding: 20px; text-align: center; transition: all var(--transition-fast); }
+  .salary-card:hover { border-color: rgba(45, 212, 191, 0.12); }
+  .salary-card .level { font-size: 15px; font-weight: 700; color: var(--accent-cyan); margin-bottom: 4px; }
+  .salary-card .title { font-size: 12px; color: var(--text-muted); margin-bottom: 8px; }
+  .salary-card .range { font-size: 18px; font-weight: 700; color: var(--accent-emerald); }
+
+  /* File List */
+  .file-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 8px; margin: 20px 0; }
+  .file-item { background: var(--bg-card); border: var(--border-default); border-radius: var(--radius-md); padding: 12px 16px; font-size: 13px; color: var(--text-secondary); transition: all var(--transition-fast); }
+  .file-item:hover { border-color: rgba(45, 212, 191, 0.12); }
+  .file-item strong { color: var(--accent-emerald); }
+
+  .phase-content code { font-family: var(--font-mono); color: var(--accent-cyan); background: rgba(45,212,191,0.08); padding: 1px 6px; border-radius: 4px; }
+
+  @media (max-width: 768px) {
+    .phase-header { flex-direction: column; align-items: flex-start; gap: 8px; }
+    .phase-number { width: 40px; height: 40px; font-size: 17px; }
+    .phase-title { font-size: 18px; }
+    .salary-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="cover-page">
+  <div class="cover-badge">SDET Master Study Kit</div>
+  <h1 class="cover-title">SDET Complete Roadmap</h1>
+  <div class="cover-divider"></div>
+  <p class="cover-subtitle">Your Step-by-Step Guide to SDET Mastery</p>
+  <p class="cover-description" style="margin-top:20px">
+    From Junior Automation Engineer to Staff SDET / Test Architect — covering 11 phases of learning,
+    interview preparation, and career growth for FAANG, Product-Based Companies, FinTech, and Enterprise MNC roles.
+  </p>
+  <div style="display:flex;gap:40px;flex-wrap:wrap;justify-content:center;margin-top:40px;position:relative;z-index:1">
+    <div style="text-align:center"><div style="font-size:36px;font-weight:700;color:var(--accent-emerald)">11</div><div style="font-size:13px;color:var(--text-muted)">Learning Phases</div></div>
+    <div style="text-align:center"><div style="font-size:36px;font-weight:700;color:var(--accent-blue)">~700</div><div style="font-size:13px;color:var(--text-muted)">Interview Questions</div></div>
+    <div style="text-align:center"><div style="font-size:36px;font-weight:700;color:var(--accent-violet)">12</div><div style="font-size:13px;color:var(--text-muted)">PDF Study Kits</div></div>
+  </div>
+</div>
+
+<div class="section-divider"><h2>📚 The 11-Phase Learning Journey</h2></div>
+<div class="container">
+
+<div class="phase-card phase-1">
+  <div class="phase-header">
+    <span class="phase-number">1</span>
+    <span class="phase-title">Phase 1: JavaScript Fundamentals</span>
+    <span class="phase-time">2-3 weeks</span>
+  </div>
+  <div class="phase-content">
+    <p><strong>Focus:</strong> Core language mastery — the foundation of all modern test automation.</p>
+    <ul>
+      <li>Closures, Event Loop, Hoisting, Scope (TDZ)</li>
+      <li>Promises, async/await, Callbacks</li>
+      <li>Prototypes, <code>this</code> binding, call/apply/bind</li>
+      <li>ES6+: destructuring, spread/rest, maps, sets, modules</li>
+      <li>Array methods: map, filter, reduce, flat, sort</li>
+      <li>Coding patterns: debounce, throttle, memoization, deep clone</li>
+    </ul>
+    <p style="margin-top:12px"><strong>Readiness Checkpoint:</strong> Can you explain the event loop with microtasks vs macrotasks? Can you implement your own <code>bind()</code> polyfill?</p>
+  </div>
+</div>
+
+<div class="phase-card phase-2">
+  <div class="phase-header">
+    <span class="phase-number">2</span>
+    <span class="phase-title">Phase 2: TypeScript</span>
+    <span class="phase-time">1-2 weeks</span>
+  </div>
+  <div class="phase-content">
+    <p><strong>Focus:</strong> Type safety for scalable test frameworks.</p>
+    <ul>
+      <li>Interface vs Type, Generics, Utility Types</li>
+      <li>Union/Intersection, Discriminated Unions, Type Guards</li>
+      <li>Mapped Types, Conditional Types, Template Literal Types</li>
+      <li>Type-safe Playwright Page Objects and API responses</li>
+      <li>Configuration management with <code>as const</code> and <code>satisfies</code></li>
+    </ul>
+    <p style="margin-top:12px"><strong>Readiness Checkpoint:</strong> Can you design a generic API response type with discriminated unions? Can you explain when to use interface vs type?</p>
+  </div>
+</div>
+
+<div class="phase-card phase-3">
+  <div class="phase-header">
+    <span class="phase-number">3</span>
+    <span class="phase-title">Phase 3: Playwright</span>
+    <span class="phase-time">4-6 weeks</span>
+  </div>
+  <div class="phase-content">
+    <p><strong>Focus:</strong> The #1 automation tool — must be interview-ready.</p>
+    <ul>
+      <li>Architecture (CDP, Browser Contexts, WebSocket protocol)</li>
+      <li>Locator strategies (getByRole > getByTestId > getByText)</li>
+      <li>Auto-waiting, Web-First Assertions, Fixtures</li>
+      <li>Network Interception (route, fulfill, abort)</li>
+      <li>API Testing with APIRequestContext</li>
+      <li>Authentication: storageState, global setup, multi-user</li>
+      <li>Parallel execution, Sharding, Workers</li>
+      <li>Debugging: Trace Viewer, Video, Screenshots</li>
+      <li>Visual Testing, Accessibility Testing</li>
+      <li>Docker Integration, CI/CD (GitHub Actions, Jenkins)</li>
+    </ul>
+    <p style="margin-top:12px"><strong>Readiness Checkpoint:</strong> Can you design a complete framework architecture? Can you explain how fixtures differ from hooks?</p>
+  </div>
+</div>
+
+<div class="phase-card phase-4">
+  <div class="phase-header">
+    <span class="phase-number">4</span>
+    <span class="phase-title">Phase 4: API Testing</span>
+    <span class="phase-time">2 weeks</span>
+  </div>
+  <div class="phase-content">
+    <p><strong>Focus:</strong> Validating backend services and contracts.</p>
+    <ul>
+      <li>REST API testing: GET, POST, PUT, PATCH, DELETE</li>
+      <li>Authentication: Basic, Bearer, OAuth 2.0, JWT</li>
+      <li>Request/Response validation, Schema validation</li>
+      <li>API Chaining, Data-driven API tests</li>
+      <li>Contract Testing with Pact or OpenAPI validation</li>
+      <li>API Mocking and Service Virtualization</li>
+      <li>GraphQL testing basics</li>
+    </ul>
+    <p style="margin-top:12px"><strong>Readiness Checkpoint:</strong> Can you design an API testing layer within Playwright? Can you validate response schemas automatically?</p>
+  </div>
+</div>
+
+<div class="phase-card phase-5">
+  <div class="phase-header">
+    <span class="phase-number">5</span>
+    <span class="phase-title">Phase 5: SQL + Database Testing</span>
+    <span class="phase-time">2 weeks</span>
+  </div>
+  <div class="phase-content">
+    <p><strong>Focus:</strong> Data validation and backend integrity verification.</p>
+    <ul>
+      <li>Joins (INNER, LEFT, RIGHT, FULL, SELF)</li>
+      <li>Subqueries (correlated, non-correlated, EXISTS)</li>
+      <li>Window Functions (ROW_NUMBER, RANK, DENSE_RANK, LEAD, LAG)</li>
+      <li>Aggregation (GROUP BY, HAVING)</li>
+      <li>Indexes (Clustered vs Non-Clustered)</li>
+      <li>ACID, Transactions, Isolation Levels</li>
+      <li>API-to-DB validation patterns</li>
+      <li>ETL testing basics</li>
+    </ul>
+    <p style="margin-top:12px"><strong>Readiness Checkpoint:</strong> Can you write a query to find the Nth highest salary using 3 different approaches?</p>
+  </div>
+</div>
+
+<div class="phase-card phase-6">
+  <div class="phase-header">
+    <span class="phase-number">6</span>
+    <span class="phase-title">Phase 6: System Design for SDET</span>
+    <span class="phase-time">2-3 weeks</span>
+  </div>
+  <div class="phase-content">
+    <p><strong>Focus:</strong> Architecting scalable test infrastructure — differentiator for senior roles.</p>
+    <ul>
+      <li>Designing scalable automation frameworks</li>
+      <li>Test execution platforms (10k+ tests/day)</li>
+      <li>CI/CD pipeline architecture</li>
+      <li>Test data management at scale</li>
+      <li>Distributed test execution (Kubernetes-based)</li>
+      <li>Multi-tenant framework design</li>
+      <li>Self-healing and flaky test management</li>
+      <li>Reporting and analytics platforms</li>
+    </ul>
+    <p style="margin-top:12px"><strong>Readiness Checkpoint:</strong> Can you whiteboard a Playwright framework architecture? Can you design a test data strategy for 500 parallel tests?</p>
+  </div>
+</div>
+
+<div class="phase-card phase-7">
+  <div class="phase-header">
+    <span class="phase-number">7</span>
+    <span class="phase-title">Phase 7: DevOps (Git + CI/CD + Docker + K8s)</span>
+    <span class="phase-time">2-3 weeks</span>
+  </div>
+  <div class="phase-content">
+    <p><strong>Focus:</strong> Infrastructure skills for modern SDETs — running tests at scale in CI.</p>
+    <ul>
+      <li>Git branching strategies (GitFlow, GitHub Flow, Trunk-Based)</li>
+      <li>CI/CD pipeline design (Jenkins, GitHub Actions, GitLab CI)</li>
+      <li>Docker: images, containers, Dockerfiles, multi-stage builds</li>
+      <li>Docker Compose for multi-service test environments</li>
+      <li>Kubernetes: Pods, Deployments, Services, Jobs, CronJobs</li>
+      <li>Helm Charts for test infrastructure</li>
+      <li>Blue-Green and Canary deployment testing</li>
+    </ul>
+    <p style="margin-top:12px"><strong>Readiness Checkpoint:</strong> Can you write a Jenkins declarative pipeline for Playwright? Can you Dockerize a test framework?</p>
+  </div>
+</div>
+
+<div class="phase-card phase-8">
+  <div class="phase-header">
+    <span class="phase-number">8</span>
+    <span class="phase-title">Phase 8: Framework Architecture & Design Patterns</span>
+    <span class="phase-time">2 weeks</span>
+  </div>
+  <div class="phase-content">
+    <p><strong>Focus:</strong> Building maintainable, scalable, reusable frameworks — core senior SDET skill.</p>
+    <ul>
+      <li>Framework layers (Test, Page, Service, Fixture, Utility, Config)</li>
+      <li>Page Object Model vs Component-based approach</li>
+      <li>Design Patterns: Factory, Builder, Strategy, Observer, Facade</li>
+      <li>Dependency Injection with Playwright fixtures</li>
+      <li>Configuration management and secret handling</li>
+      <li>Custom reporters and logging strategies</li>
+      <li>Parallel execution design patterns</li>
+    </ul>
+    <p style="margin-top:12px"><strong>Readiness Checkpoint:</strong> Can you explain the pros and cons of POM vs component-based design? Can you design a framework supporting both API and UI?</p>
+  </div>
+</div>
+
+<div class="phase-card phase-9">
+  <div class="phase-header">
+    <span class="phase-number">9</span>
+    <span class="phase-title">Phase 9: Mobile Automation (Appium)</span>
+    <span class="phase-time">2-3 weeks</span>
+  </div>
+  <div class="phase-content">
+    <p><strong>Focus:</strong> Mobile testing for SDETs — Appium architecture and framework design.</p>
+    <ul>
+      <li>Appium architecture and session creation flow</li>
+      <li>Desired Capabilities for Android and iOS</li>
+      <li>Mobile locators: Accessibility ID, UIAutomator, Predicate, Class Chain</li>
+      <li>Gesture automation: swipe, scroll, pinch, zoom</li>
+      <li>Hybrid app testing (Native ↔ WebView switching)</li>
+      <li>Real devices vs Emulators vs Simulators</li>
+      <li>Cloud device labs (BrowserStack, Sauce Labs, LambdaTest)</li>
+    </ul>
+    <p style="margin-top:12px"><strong>Readiness Checkpoint:</strong> Can you explain the Appium session creation flow? Can you handle OTP in mobile tests?</p>
+  </div>
+</div>
+
+<div class="phase-card phase-10">
+  <div class="phase-header">
+    <span class="phase-number">10</span>
+    <span class="phase-title">Phase 10: AI Testing — LLM + RAG + Agents</span>
+    <span class="phase-time">2 weeks</span>
+  </div>
+  <div class="phase-content">
+    <p><strong>Focus:</strong> The fastest-growing interview topic — testing AI-powered applications.</p>
+    <ul>
+      <li>Non-deterministic testing: semantic similarity, threshold-based validation</li>
+      <li>Hallucination detection and metrics</li>
+      <li>RAG testing: retrieval quality, generation faithfulness</li>
+      <li>LLM-as-a-Judge evaluation framework</li>
+      <li>Prompt injection and AI security testing (OWASP Top 10)</li>
+      <li>AI Agent testing: planning, memory, tool calling</li>
+      <li>AI Observability: drift detection, monitoring</li>
+    </ul>
+    <p style="margin-top:12px"><strong>Readiness Checkpoint:</strong> Can you design a RAG evaluation framework? How would you detect hallucinations in production?</p>
+  </div>
+</div>
+
+<div class="phase-card phase-11">
+  <div class="phase-header">
+    <span class="phase-number">11</span>
+    <span class="phase-title">Phase 11: Interview Preparation</span>
+    <span class="phase-time">3-4 weeks</span>
+  </div>
+  <div class="phase-content">
+    <p><strong>Focus:</strong> Putting it all together — behavioral stories, coding practice, mock interviews.</p>
+    <ul>
+      <li>Master P1 questions from all 10 topic areas</li>
+      <li>Prepare 7-8 STAR behavioral stories with quantified impact</li>
+      <li>Practice coding problems (Two Sum, Valid Parentheses, Linked Lists)</li>
+      <li>Whiteboard system design (framework architecture, CI/CD, execution platform)</li>
+      <li>Research target companies (Amazon, Google, Microsoft, Uber, etc.)</li>
+      <li>Mock interviews (at least 3-5 with feedback)</li>
+      <li>Review: one-page revision guides per topic</li>
+    </ul>
+    <p style="margin-top:12px"><strong>Readiness Checkpoint:</strong> Can you answer all P1 questions confidently? Can you deliver STAR stories naturally?</p>
+  </div>
+</div>
+
+</div>
+
+<div class="section-divider"><h2>💰 Salary Progression Roadmap</h2></div>
+<div class="container">
+<div class="salary-grid">
+  <div class="salary-card"><div class="level">Level 1</div><div class="title">Junior QA / Trainee SDET</div><div class="range">$50k – $75k</div></div>
+  <div class="salary-card"><div class="level">Level 2</div><div class="title">QA Automation Engineer</div><div class="range">$75k – $100k</div></div>
+  <div class="salary-card"><div class="level">Level 3</div><div class="title">SDET I / Mid-Level</div><div class="range">$100k – $130k</div></div>
+  <div class="salary-card"><div class="level">Level 4</div><div class="title">Senior SDET</div><div class="range">$130k – $170k</div></div>
+  <div class="salary-card"><div class="level">Level 5</div><div class="title">Staff SDET / Test Architect</div><div class="range">$170k – $220k+</div></div>
+</div>
+<p style="color:var(--text-muted);font-size:13px;text-align:center;margin-top:8px">* US-based ranges for FAANG and product-based companies. Adjusted for cost of living and company size.</p>
+</div>
+
+<div class="section-divider"><h2>📂 Study Kit Contents</h2></div>
+<div class="container">
+<div class="file-list">
+  <div class="file-item"><strong>Phase 1-2</strong><br>JavaScript + TypeScript</div>
+  <div class="file-item"><strong>Phase 3</strong><br>Playwright Interview Mastery</div>
+  <div class="file-item"><strong>Phase 4-5</strong><br>SQL + API Testing</div>
+  <div class="file-item"><strong>Phase 6</strong><br>System Design for SDET</div>
+  <div class="file-item"><strong>Phase 7</strong><br>DevOps (Git/CI/Docker/K8s)</div>
+  <div class="file-item"><strong>Phase 8</strong><br>Framework Architecture</div>
+  <div class="file-item"><strong>Phase 9</strong><br>Mobile Automation (Appium)</div>
+  <div class="file-item"><strong>Phase 10</strong><br>AI Testing + LLM + RAG</div>
+  <div class="file-item"><strong>Phase 11</strong><br>Behavioral + Company-Specific</div>
+  <div class="file-item"><strong>All Phases</strong><br>Coding Interview Problems</div>
+</div>
+</div>
+
+<div class="end-section">
+  <h2>🎯 Your Path to SDET Success</h2>
+  <p>
+    <strong>Study Plan:</strong> Dedicate 1-2 hours daily for 12-16 weeks to complete all 11 phases.<br>
+    <strong>Focus on P1 questions first</strong> — these cover 80% of interview scenarios.<br>
+    <strong>Practice STAR stories</strong> — behavioral rounds often decide senior-level offers.<br>
+    <strong>Build a portfolio project</strong> — a complete Playwright framework with CI/CD and reporting.<br>
+    <strong>Stay current</strong> — AI testing knowledge is becoming mandatory for senior SDET roles.
+  </p>
+</div>
+
+</body>
+</html>
